@@ -1,0 +1,247 @@
+# -*- coding: utf-8 -*-
+"""Build a JSON game configuration for the MulVAL Stackelberg MIP solver.
+
+The generated JSON is intentionally editable. For large graphs, keep the two
+MulVAL CSV files fixed and change costs/rewards/defendability in this JSON
+instead of passing long command-line parameter lists.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import sys
+from collections import Counter
+from pathlib import Path
+
+
+def safe_print(text: str):
+    encoding = sys.stdout.encoding or "utf-8"
+    print(text.encode(encoding, errors="backslashreplace").decode(encoding))
+
+
+def parse_csv(vertices_path: Path, arcs_path: Path):
+    vertices = {}
+    with vertices_path.open(newline="", encoding="utf-8-sig") as f:
+        for row in csv.reader(f):
+            if not row:
+                continue
+            node_id = int(row[0])
+            vertices[node_id] = {
+                "id": node_id,
+                "label": row[1],
+                "type": row[2],
+                "score": float(row[3]) if len(row) > 3 and row[3] else 0.0,
+            }
+
+    arcs = []
+    with arcs_path.open(newline="", encoding="utf-8-sig") as f:
+        for row in csv.reader(f):
+            if not row:
+                continue
+            arcs.append((int(row[0]), int(row[1])))
+    return vertices, arcs
+
+
+def is_defendable_leaf(label: str, mode: str) -> bool:
+    if label.startswith("attackerLocated"):
+        return False
+    if mode == "all":
+        return True
+    if mode == "vul":
+        return label.startswith("vulExists")
+    if mode == "hacl":
+        return label.startswith("hacl")
+    if mode == "vul_hacl":
+        return label.startswith("vulExists") or label.startswith("hacl")
+    raise ValueError(f"unknown defendable mode: {mode}")
+
+
+def default_attack_cost(node: dict, attack_cost_source: str, action_cost: float, leaf_cost: float) -> float:
+    if attack_cost_source == "score" and node["score"] > 0:
+        return float(node["score"])
+    if node["type"] == "AND":
+        return action_cost
+    if node["type"] == "LEAF":
+        return leaf_cost
+    return 0.0
+
+
+def parse_goal_ids(raw: str | None) -> list[int] | None:
+    if not raw:
+        return None
+    return [int(part.strip()) for part in raw.split(",") if part.strip()]
+
+
+def build_config(
+    vertices,
+    arcs,
+    goal_ids: list[int] | None,
+    defendable_mode: str,
+    goal_reward: float,
+    goal_loss: float,
+    defense_cost: float,
+    attack_cost_source: str,
+    action_attack_cost: float,
+    leaf_attack_cost: float,
+    budget: float | None,
+    cost_big_m: float | None,
+    target_closure: bool,
+    tie_breaking: str,
+    tie_epsilon: float,
+):
+    indegree = Counter()
+    for src, dst in arcs:
+        indegree[dst] += 1
+
+    if goal_ids:
+        goals = sorted(goal_ids)
+    else:
+        goals = sorted(
+            node_id
+            for node_id, node in vertices.items()
+            if node["type"] == "OR" and indegree[node_id] == 0
+        )
+
+    nodes = []
+    for node_id, node in sorted(vertices.items()):
+        node_type = node["type"]
+        item = {
+            "id": node_id,
+            "type": node_type,
+            "label": node["label"],
+            "score": node["score"],
+            "attack_cost": default_attack_cost(
+                node=node,
+                attack_cost_source=attack_cost_source,
+                action_cost=action_attack_cost,
+                leaf_cost=leaf_attack_cost,
+            ),
+        }
+
+        if node_type == "LEAF":
+            defendable = is_defendable_leaf(node["label"], defendable_mode)
+            item["defendable"] = defendable
+            item["defense_cost"] = defense_cost if defendable else None
+        else:
+            item["defendable"] = False
+            item["defense_cost"] = None
+
+        nodes.append(item)
+
+    return {
+        "schema": "mulval_stackelberg_game_config_v1",
+        "metadata": {
+            "vertices": len(vertices),
+            "arcs": len(arcs),
+            "type_counts": dict(Counter(node["type"] for node in vertices.values())),
+            "edge_direction": "conclusion -> prerequisite",
+            "notes": [
+                "Edit goal reward/loss values in goals.",
+                "Edit attack_cost, defendable, and defense_cost values in nodes.",
+                "The solver does not enumerate attack paths; it computes minimum AND/OR derivation cost implicitly.",
+            ],
+        },
+        "defaults": {
+            "defendable_mode": defendable_mode,
+            "goal_reward": goal_reward,
+            "goal_loss": goal_loss,
+            "defense_cost": defense_cost,
+            "budget": budget,
+            "attack_cost_source": attack_cost_source,
+            "action_attack_cost": action_attack_cost,
+            "leaf_attack_cost": leaf_attack_cost,
+            "cost_big_m": cost_big_m,
+            "target_closure": target_closure,
+            "tie_breaking": tie_breaking,
+            "tie_epsilon": tie_epsilon,
+        },
+        "goals": [
+            {
+                "id": node_id,
+                "label": vertices[node_id]["label"],
+                "enabled": True,
+                "reward": goal_reward,
+                "loss": goal_loss,
+            }
+            for node_id in goals
+        ],
+        "nodes": nodes,
+    }
+
+
+def main():
+    script_dir = Path(__file__).resolve().parent
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--vertices", default=str(script_dir / "VERTICES.CSV"))
+    parser.add_argument("--arcs", default=str(script_dir / "ARCS.CSV"))
+    parser.add_argument("--out", default=str(script_dir / "mulval_game_config.json"))
+    parser.add_argument(
+        "--goals",
+        default=None,
+        help="Comma-separated goal node ids. Defaults to OR nodes with indegree 0.",
+    )
+    parser.add_argument(
+        "--defendable",
+        choices=["all", "vul", "hacl", "vul_hacl"],
+        default="all",
+    )
+    parser.add_argument("--goal-reward", type=float, default=100.0)
+    parser.add_argument("--goal-loss", type=float, default=100.0)
+    parser.add_argument("--defense-cost", type=float, default=1.0)
+    parser.add_argument(
+        "--attack-cost-source",
+        choices=["constant", "score"],
+        default="constant",
+    )
+    parser.add_argument("--action-attack-cost", type=float, default=1.0)
+    parser.add_argument("--leaf-attack-cost", type=float, default=0.0)
+    parser.add_argument("--budget", type=float, default=None)
+    parser.add_argument("--cost-big-m", type=float, default=None)
+    parser.add_argument(
+        "--target-closure",
+        action="store_true",
+        help=(
+            "Record that the solver should reduce the graph to the selected "
+            "targets' dependency closure before building the MIP."
+        ),
+    )
+    parser.add_argument(
+        "--tie-breaking",
+        choices=["strong", "weak"],
+        default="strong",
+    )
+    parser.add_argument("--tie-epsilon", type=float, default=1e-6)
+    args = parser.parse_args()
+
+    vertices, arcs = parse_csv(Path(args.vertices), Path(args.arcs))
+    config = build_config(
+        vertices=vertices,
+        arcs=arcs,
+        goal_ids=parse_goal_ids(args.goals),
+        defendable_mode=args.defendable,
+        goal_reward=args.goal_reward,
+        goal_loss=args.goal_loss,
+        defense_cost=args.defense_cost,
+        attack_cost_source=args.attack_cost_source,
+        action_attack_cost=args.action_attack_cost,
+        leaf_attack_cost=args.leaf_attack_cost,
+        budget=args.budget,
+        cost_big_m=args.cost_big_m,
+        target_closure=args.target_closure,
+        tie_breaking=args.tie_breaking,
+        tie_epsilon=args.tie_epsilon,
+    )
+
+    out_path = Path(args.out)
+    out_path.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    safe_print(f"wrote: {out_path.resolve()}")
+    safe_print(f"goals: {[goal['id'] for goal in config['goals']]}")
+    safe_print(f"nodes: {len(config['nodes'])}")
+    safe_print(f"defendable leaves: {sum(1 for node in config['nodes'] if node['defendable'])}")
+
+
+if __name__ == "__main__":
+    main()

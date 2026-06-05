@@ -1,0 +1,61 @@
+1,"execCode(plc1,root)","OR",0.0219
+2,"RULE 2 (remote exploit of a server program)","AND",0.0219
+3,"netAccess(plc1,tcp,102)","OR",0.0547
+4,"RULE 5 (multi-hop access)","AND",0.0547
+5,"hacl(router2,plc1,tcp,102)","LEAF",1.0
+6,"execCode(router2,root)","OR",0.0683
+7,"RULE 2 (remote exploit of a server program)","AND",0.0683
+8,"netAccess(router2,tcp,23)","OR",0.0854
+9,"RULE 5 (multi-hop access)","AND",0.0089
+10,"hacl(ews,router2,tcp,23)","LEAF",1.0
+11,"execCode(ews,user)","OR",0.0111
+12,"RULE 2 (remote exploit of a server program)","AND",0.0111
+13,"netAccess(ews,tcp,3389)","OR",0.0819
+14,"RULE 5 (multi-hop access)","AND",0.0819
+15,"hacl(router1,ews,tcp,3389)","LEAF",1.0
+16,"execCode(router1,root)","OR",0.1023
+17,"RULE 2 (remote exploit of a server program)","AND",0.1023
+18,"netAccess(router1,tcp,22)","OR",0.2559
+19,"RULE 5 (multi-hop access)","AND",0.2559
+20,"hacl(historian,router1,tcp,22)","LEAF",1.0
+21,"execCode(historian,user)","OR",0.3199
+22,"RULE 2 (remote exploit of a server program)","AND",0.3199
+23,"netAccess(historian,tcp,80)","OR",0.8
+24,"RULE 6 (direct network access)","AND",0.8
+25,"hacl(internet,historian,tcp,80)","LEAF",1.0
+26,"attackerLocated(internet)","LEAF",1.0
+27,"networkServiceInfo(historian,http_server,tcp,80,user)","LEAF",1.0
+28,"vulExists(historian,'CVE-2017-5155',http_server,remoteExploit,privEscalation)","LEAF",0.4998
+29,"networkServiceInfo(router1,router_os,tcp,22,root)","LEAF",1.0
+30,"vulExists(router1,'CVE-2016-6415',router_os,remoteExploit,privEscalation)","LEAF",0.4998
+31,"networkServiceInfo(ews,rdp_service,tcp,3389,user)","LEAF",1.0
+32,"vulExists(ews,'CVE-2018-8838',rdp_service,remoteExploit,privEscalation)","LEAF",0.1696
+33,"RULE 5 (multi-hop access)","AND",0.0262
+34,"hacl(hmi,router2,tcp,23)","LEAF",1.0
+35,"execCode(hmi,operator)","OR",0.0327
+36,"RULE 2 (remote exploit of a server program)","AND",0.0327
+37,"netAccess(hmi,tcp,8080)","OR",0.0819
+38,"RULE 5 (multi-hop access)","AND",0.0819
+39,"hacl(router1,hmi,tcp,8080)","LEAF",1.0
+40,"networkServiceInfo(hmi,web_server,tcp,8080,operator)","LEAF",1.0
+41,"vulExists(hmi,'CVE-2018-17916',web_server,remoteExploit,privEscalation)","LEAF",0.4998
+42,"RULE 5 (multi-hop access)","AND",0.0524
+43,"hacl(scada,router2,tcp,23)","LEAF",1.0
+44,"execCode(scada,admin)","OR",0.0655
+45,"RULE 2 (remote exploit of a server program)","AND",0.0655
+46,"netAccess(scada,tcp,443)","OR",0.0819
+47,"RULE 5 (multi-hop access)","AND",0.0819
+48,"hacl(router1,scada,tcp,443)","LEAF",1.0
+49,"networkServiceInfo(scada,scada_server,tcp,443,admin)","LEAF",1.0
+50,"vulExists(scada,'CVE-2021-21561',scada_server,remoteExploit,privEscalation)","LEAF",1.0
+51,"networkServiceInfo(router2,industrial_router,tcp,23,root)","LEAF",1.0
+52,"vulExists(router2,'CVE-2022-27280',industrial_router,remoteExploit,privEscalation)","LEAF",1.0
+53,"networkServiceInfo(plc1,s7comm,tcp,102,root)","LEAF",1.0
+54,"vulExists(plc1,'CVE-2020-7538',s7comm,remoteExploit,privEscalation)","LEAF",0.4998
+55,"execCode(plc2,user)","OR",0.0149
+56,"RULE 2 (remote exploit of a server program)","AND",0.0149
+57,"netAccess(plc2,tcp,502)","OR",0.0547
+58,"RULE 5 (multi-hop access)","AND",0.0547
+59,"hacl(router2,plc2,tcp,502)","LEAF",1.0
+60,"networkServiceInfo(plc2,modbus,tcp,502,user)","LEAF",1.0
+61,"vulExists(plc2,'CVE-2016-8377',modbus,remoteExploit,privEscalation)","LEAF",0.3416

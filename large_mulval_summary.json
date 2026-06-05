@@ -1,0 +1,26 @@
+{
+  "vertices": 27667,
+  "arcs": 31278,
+  "goals": [
+    27632,
+    27641,
+    27650,
+    27659
+  ],
+  "parameters": {
+    "hosts": 1200,
+    "services_per_host": 2,
+    "vuln_per_service": 2,
+    "lateral_rules_per_host": 1,
+    "goals": 4,
+    "seed": 7,
+    "vertices_out": "large_mulval_VERTICES.CSV",
+    "arcs_out": "large_mulval_ARCS.CSV",
+    "summary_out": "large_mulval_summary.json"
+  },
+  "format": {
+    "VERTICES.CSV": "id,label,type,score",
+    "ARCS.CSV": "source,target",
+    "edge_direction": "conclusion -> prerequisite"
+  }
+}
