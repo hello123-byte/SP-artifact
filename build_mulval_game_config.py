@@ -88,6 +88,7 @@ def build_config(
     budget: float | None,
     cost_big_m: float | None,
     target_closure: bool,
+    solver: str,
     tie_breaking: str,
     tie_epsilon: float,
 ):
@@ -154,6 +155,7 @@ def build_config(
             "leaf_attack_cost": leaf_attack_cost,
             "cost_big_m": cost_big_m,
             "target_closure": target_closure,
+            "solver": solver,
             "tie_breaking": tie_breaking,
             "tie_epsilon": tie_epsilon,
         },
@@ -208,6 +210,12 @@ def main():
         ),
     )
     parser.add_argument(
+        "--solver",
+        choices=["scip", "gurobi"],
+        default="scip",
+        help="Record the default MIP solver backend in the generated config.",
+    )
+    parser.add_argument(
         "--tie-breaking",
         choices=["strong", "weak"],
         default="strong",
@@ -230,6 +238,7 @@ def main():
         budget=args.budget,
         cost_big_m=args.cost_big_m,
         target_closure=args.target_closure,
+        solver=args.solver,
         tie_breaking=args.tie_breaking,
         tie_epsilon=args.tie_epsilon,
     )
