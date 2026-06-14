@@ -74,10 +74,53 @@ def parse_goal_ids(raw: str | None) -> list[int] | None:
     return [int(part.strip()) for part in raw.split(",") if part.strip()]
 
 
+def parse_summary_goal_ids(path: str | None) -> list[int] | None:
+    if not path:
+        return None
+    with Path(path).open(encoding="utf-8") as f:
+        data = json.load(f)
+    goals = data.get("goals")
+    if not goals:
+        return None
+    return [int(goal) for goal in goals]
+
+
+def select_goals(
+    vertices: dict[int, dict],
+    arcs: list[tuple[int, int]],
+    goal_ids: list[int] | None,
+    summary_goal_ids: list[int] | None,
+) -> tuple[list[int], str]:
+    if goal_ids:
+        return sorted(goal_ids), "cli"
+
+    if summary_goal_ids:
+        return sorted(summary_goal_ids), "summary"
+
+    synthetic_goals = sorted(
+        node_id
+        for node_id, node in vertices.items()
+        if node["type"] == "OR" and node["label"].startswith("execCode(crown_jewel_")
+    )
+    if synthetic_goals:
+        return synthetic_goals, "synthetic_crown_jewel_label"
+
+    indegree = Counter()
+    for src, dst in arcs:
+        indegree[dst] += 1
+
+    return sorted(
+        node_id
+        for node_id, node in vertices.items()
+        if node["type"] == "OR" and indegree[node_id] == 0
+    ), "or_indegree_zero"
+
+
 def build_config(
     vertices,
     arcs,
     goal_ids: list[int] | None,
+    summary_goal_ids: list[int] | None,
     defendable_mode: str,
     goal_reward: float,
     goal_loss: float,
@@ -92,18 +135,10 @@ def build_config(
     tie_breaking: str,
     tie_epsilon: float,
 ):
-    indegree = Counter()
-    for src, dst in arcs:
-        indegree[dst] += 1
-
-    if goal_ids:
-        goals = sorted(goal_ids)
-    else:
-        goals = sorted(
-            node_id
-            for node_id, node in vertices.items()
-            if node["type"] == "OR" and indegree[node_id] == 0
-        )
+    goals, goal_source = select_goals(vertices, arcs, goal_ids, summary_goal_ids)
+    missing_goals = [goal for goal in goals if goal not in vertices]
+    if missing_goals:
+        raise SystemExit(f"Unknown goal id(s): {missing_goals}")
 
     nodes = []
     for node_id, node in sorted(vertices.items()):
@@ -138,6 +173,7 @@ def build_config(
             "arcs": len(arcs),
             "type_counts": dict(Counter(node["type"] for node in vertices.values())),
             "edge_direction": "conclusion -> prerequisite",
+            "goal_source": goal_source,
             "notes": [
                 "Edit goal reward/loss values in goals.",
                 "Edit attack_cost, defendable, and defense_cost values in nodes.",
@@ -182,7 +218,15 @@ def main():
     parser.add_argument(
         "--goals",
         default=None,
-        help="Comma-separated goal node ids. Defaults to OR nodes with indegree 0.",
+        help=(
+            "Comma-separated goal node ids. These are ids, not a count. "
+            "If omitted, summary goals or synthetic crown_jewel goals are used when available."
+        ),
+    )
+    parser.add_argument(
+        "--summary",
+        default=None,
+        help="Optional summary JSON produced by generate_large_mulval_csv.py; its goals list is used as target ids.",
     )
     parser.add_argument(
         "--defendable",
@@ -228,6 +272,7 @@ def main():
         vertices=vertices,
         arcs=arcs,
         goal_ids=parse_goal_ids(args.goals),
+        summary_goal_ids=parse_summary_goal_ids(args.summary),
         defendable_mode=args.defendable,
         goal_reward=args.goal_reward,
         goal_loss=args.goal_loss,
