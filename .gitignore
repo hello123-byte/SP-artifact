@@ -2,3 +2,6 @@ __pycache__/
 *.py[cod]
 *.zip
 .DS_Store
+
+commend_line.tex
+
