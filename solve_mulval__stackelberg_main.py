@@ -343,8 +343,6 @@ def solve_game(
     default_leaf_cost: float,
     node_attack_costs_raw: str | None,
     cost_big_m_override: float | None,
-    tie_breaking: str | None,
-    tie_epsilon: float | None,
     target_closure: bool | None,
     time_limit: float | None,
     solver: str | None,
@@ -380,8 +378,6 @@ def solve_game(
     default_action_cost = float(config_defaults.get("action_attack_cost", default_action_cost))
     default_leaf_cost = float(config_defaults.get("leaf_attack_cost", default_leaf_cost))
     cost_big_m_override = coalesce(cost_big_m_override, config_defaults.get("cost_big_m"))
-    tie_breaking = coalesce(tie_breaking, config_defaults.get("tie_breaking"), "strong")
-    tie_epsilon = float(coalesce(tie_epsilon, config_defaults.get("tie_epsilon"), 1e-6))
     target_closure = bool(coalesce(target_closure, config_defaults.get("target_closure"), False))
     solver = coalesce(solver, config_defaults.get("solver"), "scip")
 
@@ -606,43 +602,24 @@ def solve_game(
     #   goal g = reward_g - min_cost_g if reachable
     #
     # For non-selected goals, reward_h * x_h - min_cost_h is <= 0 if unreachable.
-    #
-    # tie_breaking:
-    #   strong: if attacker is indifferent, the defender objective chooses the
-    #           lower-loss attacker response.
-    #   weak:   pessimistic tie-breaking. A tiny loss bonus is added to the
-    #           attacker's comparison, so equal-utility goals prefer larger
-    #           defender loss. Keep tie_epsilon small enough that it only
-    #           resolves ties and does not change primary attacker preferences.
-    if tie_breaking not in {"strong", "weak"}:
-        raise SystemExit(f"Unknown tie breaking mode: {tie_breaking}")
-
-    loss_tie_sign = 1.0 if tie_breaking == "weak" else 0.0
     for g in goals:
         for h in goals:
             if g == h:
                 continue
             model.addCons(
-                rewards[g] - c[g] + loss_tie_sign * tie_epsilon * losses[g]
-                >= rewards[h] * x[h]
-                - c[h]
-                + loss_tie_sign * tie_epsilon * losses[h] * x[h]
-                - utility_big_m * (1 - y_goal[g]),
+                rewards[g] - c[g]
+                >= rewards[h] * x[h] - c[h] - utility_big_m * (1 - y_goal[g]),
                 name=f"br_goal_{g}_ge_goal_{h}",
             )
         model.addCons(
-            rewards[g] - c[g] + loss_tie_sign * tie_epsilon * losses[g]
-            >= -utility_big_m * (1 - y_goal[g]),
+            rewards[g] - c[g] >= -utility_big_m * (1 - y_goal[g]),
             name=f"br_goal_{g}_ge_empty",
         )
 
     for h in goals:
         model.addCons(
             0
-            >= rewards[h] * x[h]
-            - c[h]
-            + loss_tie_sign * tie_epsilon * losses[h] * x[h]
-            - utility_big_m * (1 - y_empty),
+            >= rewards[h] * x[h] - c[h] - utility_big_m * (1 - y_empty),
             name=f"br_empty_ge_goal_{h}",
         )
 
@@ -668,12 +645,10 @@ def solve_game(
     result = {
         "status": status,
         "solver": solver,
-        "solution_concept": f"cost-sensitive pure {tie_breaking} Stackelberg equilibrium",
+        "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
         "does_not_enumerate_attack_paths": True,
         "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
         "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
-        "tie_breaking": tie_breaking,
-        "tie_epsilon": tie_epsilon,
         "cost_model_note": (
             "The attack cost is a minimum AND/OR derivation cost. AND nodes add "
             "their action cost and all prerequisite costs; OR nodes select the "
@@ -829,21 +804,6 @@ def main():
         help="Optional manual Big-M for attack-cost constraints.",
     )
     parser.add_argument(
-        "--tie-breaking",
-        choices=["strong", "weak"],
-        default=None,
-        help=(
-            "Follower tie-breaking. strong means attacker ties favor defender; "
-            "weak means pessimistic ties favor higher defender loss."
-        ),
-    )
-    parser.add_argument(
-        "--tie-epsilon",
-        type=float,
-        default=None,
-        help="Small loss weight used only to resolve weak tie-breaking.",
-    )
-    parser.add_argument(
         "--target-closure",
         action="store_true",
         default=None,
@@ -898,8 +858,6 @@ def main():
         default_leaf_cost=args.default_leaf_cost,
         node_attack_costs_raw=args.node_attack_costs,
         cost_big_m_override=args.cost_big_m,
-        tie_breaking=args.tie_breaking,
-        tie_epsilon=args.tie_epsilon,
         target_closure=args.target_closure,
         time_limit=args.time_limit,
         solver=args.solver,

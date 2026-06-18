@@ -132,8 +132,6 @@ def build_config(
     cost_big_m: float | None,
     target_closure: bool,
     solver: str,
-    tie_breaking: str,
-    tie_epsilon: float,
 ):
     goals, goal_source = select_goals(vertices, arcs, goal_ids, summary_goal_ids)
     missing_goals = [goal for goal in goals if goal not in vertices]
@@ -192,8 +190,6 @@ def build_config(
             "cost_big_m": cost_big_m,
             "target_closure": target_closure,
             "solver": solver,
-            "tie_breaking": tie_breaking,
-            "tie_epsilon": tie_epsilon,
         },
         "goals": [
             {
@@ -259,12 +255,6 @@ def main():
         default="scip",
         help="Record the default MIP solver backend in the generated config.",
     )
-    parser.add_argument(
-        "--tie-breaking",
-        choices=["strong", "weak"],
-        default="strong",
-    )
-    parser.add_argument("--tie-epsilon", type=float, default=1e-6)
     args = parser.parse_args()
 
     vertices, arcs = parse_csv(Path(args.vertices), Path(args.arcs))
@@ -284,8 +274,6 @@ def main():
         cost_big_m=args.cost_big_m,
         target_closure=args.target_closure,
         solver=args.solver,
-        tie_breaking=args.tie_breaking,
-        tie_epsilon=args.tie_epsilon,
     )
 
     out_path = Path(args.out)
