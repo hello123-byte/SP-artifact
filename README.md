@@ -246,27 +246,44 @@ large_summary.json
 
 ## 运行目标数量 benchmark
 
-`run_goal_count_benchmarks.py` 会在 `csv_scale_benchmarks` 下读取不同规模和目标数量的数据，运行求解器，并把结果写到：
+`run_goal_count_benchmarks.py` 会先按最新合成攻击图机制准备三档输入图，再运行求解器并把结果写到：
 
 ```text
 csv_scale_benchmarks/results/benchmark_runtime_summary.csv
 ```
 
-示例：
+默认规模和目标数量为：
+
+```text
+scale_1k      goals: 1, 50, 100, 200
+scale_10k     goals: 1, 50, 100, 200
+scale_100k    goals: 1, 50, 100, 200
+```
+
+每个 case 固定使用 `--target-closure` 和 `--defendable vul`。
+
+只准备 CSV 和 goal_sets，不运行求解器：
+
+```bash
+python3 run_goal_count_benchmarks.py --prepare-only
+```
+
+运行全部 benchmark：
 
 ```bash
 python3 run_goal_count_benchmarks.py \
-  --scales scale_10k,scale_100k \
-  --goal-counts 1,10,100 \
   --solver scip \
-  --defendable vul \
-  --time-limit 100
+  --time-limit 600
 ```
 
-默认会开启 `--target-closure`。如果要关闭目标闭包裁剪，可以传：
+只运行部分规模或目标数量：
 
 ```bash
-python3 run_goal_count_benchmarks.py --no-target-closure
+python3 run_goal_count_benchmarks.py \
+  --skip-prepare \
+  --scales scale_10k \
+  --goal-counts 1,50 \
+  --time-limit 600
 ```
 
 ## 建模和使用注意事项

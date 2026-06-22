@@ -1,37 +1,100 @@
 # Goal Count Benchmarks
 
-This folder keeps the CSV graph size fixed and varies only the number of target
-goals used by the Stackelberg solver.
+这个目录用于测试 MulVAL Stackelberg 求解器在不同图规模和不同目标数量下的运行时间。
 
-Folders:
+当前 benchmark 使用 `generate_large_mulval_csv.py` 的最新合成攻击图机制。生成图满足：
 
 ```text
-scale_10k/goal_sets      1, 2, 4, 8, 10 goals
-scale_100k/goal_sets     1, 5, 10, 25, 50, 100 goals
-scale_1m/goal_sets       1, 10, 50, 100, 500, 1000, 5000, 10000 goals
+LEAF 节点无前提
+AND / OR 节点必须有前提
+AND 节点最多依赖 1 个 OR 节点
+AND 节点至少依赖 1 个 LEAF 节点
+图必须是 conclusion -> prerequisite 方向下的有向无环图
+节点 score / 攻击成本为 1 到 100 的随机整数
 ```
 
-Each `goals_N.txt` file contains a comma-separated goal ID list that can be
-passed directly to `solve_mulval__stackelberg_main.py`:
+## 默认规模
 
-```powershell
-$goals = (Get-Content .\csv_scale_benchmarks\scale_100k\goal_sets\goals_25.txt -Raw).Trim()
-python .\solve_mulval__stackelberg_main.py `
-  --vertices .\csv_scale_benchmarks\scale_100k\VERTICES.CSV `
-  --arcs .\csv_scale_benchmarks\scale_100k\ARCS.CSV `
-  --goals $goals `
-  --defendable vul `
-  --target-closure `
-  --time-limit 100 `
-  --out .\csv_scale_benchmarks\results\scale_100k_goals_25.json
+`run_goal_count_benchmarks.py` 默认准备并测试三档图规模：
+
+```text
+scale_1k      千级攻击图
+scale_10k     万级攻击图
+scale_100k    十万级攻击图
 ```
 
-You can also run the prepared PowerShell batch:
+每个规模都生成 200 个目标，并测试以下目标数量：
 
-```powershell
-.\csv_scale_benchmarks\run_goal_count_benchmarks.ps1
+```text
+1, 50, 100, 200
 ```
 
-For million-scale cases, using `--target-closure` is strongly recommended.
-Generating full config JSON files for every goal count is intentionally avoided
-because those files can be much larger than the CSV timing inputs.
+每个 case 都固定使用：
+
+```text
+--target-closure
+--defendable vul
+```
+
+## 准备数据
+
+只生成 / 重新生成 benchmark CSV 和 goal_sets，不运行求解器：
+
+```bash
+python run_goal_count_benchmarks.py --prepare-only
+```
+
+生成后每个 scale 目录包含：
+
+```text
+VERTICES.CSV
+ARCS.CSV
+summary.json
+goal_sets/goals_1.txt
+goal_sets/goals_50.txt
+goal_sets/goals_100.txt
+goal_sets/goals_200.txt
+```
+
+## 运行 benchmark
+
+运行全部规模和目标数量：
+
+```bash
+python run_goal_count_benchmarks.py --time-limit 600
+```
+
+只运行某个规模：
+
+```bash
+python run_goal_count_benchmarks.py --scales scale_10k --time-limit 600
+```
+
+只运行部分目标数量：
+
+```bash
+python run_goal_count_benchmarks.py --goal-counts 1,50 --time-limit 600
+```
+
+如果已经准备好 CSV，不想重新生成输入数据：
+
+```bash
+python run_goal_count_benchmarks.py --skip-prepare --time-limit 600
+```
+
+## 输出
+
+每个 case 会写：
+
+```text
+csv_scale_benchmarks/results/<scale>_goals_<N>.json
+csv_scale_benchmarks/results/<scale>_goals_<N>.log
+```
+
+汇总表写到：
+
+```text
+csv_scale_benchmarks/results/benchmark_runtime_summary.csv
+```
+
+汇总表包含原始图规模、目标闭包后的图规模、建模时间、求解时间和总 wall time。
