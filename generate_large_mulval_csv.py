@@ -3,6 +3,7 @@
 
 Output format:
   VERTICES.CSV rows: id,label,type,score
+  The score column is a randomized attack-cost value in [1, 100].
   ARCS.CSV rows: source,target
 
 Edge direction follows the MulVAL CSV convention used by the solver:
@@ -16,6 +17,11 @@ structure rather than merely inflate node/edge counts:
   * OR nodes are derived privileges or reachability states such as netAccess
     and execCode.
   * Multiple exploit rules converge on the same execCode OR node.
+  * The graph is a DAG: no head-to-tail dependency cycle is allowed.
+  * Each AND rule depends on at most one OR prerequisite plus one or more
+    LEAF prerequisites; AND-to-AND prerequisites are rejected.
+  * LEAF nodes have no prerequisite edges.
+  * Every non-LEAF node must have at least one prerequisite edge.
   * Network reachability is segmented: only a small DMZ-like entry set is
     directly reachable from the internet; internal access is produced by
     lateral-movement rules from already-compromised earlier hosts.
@@ -52,8 +58,8 @@ def safe_print(text: str):
     print(text.encode(encoding, errors="backslashreplace").decode(encoding))
 
 
-def score(rng: random.Random, low: float = 0.01, high: float = 0.95) -> float:
-    return round(rng.uniform(low, high), 4)
+def score(rng: random.Random) -> int:
+    return rng.randint(1, 100)
 
 
 def add_vertex(vertices, node_id: int, label: str, node_type: str, value: float) -> tuple[int, int]:
@@ -185,6 +191,16 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         for src, dst in arcs
         if src not in vertices_by_id or dst not in vertices_by_id
     ]
+    leaf_nodes_with_prerequisites = [
+        node_id
+        for node_id, node in vertices_by_id.items()
+        if node["type"] == "LEAF" and outgoing[node_id]
+    ]
+    non_leaf_nodes_without_prerequisites = [
+        node_id
+        for node_id, node in vertices_by_id.items()
+        if node["type"] != "LEAF" and not outgoing[node_id]
+    ]
     and_without_prerequisites = [
         node_id
         for node_id, node in vertices_by_id.items()
@@ -195,12 +211,104 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         for node_id, node in vertices_by_id.items()
         if node["type"] == "OR" and not outgoing[node_id]
     ]
+    and_nodes_with_multiple_or_prerequisites = []
+    and_nodes_without_leaf_prerequisites = []
+    and_nodes_with_non_leaf_or_prerequisites = []
+    for node_id, node in vertices_by_id.items():
+        if node["type"] != "AND":
+            continue
+        or_prerequisites = [
+            child_id
+            for child_id in outgoing[node_id]
+            if vertices_by_id.get(child_id, {}).get("type") == "OR"
+        ]
+        leaf_prerequisites = [
+            child_id
+            for child_id in outgoing[node_id]
+            if vertices_by_id.get(child_id, {}).get("type") == "LEAF"
+        ]
+        invalid_prerequisites = [
+            child_id
+            for child_id in outgoing[node_id]
+            if vertices_by_id.get(child_id, {}).get("type") not in {"OR", "LEAF"}
+        ]
+        if len(or_prerequisites) > 1:
+            and_nodes_with_multiple_or_prerequisites.append((node_id, or_prerequisites))
+        if not leaf_prerequisites:
+            and_nodes_without_leaf_prerequisites.append(node_id)
+        if invalid_prerequisites:
+            and_nodes_with_non_leaf_or_prerequisites.append((node_id, invalid_prerequisites))
+
+    indegrees = {node_id: 0 for node_id in vertices_by_id}
+    for src, dst in arcs:
+        if src in vertices_by_id and dst in vertices_by_id:
+            indegrees[dst] += 1
+    queue = [node_id for node_id, degree in indegrees.items() if degree == 0]
+    visited_count = 0
+    while queue:
+        node_id = queue.pop()
+        visited_count += 1
+        for child_id in outgoing[node_id]:
+            if child_id not in indegrees:
+                continue
+            indegrees[child_id] -= 1
+            if indegrees[child_id] == 0:
+                queue.append(child_id)
+    cyclic_node_count = len(vertices_by_id) - visited_count
 
     return {
         "type_counts": dict(Counter(node_type for _, _, node_type, _ in vertices)),
         "missing_arc_endpoints": len(missing_arc_endpoints),
+        "leaf_nodes_with_prerequisites": len(leaf_nodes_with_prerequisites),
+        "non_leaf_nodes_without_prerequisites": len(non_leaf_nodes_without_prerequisites),
         "and_nodes_without_prerequisites": len(and_without_prerequisites),
         "or_nodes_without_producers": len(or_without_producers),
+        "and_nodes_with_multiple_or_prerequisites": len(and_nodes_with_multiple_or_prerequisites),
+        "and_nodes_without_leaf_prerequisites": len(and_nodes_without_leaf_prerequisites),
+        "and_nodes_with_non_leaf_or_prerequisites": len(and_nodes_with_non_leaf_or_prerequisites),
+        "sample_leaf_nodes_with_prerequisites": [
+            {
+                "id": node_id,
+                "label": vertices_by_id[node_id]["label"],
+                "prerequisites": [
+                    {"id": child_id, "type": vertices_by_id[child_id]["type"], "label": vertices_by_id[child_id]["label"]}
+                    for child_id in outgoing[node_id][:10]
+                ],
+            }
+            for node_id in leaf_nodes_with_prerequisites[:10]
+        ],
+        "sample_non_leaf_nodes_without_prerequisites": [
+            {"id": node_id, "type": vertices_by_id[node_id]["type"], "label": vertices_by_id[node_id]["label"]}
+            for node_id in non_leaf_nodes_without_prerequisites[:10]
+        ],
+        "sample_and_nodes_with_multiple_or_prerequisites": [
+            {
+                "and_id": node_id,
+                "and_label": vertices_by_id[node_id]["label"],
+                "or_prerequisites": [
+                    {"id": child_id, "label": vertices_by_id[child_id]["label"]}
+                    for child_id in child_ids
+                ],
+            }
+            for node_id, child_ids in and_nodes_with_multiple_or_prerequisites[:10]
+        ],
+        "sample_and_nodes_without_leaf_prerequisites": [
+            {"and_id": node_id, "and_label": vertices_by_id[node_id]["label"]}
+            for node_id in and_nodes_without_leaf_prerequisites[:10]
+        ],
+        "sample_and_nodes_with_non_leaf_or_prerequisites": [
+            {
+                "and_id": node_id,
+                "and_label": vertices_by_id[node_id]["label"],
+                "invalid_prerequisites": [
+                    {"id": child_id, "type": vertices_by_id[child_id]["type"], "label": vertices_by_id[child_id]["label"]}
+                    for child_id in child_ids
+                ],
+            }
+            for node_id, child_ids in and_nodes_with_non_leaf_or_prerequisites[:10]
+        ],
+        "has_directed_cycle": cyclic_node_count > 0,
+        "cyclic_node_count": cyclic_node_count,
         "default_or_indegree_zero_count": sum(
             1
             for node_id, node in vertices_by_id.items()
@@ -208,6 +316,36 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         ),
         "goal_count": len(goal_nodes),
     }
+
+
+def validate_graph_structure(vertices, arcs, goal_nodes: list[int]) -> dict:
+    diagnostics = graph_diagnostics(vertices, arcs, goal_nodes)
+    errors = []
+    if diagnostics["missing_arc_endpoints"]:
+        errors.append(f"{diagnostics['missing_arc_endpoints']} arc(s) reference missing vertices")
+    if diagnostics["has_directed_cycle"]:
+        errors.append(f"directed cycle detected involving {diagnostics['cyclic_node_count']} node(s)")
+    if diagnostics["leaf_nodes_with_prerequisites"]:
+        errors.append(f"{diagnostics['leaf_nodes_with_prerequisites']} LEAF node(s) have prerequisites")
+    if diagnostics["non_leaf_nodes_without_prerequisites"]:
+        errors.append(
+            f"{diagnostics['non_leaf_nodes_without_prerequisites']} non-LEAF node(s) have no prerequisites"
+        )
+    if diagnostics["and_nodes_with_multiple_or_prerequisites"]:
+        errors.append(
+            f"{diagnostics['and_nodes_with_multiple_or_prerequisites']} AND node(s) depend on more than one OR node"
+        )
+    if diagnostics["and_nodes_without_leaf_prerequisites"]:
+        errors.append(
+            f"{diagnostics['and_nodes_without_leaf_prerequisites']} AND node(s) have no LEAF prerequisite"
+        )
+    if diagnostics["and_nodes_with_non_leaf_or_prerequisites"]:
+        errors.append(
+            f"{diagnostics['and_nodes_with_non_leaf_or_prerequisites']} AND node(s) have prerequisites that are neither OR nor LEAF"
+        )
+    if errors:
+        raise SystemExit("Generated graph violates structural constraints: " + "; ".join(errors))
+    return diagnostics
 
 
 def build_graph(
@@ -225,7 +363,7 @@ def build_graph(
     arcs = []
     next_id = 1
 
-    attacker_leaf, next_id = add_vertex(vertices, next_id, "attackerLocated(internet)", "LEAF", 1.0)
+    attacker_leaf, next_id = add_vertex(vertices, next_id, "attackerLocated(internet)", "LEAF", score(rng))
 
     host_names = [host_name(index, hosts) for index in range(hosts)]
     zones = [host_zone(index, hosts) for index in range(hosts)]
@@ -394,6 +532,11 @@ def build_graph(
         "remote_exploit_rules": remote_exploit_rules,
         "local_privilege_rules": local_privilege_rules,
         "goal_rules": goal_rule_count,
+        "score_range": [1, 100],
+        "and_prerequisite_rule": "Each AND node has at most one OR prerequisite and at least one LEAF prerequisite. AND-to-AND prerequisites are rejected.",
+        "leaf_prerequisite_rule": "LEAF nodes must have no prerequisite edges.",
+        "non_leaf_prerequisite_rule": "Every non-LEAF node must have at least one prerequisite edge.",
+        "cycle_rule": "The generated dependency graph must be acyclic under conclusion -> prerequisite edges.",
         "notes": [
             "Only entry hosts receive internet-origin netAccess facts.",
             "Internal netAccess is inferred from compromised earlier hosts plus hacl facts.",
@@ -402,6 +545,8 @@ def build_graph(
         ],
     }
 
+    diagnostics = validate_graph_structure(vertices, arcs, goal_nodes)
+    structure["diagnostics"] = diagnostics
     return vertices, arcs, goal_nodes, structure
 
 
@@ -447,7 +592,7 @@ def main():
         "goals": goal_nodes,
         "parameters": vars(args),
         "structure": structure,
-        "diagnostics": graph_diagnostics(vertices, arcs, goal_nodes),
+        "diagnostics": structure["diagnostics"],
         "format": {
             "VERTICES.CSV": "id,label,type,score",
             "ARCS.CSV": "source,target",
