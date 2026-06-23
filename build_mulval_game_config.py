@@ -62,14 +62,12 @@ def is_defendable_leaf(label: str, mode: str) -> bool:
 
 def default_attack_cost(node: dict, attack_cost_source: str, action_cost: float, leaf_cost: float) -> float:
     node_type = node["type"]
-    if node_type == "OR":
+    if node_type in {"OR", "LEAF"}:
         return 0.0
-    if attack_cost_source == "score" and node["score"] > 0:
+    if node_type == "AND" and attack_cost_source == "score" and node["score"] > 0:
         return float(node["score"])
     if node_type == "AND":
         return action_cost
-    if node_type == "LEAF":
-        return leaf_cost
     return 0.0
 
 
@@ -196,7 +194,7 @@ def build_config(
             "goal_source": goal_source,
             "notes": [
                 "Edit goal reward/loss values in goals.",
-                "Edit attack_cost, defendable, and defense_cost values in nodes.",
+                "Edit AND attack_cost values and LEAF defendable/defense_cost values in nodes.",
                 "The solver does not enumerate attack paths; it computes minimum AND/OR derivation cost implicitly.",
                 "When goal reward/loss is not provided, values are calibrated from no-defense minimum goal costs.",
             ],
@@ -272,7 +270,12 @@ def main():
         default="score",
     )
     parser.add_argument("--action-attack-cost", type=float, default=1.0)
-    parser.add_argument("--leaf-attack-cost", type=float, default=0.0)
+    parser.add_argument(
+        "--leaf-attack-cost",
+        type=float,
+        default=0.0,
+        help="Compatibility option; generated LEAF attack_cost values are fixed to 0.",
+    )
     parser.add_argument(
         "--reward-multiplier",
         type=float,

@@ -7,7 +7,7 @@ Game semantics:
   1. Defender commits to a set of defenses on LEAF facts.
   2. The MulVAL AND/OR graph propagates which nodes remain reachable.
   3. For every reachable node, the model computes a minimum derivation cost:
-       - LEAF: configured leaf cost if the fact is available;
+       - LEAF: 0 if the fact is available;
        - AND: action cost + all prerequisite costs;
        - OR: minimum cost among reachable child derivations.
   4. The attacker observes the defense and chooses:
@@ -154,7 +154,7 @@ def node_attack_cost(
     default_leaf_cost: float,
 ) -> float:
     node_type = node["type"]
-    if node_type == "OR":
+    if node_type in {"OR", "LEAF"}:
         return 0.0
 
     if node_id in explicit_costs:
@@ -162,13 +162,11 @@ def node_attack_cost(
     if node_id in config_costs:
         return config_costs[node_id]
 
-    if attack_cost_source == "score" and node["score"] > 0:
+    if node_type == "AND" and attack_cost_source == "score" and node["score"] > 0:
         return node["score"]
 
     if node_type == "AND":
         return default_action_cost
-    if node_type == "LEAF":
-        return default_leaf_cost
     return 0.0
 
 
@@ -194,7 +192,7 @@ def compute_cost_upper_bounds(
 
     Edges use conclusion -> prerequisite. For a DAG, a node's safe upper
     bound under any defense is:
-      LEAF = leaf attack cost
+      LEAF = 0
       AND  = action cost + sum(prerequisite upper bounds)
       OR   = max(prerequisite upper bounds)
 
@@ -927,7 +925,12 @@ def main():
         help="Use constant costs, or use CSV score when it is positive.",
     )
     parser.add_argument("--default-action-cost", type=float, default=1.0)
-    parser.add_argument("--default-leaf-cost", type=float, default=0.0)
+    parser.add_argument(
+        "--default-leaf-cost",
+        type=float,
+        default=0.0,
+        help="Compatibility option; LEAF fact costs are fixed to 0 in the current model.",
+    )
     parser.add_argument(
         "--node-attack-costs",
         default=None,

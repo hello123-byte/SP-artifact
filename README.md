@@ -9,7 +9,7 @@
 1. 防御者先承诺一组防御动作。防御动作只作用在 `LEAF` 事实节点上。
 2. MulVAL AND/OR 图根据防御结果传播节点是否仍然可达。
 3. 对每个可达节点计算最小推导成本：
-   - `LEAF`：如果事实可用，成本为该叶子节点攻击成本。
+   - `LEAF`：如果事实可用，成本固定为 0；LEAF 只表示事实前提，不额外累加攻击成本。
    - `AND`：成本为该动作节点成本加上所有前提节点成本。
    - `OR`：成本为所有可达子推导中的最小成本。
 4. 攻击者观察防御后选择：
@@ -138,8 +138,8 @@ python3 solve_mulval__stackelberg_main.py \
 --budget                防御预算上限
 --attack-cost-source    攻击成本来源：constant 或 score
 --default-action-cost   AND 节点默认动作成本，默认 1
---default-leaf-cost     LEAF 节点默认攻击成本，默认 0
---node-attack-costs     按节点设置攻击成本，如 '{"3":2,"10":5}' 或 3:2,10:5
+--default-leaf-cost     兼容旧命令；当前 LEAF 成本固定为 0
+--node-attack-costs     按节点设置攻击成本；当前仅非 LEAF/OR 节点会生效
 --cost-big-m            手动指定循环图回退用的全局 Big-M；DAG 默认使用局部成本上界
 --target-closure        只保留目标及其递归前提，再构建 MIP；大图强烈建议开启
 --time-limit            求解器时间限制，单位秒
@@ -179,7 +179,7 @@ python3 build_mulval_game_config.py \
 ```text
 goals[].reward          每个目标的攻击者奖励
 goals[].loss            每个目标被攻破后的防御者损失
-nodes[].attack_cost     每个节点的攻击成本
+nodes[].attack_cost     节点攻击成本；OR/LEAF 固定为 0，AND 表示动作成本
 nodes[].defendable      LEAF 节点是否可防御
 nodes[].defense_cost    LEAF 节点防御成本
 defaults.budget         防御预算
@@ -305,7 +305,7 @@ python3 run_goal_count_benchmarks.py \
 - 防御动作只作用于 `LEAF` 节点；非 LEAF 节点不会被直接防御。
 - `attackerLocated` 开头的 LEAF 默认不可防御。
 - 大规模图建议使用 `--target-closure`，否则 MIP 规模可能非常大。
-- 求解器默认对 DAG 使用局部 Big-M：LEAF 用自身成本，AND 用自身成本加所有前提上界，OR 用前提上界最大值；这比旧的全局 Big-M 更紧，能缓解 LP 松弛和数值问题。
-- 如果使用 `--attack-cost-source score`，节点 CSV 的 `score` 为正时会作为攻击成本；否则使用默认成本。
+- 求解器默认对 DAG 使用局部 Big-M：LEAF 上界为 0，AND 用自身动作成本加所有前提上界，OR 用前提上界最大值；这比旧的全局 Big-M 更紧，能缓解 LP 松弛和数值问题。
+- 如果使用 `--attack-cost-source score`，AND 节点 CSV 的 `score` 为正时会作为动作攻击成本；OR/LEAF 的直接攻击成本固定为 0。
 - 对 1..100 随机 score 成本的大图，不建议继续使用默认 reward=100。否则很多目标的最小攻击成本会远高于 reward，攻击者会大量选择空攻击，实验无法反映防御选择。benchmark 和配置生成器现在默认使用自动 reward/loss 标定。
 - 旧的弱斯塔克博弈扰动参数已经移除；不要再使用 `--tie-breaking weak` 或 `--tie-epsilon`。
