@@ -84,3 +84,9 @@ csv_scale_benchmarks/scale_1m/goal_sets/summary_goals_100.json
 csv_scale_benchmarks/scale_1m/goal_sets/summary_goals_300.json
 csv_scale_benchmarks/scale_1m/goal_sets/summary_goals_500.json
 commend_line.txt
+
+# Generated data/config/result files
+*.json
+*.JSON
+*.CSV
+*.csv
