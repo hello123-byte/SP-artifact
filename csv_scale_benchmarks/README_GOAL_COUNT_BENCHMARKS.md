@@ -34,7 +34,16 @@ scale_100k    十万级攻击图
 ```text
 --target-closure
 --defendable vul
+--attack-cost-source score
 ```
+
+benchmark 会在运行前按无防御状态估算所有目标的最小攻击成本，并自动设置 reward/loss。默认标定规则是：
+
+```text
+reward = loss = max(1000, 2 * max_goal_min_attack_cost)
+```
+
+这样 1..100 的随机 score 成本会真正进入求解，同时避免 reward=100 导致攻击者几乎总是选择 empty。
 
 ## 准备数据
 
@@ -97,4 +106,4 @@ csv_scale_benchmarks/results/<scale>_goals_<N>.log
 csv_scale_benchmarks/results/benchmark_runtime_summary.csv
 ```
 
-汇总表包含原始图规模、目标闭包后的图规模、建模时间、求解时间和总 wall time。
+汇总表包含原始图规模、目标闭包后的图规模、成本来源、标定后的 reward/loss、目标成本统计、局部 Big-M / 旧全局 Big-M 对比、建模时间、求解时间和总 wall time。

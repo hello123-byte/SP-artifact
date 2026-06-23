@@ -36,6 +36,7 @@ defense_cost + loss(attacker_chosen_goal)
 solve_mulval__stackelberg_main.py   主要求解器，读取 CSV/配置并求解 MIP
 build_mulval_game_config.py         生成可编辑的 JSON 游戏配置
 generate_large_mulval_csv.py        生成合成的大规模 MulVAL 风格 CSV 图
+mulval_cost_calibration.py          估算目标攻击成本并自动标定 reward/loss
 run_goal_count_benchmarks.py        对固定图规模、不同目标数量运行耗时 benchmark
 VERTICES.CSV                        示例节点文件
 ARCS.CSV                            示例边文件
@@ -127,8 +128,8 @@ python3 solve_mulval__stackelberg_main.py \
 --vertices              节点 CSV，默认 VERTICES.CSV
 --arcs                  边 CSV，默认 ARCS.CSV
 --goals                 逗号分隔的目标节点 id；不传时默认选择入度为 0 的 OR 节点
---default-reward        默认目标奖励，默认 100
---default-loss          默认目标损失，默认 100
+--default-reward        默认目标奖励，默认 100；大规模随机 score 成本建议显式调高
+--default-loss          默认目标损失，默认 100；大规模随机 score 成本建议与 reward 同量级
 --goal-rewards          按目标设置奖励，如 '{"1":100,"55":80}' 或 1:100,55:80
 --goal-losses           按目标设置损失，如 '{"1":40,"55":100}' 或 1:40,55:100
 --defense-cost          默认防御成本，默认 1
@@ -139,7 +140,7 @@ python3 solve_mulval__stackelberg_main.py \
 --default-action-cost   AND 节点默认动作成本，默认 1
 --default-leaf-cost     LEAF 节点默认攻击成本，默认 0
 --node-attack-costs     按节点设置攻击成本，如 '{"3":2,"10":5}' 或 3:2,10:5
---cost-big-m            手动指定攻击成本约束中的 Big-M
+--cost-big-m            手动指定循环图回退用的全局 Big-M；DAG 默认使用局部成本上界
 --target-closure        只保留目标及其递归前提，再构建 MIP；大图强烈建议开启
 --time-limit            求解器时间限制，单位秒
 --solver                scip 或 gurobi，默认 scip
@@ -165,12 +166,13 @@ python3 build_mulval_game_config.py \
   --arcs ARCS.CSV \
   --goals 1,55 \
   --defendable vul \
-  --goal-reward 100 \
-  --goal-loss 100 \
+  --attack-cost-source score \
   --defense-cost 1 \
   --target-closure \
   --out mulval_game_config.json
 ```
+
+如果没有显式传入 `--goal-reward` / `--goal-loss`，配置生成器会先按无防御状态估算目标最小攻击成本，再自动设置 reward/loss，默认取“不小于最大目标成本 2 倍，且至少 1000”。
 
 然后编辑 `mulval_game_config.json` 中的：
 
@@ -215,6 +217,10 @@ attacker_utility          攻击者效用
 defender_utility          防御者效用，即目标成本的相反数
 objective_cost_form       defense_cost + attack_loss 的最优值
 target_closure            目标闭包裁剪统计
+cost_bound_formulation    成本 Big-M 形式，默认 local_dag_upper_bounds
+cost_big_m                实际局部成本上界中的最大值
+legacy_global_cost_big_m  旧全局 Big-M 公式对应值，用于对比数值尺度
+utility_big_m             攻击者最佳响应约束使用的最大效用松弛值
 timings_seconds           读入、建模、求解、提取结果等耗时
 ```
 
@@ -260,7 +266,7 @@ scale_10k     goals: 1, 50, 100, 200
 scale_100k    goals: 1, 50, 100, 200
 ```
 
-每个 case 固定使用 `--target-closure` 和 `--defendable vul`。
+每个 case 固定使用 `--target-closure`、`--defendable vul` 和 `--attack-cost-source score`。脚本会基于无防御状态下目标最小攻击成本自动标定 `--default-reward` / `--default-loss`，默认取“不小于最大目标成本 2 倍，且至少 1000”。
 
 只准备 CSV 和 goal_sets，不运行求解器：
 
@@ -273,6 +279,13 @@ python3 run_goal_count_benchmarks.py --prepare-only
 ```bash
 python3 run_goal_count_benchmarks.py \
   --solver scip \
+  --time-limit 600
+
+# 如需手动固定收益/损失，而不是自动标定：
+python3 run_goal_count_benchmarks.py \
+  --solver scip \
+  --default-reward 20000 \
+  --default-loss 20000 \
   --time-limit 600
 ```
 
@@ -292,5 +305,7 @@ python3 run_goal_count_benchmarks.py \
 - 防御动作只作用于 `LEAF` 节点；非 LEAF 节点不会被直接防御。
 - `attackerLocated` 开头的 LEAF 默认不可防御。
 - 大规模图建议使用 `--target-closure`，否则 MIP 规模可能非常大。
+- 求解器默认对 DAG 使用局部 Big-M：LEAF 用自身成本，AND 用自身成本加所有前提上界，OR 用前提上界最大值；这比旧的全局 Big-M 更紧，能缓解 LP 松弛和数值问题。
 - 如果使用 `--attack-cost-source score`，节点 CSV 的 `score` 为正时会作为攻击成本；否则使用默认成本。
+- 对 1..100 随机 score 成本的大图，不建议继续使用默认 reward=100。否则很多目标的最小攻击成本会远高于 reward，攻击者会大量选择空攻击，实验无法反映防御选择。benchmark 和配置生成器现在默认使用自动 reward/loss 标定。
 - 旧的弱斯塔克博弈扰动参数已经移除；不要再使用 `--tie-breaking weak` 或 `--tie-epsilon`。

@@ -8,7 +8,8 @@ mechanism and evaluates three graph scales:
   * scale_100k
 
 For every scale, the solver is run with goal counts 1, 50, 100, and 200. All
-runs use target-closure optimization and defendable=vul by default.
+runs use target-closure optimization, defendable=vul, score-based attack costs,
+and reward/loss values calibrated from no-defense goal derivation costs.
 """
 
 from __future__ import annotations
@@ -22,6 +23,7 @@ import time
 from pathlib import Path
 
 from generate_large_mulval_csv import build_graph, write_csv
+from mulval_cost_calibration import calibrate_goal_values, parse_csv_files
 
 
 DEFAULT_GOAL_COUNTS = {
@@ -29,6 +31,10 @@ DEFAULT_GOAL_COUNTS = {
     "scale_10k": [1, 50, 100, 200],
     "scale_100k": [1, 50, 100, 200],
 }
+
+DEFAULT_ATTACK_COST_SOURCE = "score"
+DEFAULT_REWARD_MULTIPLIER = 2.0
+DEFAULT_MIN_GOAL_REWARD = 1000.0
 
 # These parameters are chosen to land near thousand-, ten-thousand-, and
 # hundred-thousand-node graph sizes while always generating 200 target goals.
@@ -93,6 +99,19 @@ def append_summary(summary_path: Path, rows: list[dict]):
         "wall_seconds",
         "status",
         "solver",
+        "attack_cost_source",
+        "default_reward",
+        "default_loss",
+        "reward_source",
+        "loss_source",
+        "goal_min_attack_cost_min",
+        "goal_min_attack_cost_max",
+        "goal_min_attack_cost_avg",
+        "cost_bound_formulation",
+        "cost_big_m",
+        "legacy_global_cost_big_m",
+        "utility_big_m",
+        "utility_upper_bound",
         "defendable_mode",
         "target_closure_enabled",
         "objective_cost_form",
@@ -146,7 +165,17 @@ def write_goal_sets(scale_dir: Path, scale: str, goals: list[int], goal_counts: 
         )
 
 
-def prepare_scale(root: Path, scale: str, goal_counts: list[int], seed: int):
+def prepare_scale(
+    root: Path,
+    scale: str,
+    goal_counts: list[int],
+    seed: int,
+    attack_cost_source: str,
+    reward_multiplier: float,
+    min_goal_reward: float,
+    default_reward: float | None,
+    default_loss: float | None,
+):
     if scale not in DEFAULT_SCALE_CONFIGS:
         raise SystemExit(f"No generator config for scale: {scale}")
 
@@ -156,6 +185,16 @@ def prepare_scale(root: Path, scale: str, goal_counts: list[int], seed: int):
     config["seed"] = seed
 
     vertices, arcs, goal_nodes, structure = build_graph(**config)
+    calibration = calibrate_goal_values(
+        vertices=vertices,
+        arcs=arcs,
+        goals=goal_nodes,
+        attack_cost_source=attack_cost_source,
+        reward_multiplier=reward_multiplier,
+        min_goal_reward=min_goal_reward,
+        explicit_reward=default_reward,
+        explicit_loss=default_loss,
+    )
     write_csv(vertices, arcs, scale_dir / "VERTICES.CSV", scale_dir / "ARCS.CSV")
     write_goal_sets(scale_dir, scale, goal_nodes, goal_counts)
 
@@ -171,6 +210,10 @@ def prepare_scale(root: Path, scale: str, goal_counts: list[int], seed: int):
         "benchmark_protocol": {
             "target_closure": True,
             "defendable": "vul",
+            "attack_cost_source": attack_cost_source,
+            "default_reward": calibration["reward"],
+            "default_loss": calibration["loss"],
+            "reward_calibration": calibration,
         },
         "format": {
             "VERTICES.CSV": "id,label,type,score",
@@ -184,14 +227,77 @@ def prepare_scale(root: Path, scale: str, goal_counts: list[int], seed: int):
     )
     print(
         f"[prepare] {scale}: vertices={len(vertices)}, arcs={len(arcs)}, "
-        f"goals={len(goal_nodes)}, goal_counts={goal_counts}",
+        f"goals={len(goal_nodes)}, goal_counts={goal_counts}, "
+        f"cost={attack_cost_source}, reward={calibration['reward']:g}, loss={calibration['loss']:g}",
         flush=True,
     )
 
 
-def prepare_inputs(root: Path, scales: list[str], goal_counts_by_scale: dict[str, list[int]], seed: int):
+def prepare_inputs(
+    root: Path,
+    scales: list[str],
+    goal_counts_by_scale: dict[str, list[int]],
+    seed: int,
+    attack_cost_source: str,
+    reward_multiplier: float,
+    min_goal_reward: float,
+    default_reward: float | None,
+    default_loss: float | None,
+):
     for scale in scales:
-        prepare_scale(root, scale, goal_counts_by_scale[scale], seed)
+        prepare_scale(
+            root=root,
+            scale=scale,
+            goal_counts=goal_counts_by_scale[scale],
+            seed=seed,
+            attack_cost_source=attack_cost_source,
+            reward_multiplier=reward_multiplier,
+            min_goal_reward=min_goal_reward,
+            default_reward=default_reward,
+            default_loss=default_loss,
+        )
+
+
+def load_scale_goals(scale_dir: Path, goal_counts: list[int]) -> list[int]:
+    summary_path = scale_dir / "summary.json"
+    if summary_path.exists():
+        data = json.loads(summary_path.read_text(encoding="utf-8"))
+        goals = data.get("goals")
+        if goals:
+            return [int(goal) for goal in goals]
+
+    largest_goal_count = max(goal_counts)
+    goal_file = scale_dir / "goal_sets" / f"goals_{largest_goal_count}.txt"
+    if not goal_file.exists():
+        raise SystemExit(f"Missing goal file for calibration: {goal_file}")
+    return [
+        int(item.strip())
+        for item in goal_file.read_text(encoding="utf-8").split(",")
+        if item.strip()
+    ]
+
+
+def calibrate_scale_from_files(
+    scale_dir: Path,
+    goal_counts: list[int],
+    attack_cost_source: str,
+    reward_multiplier: float,
+    min_goal_reward: float,
+    default_reward: float | None,
+    default_loss: float | None,
+) -> dict:
+    vertices, arcs = parse_csv_files(scale_dir / "VERTICES.CSV", scale_dir / "ARCS.CSV")
+    goals = load_scale_goals(scale_dir, goal_counts)
+    return calibrate_goal_values(
+        vertices=vertices,
+        arcs=arcs,
+        goals=goals,
+        attack_cost_source=attack_cost_source,
+        reward_multiplier=reward_multiplier,
+        min_goal_reward=min_goal_reward,
+        explicit_reward=default_reward,
+        explicit_loss=default_loss,
+    )
 
 
 def build_row(
@@ -201,6 +307,7 @@ def build_row(
     wall_seconds: float,
     result_path: Path,
     log_path: Path,
+    calibration: dict,
 ) -> dict:
     result = load_result(result_path)
     closure = result.get("target_closure", {}) or {}
@@ -212,6 +319,19 @@ def build_row(
         "wall_seconds": round(wall_seconds, 6),
         "status": result.get("status"),
         "solver": result.get("solver"),
+        "attack_cost_source": result.get("attack_cost_source", calibration.get("attack_cost_source")),
+        "default_reward": calibration.get("reward"),
+        "default_loss": calibration.get("loss"),
+        "reward_source": calibration.get("reward_source"),
+        "loss_source": calibration.get("loss_source"),
+        "goal_min_attack_cost_min": calibration.get("goal_min_attack_cost_min"),
+        "goal_min_attack_cost_max": calibration.get("goal_min_attack_cost_max"),
+        "goal_min_attack_cost_avg": calibration.get("goal_min_attack_cost_avg"),
+        "cost_bound_formulation": result.get("cost_bound_formulation"),
+        "cost_big_m": result.get("cost_big_m"),
+        "legacy_global_cost_big_m": result.get("legacy_global_cost_big_m"),
+        "utility_big_m": result.get("utility_big_m"),
+        "utility_upper_bound": result.get("utility_upper_bound"),
         "defendable_mode": result.get("defendable_mode"),
         "target_closure_enabled": closure.get("enabled"),
         "objective_cost_form": result.get("objective_cost_form"),
@@ -244,6 +364,10 @@ def run_case(
     results_dir: Path,
     solver: str,
     defendable: str,
+    attack_cost_source: str,
+    default_reward: float,
+    default_loss: float,
+    calibration: dict,
     time_limit: float | None,
 ) -> dict:
     goal_file = scale_dir / "goal_sets" / f"goals_{goal_count}.txt"
@@ -266,6 +390,12 @@ def run_case(
         "--defendable",
         defendable,
         "--target-closure",
+        "--attack-cost-source",
+        attack_cost_source,
+        "--default-reward",
+        str(default_reward),
+        "--default-loss",
+        str(default_loss),
         "--solver",
         solver,
         "--out",
@@ -274,7 +404,11 @@ def run_case(
     if time_limit is not None:
         cmd.extend(["--time-limit", str(time_limit)])
 
-    print(f"[run] {scale}, goals={goal_count}, closure=on, defendable={defendable}", flush=True)
+    print(
+        f"[run] {scale}, goals={goal_count}, closure=on, defendable={defendable}, "
+        f"cost={attack_cost_source}, reward={default_reward:g}, loss={default_loss:g}",
+        flush=True,
+    )
     print("      " + " ".join(cmd[:2]) + " ...", flush=True)
     start = time.perf_counter()
     with log_path.open("w", encoding="utf-8") as log:
@@ -289,6 +423,7 @@ def run_case(
         wall_seconds=wall_seconds,
         result_path=result_path,
         log_path=log_path,
+        calibration=calibration,
     )
 
 
@@ -307,6 +442,36 @@ def main():
     parser.add_argument("--scales", default=None, help="Comma-separated subset, e.g. scale_1k,scale_10k")
     parser.add_argument("--goal-counts", default=None, help="Comma-separated override, e.g. 1,50,100,200")
     parser.add_argument("--seed", type=int, default=7, help="Seed passed to synthetic graph generation.")
+    parser.add_argument(
+        "--attack-cost-source",
+        choices=["constant", "score"],
+        default=DEFAULT_ATTACK_COST_SOURCE,
+        help="Benchmark attack-cost source. Defaults to score so generated random costs enter the solver.",
+    )
+    parser.add_argument(
+        "--default-reward",
+        type=float,
+        default=None,
+        help="Override the calibrated goal reward. By default it is calibrated from no-defense goal costs.",
+    )
+    parser.add_argument(
+        "--default-loss",
+        type=float,
+        default=None,
+        help="Override the calibrated goal loss. By default it equals the calibrated reward.",
+    )
+    parser.add_argument(
+        "--reward-multiplier",
+        type=float,
+        default=DEFAULT_REWARD_MULTIPLIER,
+        help="Auto reward is at least this multiplier times the largest no-defense goal cost.",
+    )
+    parser.add_argument(
+        "--min-goal-reward",
+        type=float,
+        default=DEFAULT_MIN_GOAL_REWARD,
+        help="Minimum auto-calibrated reward/loss value.",
+    )
     parser.add_argument(
         "--skip-prepare",
         action="store_true",
@@ -338,7 +503,17 @@ def main():
     goal_counts_by_scale = parse_goal_counts(args.goal_counts, DEFAULT_GOAL_COUNTS)
 
     if not args.skip_prepare:
-        prepare_inputs(root, scales, goal_counts_by_scale, args.seed)
+        prepare_inputs(
+            root=root,
+            scales=scales,
+            goal_counts_by_scale=goal_counts_by_scale,
+            seed=args.seed,
+            attack_cost_source=args.attack_cost_source,
+            reward_multiplier=args.reward_multiplier,
+            min_goal_reward=args.min_goal_reward,
+            default_reward=args.default_reward,
+            default_loss=args.default_loss,
+        )
     if args.prepare_only:
         return
 
@@ -349,6 +524,15 @@ def main():
     rows = []
     for scale in scales:
         scale_dir = root / scale
+        calibration = calibrate_scale_from_files(
+            scale_dir=scale_dir,
+            goal_counts=goal_counts_by_scale[scale],
+            attack_cost_source=args.attack_cost_source,
+            reward_multiplier=args.reward_multiplier,
+            min_goal_reward=args.min_goal_reward,
+            default_reward=args.default_reward,
+            default_loss=args.default_loss,
+        )
         for goal_count in goal_counts_by_scale[scale]:
             row = run_case(
                 python_exe=args.python,
@@ -359,6 +543,10 @@ def main():
                 results_dir=results_dir,
                 solver=args.solver,
                 defendable=args.defendable,
+                attack_cost_source=args.attack_cost_source,
+                default_reward=calibration["reward"],
+                default_loss=calibration["loss"],
+                calibration=calibration,
                 time_limit=args.time_limit,
             )
             rows.append(row)

@@ -173,6 +173,100 @@ def compute_cost_big_m(vertices: dict[int, dict], node_costs: dict[int, float]) 
     return (len(vertices) + 1) * max_single_cost + 1.0
 
 
+def validate_nonnegative_values(name: str, values: dict[int, float]):
+    negative = [(node_id, value) for node_id, value in values.items() if value < 0]
+    if negative:
+        preview = ", ".join(f"{node_id}:{value}" for node_id, value in negative[:10])
+        raise SystemExit(f"{name} must be non-negative for safe cost bounds. Found: {preview}")
+
+
+def compute_cost_upper_bounds(
+    vertices: dict[int, dict],
+    arcs: list[tuple[int, int]],
+    node_costs: dict[int, float],
+    fallback_big_m: float,
+) -> tuple[dict[int, float], dict]:
+    """Compute local safe upper bounds for minimum derivation costs.
+
+    Edges use conclusion -> prerequisite. For a DAG, a node's safe upper
+    bound under any defense is:
+      LEAF = leaf attack cost
+      AND  = action cost + sum(prerequisite upper bounds)
+      OR   = max(prerequisite upper bounds)
+
+    OR uses max, not min, because defenses may remove cheaper alternatives.
+    If a cycle is present, the cycle-affected nodes fall back to the legacy
+    global Big-M so the model remains buildable.
+    """
+    outgoing = defaultdict(list)
+    parents = defaultdict(list)
+    for src, dst in arcs:
+        if src not in vertices or dst not in vertices:
+            continue
+        outgoing[src].append(dst)
+        parents[dst].append(src)
+
+    remaining_children = {node_id: len(outgoing[node_id]) for node_id in vertices}
+    child_upper_sum = defaultdict(float)
+    child_upper_max = defaultdict(float)
+    cost_upper: dict[int, float] = {}
+
+    queue = sorted(node_id for node_id, count in remaining_children.items() if count == 0)
+    index = 0
+    while index < len(queue):
+        node_id = queue[index]
+        index += 1
+        node_type = vertices[node_id]["type"]
+
+        if node_id not in cost_upper:
+            if node_type == "LEAF":
+                cost_upper[node_id] = node_costs[node_id]
+            elif node_type in {"AND", "OR"}:
+                cost_upper[node_id] = 0.0
+            else:
+                raise SystemExit(f"Unknown node type for {node_id}: {node_type}")
+
+        for parent_id in parents[node_id]:
+            parent_type = vertices[parent_id]["type"]
+            if parent_type == "AND":
+                child_upper_sum[parent_id] += cost_upper[node_id]
+            elif parent_type == "OR":
+                child_upper_max[parent_id] = max(child_upper_max[parent_id], cost_upper[node_id])
+
+            remaining_children[parent_id] -= 1
+            if remaining_children[parent_id] != 0:
+                continue
+
+            if parent_type == "LEAF":
+                cost_upper[parent_id] = node_costs[parent_id]
+            elif parent_type == "AND":
+                cost_upper[parent_id] = node_costs[parent_id] + child_upper_sum[parent_id]
+            elif parent_type == "OR":
+                cost_upper[parent_id] = child_upper_max[parent_id]
+            else:
+                raise SystemExit(f"Unknown node type for {parent_id}: {parent_type}")
+            queue.append(parent_id)
+
+    fallback_nodes = sorted(node_id for node_id in vertices if node_id not in cost_upper)
+    for node_id in fallback_nodes:
+        cost_upper[node_id] = fallback_big_m
+
+    values = list(cost_upper.values())
+    stats = {
+        "formulation": "local_dag_upper_bounds",
+        "fallback_due_to_cycle": bool(fallback_nodes),
+        "fallback_node_count": len(fallback_nodes),
+        "fallback_big_m": fallback_big_m,
+        "min": min(values) if values else 0.0,
+        "max": max(values) if values else 0.0,
+        "avg": sum(values) / len(values) if values else 0.0,
+    }
+    if fallback_nodes:
+        stats["formulation"] = "local_bounds_with_global_fallback_for_cycles"
+        stats["sample_fallback_nodes"] = fallback_nodes[:10]
+    return cost_upper, stats
+
+
 def build_graph_indexes(arcs: list[tuple[int, int]]):
     outgoing = defaultdict(list)
     indegree = Counter()
@@ -454,13 +548,31 @@ def solve_game(
         )
         for node_id, node in vertices.items()
     }
-    cost_big_m = (
+    validate_nonnegative_values("attack costs", attack_costs)
+
+    legacy_cost_big_m = (
         cost_big_m_override
         if cost_big_m_override is not None
         else compute_cost_big_m(vertices, attack_costs)
     )
-    max_reward = max([0.0] + [abs(rewards[g]) for g in goals])
-    utility_big_m = cost_big_m + max_reward + 1.0
+    if legacy_cost_big_m < 0:
+        raise SystemExit("--cost-big-m must be non-negative")
+
+    cost_upper_bounds, cost_upper_stats = compute_cost_upper_bounds(
+        vertices=vertices,
+        arcs=arcs,
+        node_costs=attack_costs,
+        fallback_big_m=legacy_cost_big_m,
+    )
+    cost_big_m = cost_upper_stats["max"]
+
+    utility_upper_bound = max([0.0] + [rewards[g] for g in goals])
+    utility_goal_big_m = {
+        g: utility_upper_bound - min(0.0, rewards[g] - cost_upper_bounds[g])
+        for g in goals
+    }
+    utility_empty_big_m = utility_upper_bound
+    utility_big_m = max([utility_empty_big_m] + list(utility_goal_big_m.values()) + [0.0])
 
     leaves = sorted(node_id for node_id, node in vertices.items() if node["type"] == "LEAF")
     if defendable_mode_from_cli:
@@ -494,7 +606,12 @@ def solve_game(
 
     # c_i: minimum attack derivation cost for node i if x_i = 1; zero when x_i = 0.
     c = {
-        node_id: model.addVar(vtype="C", lb=0.0, ub=cost_big_m, name=f"min_cost_{node_id}")
+        node_id: model.addVar(
+            vtype="C",
+            lb=0.0,
+            ub=cost_upper_bounds[node_id],
+            name=f"min_cost_{node_id}",
+        )
         for node_id in sorted(vertices)
     }
 
@@ -509,7 +626,7 @@ def solve_game(
     attacker_max_utility = model.addVar(
         vtype="C",
         lb=0.0,
-        ub=utility_big_m,
+        ub=utility_upper_bound,
         name="attacker_max_utility",
     )
 
@@ -551,7 +668,8 @@ def solve_game(
         children = sorted(outgoing[node_id])
         node_type = node["type"]
 
-        model.addCons(c[node_id] <= cost_big_m * x[node_id], name=f"cost_{node_id}_zero_if_unreachable")
+        node_cost_upper = cost_upper_bounds[node_id]
+        model.addCons(c[node_id] <= node_cost_upper * x[node_id], name=f"cost_{node_id}_zero_if_unreachable")
 
         if node_type == "LEAF":
             model.addCons(c[node_id] == attack_costs[node_id] * x[node_id], name=f"cost_leaf_{node_id}")
@@ -562,11 +680,11 @@ def solve_game(
                 continue
             rhs = attack_costs[node_id] + quicksum(c[child] for child in children)
             model.addCons(
-                c[node_id] >= rhs - cost_big_m * (1 - x[node_id]),
+                c[node_id] >= rhs - node_cost_upper * (1 - x[node_id]),
                 name=f"cost_and_{node_id}_lower",
             )
             model.addCons(
-                c[node_id] <= rhs + cost_big_m * (1 - x[node_id]),
+                c[node_id] <= rhs + node_cost_upper * (1 - x[node_id]),
                 name=f"cost_and_{node_id}_upper",
             )
 
@@ -581,19 +699,21 @@ def solve_game(
                 selected_children.append(selector)
                 model.addCons(selector <= x[child], name=f"cost_or_{node_id}_select_reachable_{child}")
 
+                child_cost_upper = cost_upper_bounds[child]
+
                 # If child is reachable, OR cost cannot exceed that child's cost.
                 model.addCons(
-                    c[node_id] <= c[child] + cost_big_m * (1 - x[child]),
+                    c[node_id] <= c[child] + node_cost_upper * (1 - x[child]),
                     name=f"cost_or_{node_id}_le_child_{child}",
                 )
 
                 # If this child is selected, OR cost equals this child's cost.
                 model.addCons(
-                    c[node_id] >= c[child] - cost_big_m * (1 - selector),
+                    c[node_id] >= c[child] - child_cost_upper * (1 - selector),
                     name=f"cost_or_{node_id}_selected_lower_{child}",
                 )
                 model.addCons(
-                    c[node_id] <= c[child] + cost_big_m * (1 - selector),
+                    c[node_id] <= c[child] + node_cost_upper * (1 - selector),
                     name=f"cost_or_{node_id}_selected_upper_{child}",
                 )
 
@@ -620,12 +740,12 @@ def solve_game(
             name=f"max_utility_ge_goal_{g}",
         )
         model.addCons(
-            attacker_max_utility <= goal_utility + utility_big_m * (1 - y_goal[g]),
+            attacker_max_utility <= goal_utility + utility_goal_big_m[g] * (1 - y_goal[g]),
             name=f"choose_goal_{g}_attains_max_utility",
         )
 
     model.addCons(
-        attacker_max_utility <= utility_big_m * (1 - y_empty),
+        attacker_max_utility <= utility_empty_big_m * (1 - y_empty),
         name="choose_empty_attains_max_utility",
     )
 
@@ -676,7 +796,12 @@ def solve_game(
         "default_action_cost": default_action_cost,
         "default_leaf_cost": default_leaf_cost,
         "attack_cost_source": attack_cost_source,
+        "cost_bound_formulation": cost_upper_stats["formulation"],
         "cost_big_m": cost_big_m,
+        "legacy_global_cost_big_m": legacy_cost_big_m,
+        "cost_upper_bound_stats": cost_upper_stats,
+        "utility_big_m": utility_big_m,
+        "utility_upper_bound": utility_upper_bound,
         "budget": budget,
         "target_closure": target_closure_stats,
         "timings_seconds": timings,
@@ -808,7 +933,7 @@ def main():
         "--cost-big-m",
         type=float,
         default=None,
-        help="Optional manual Big-M for attack-cost constraints.",
+        help="Optional legacy global Big-M used as fallback for cyclic graphs; DAGs use local cost upper bounds by default.",
     )
     parser.add_argument(
         "--target-closure",

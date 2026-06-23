@@ -1,0 +1,77 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 255,
+      "label": "execCode(crown_jewel_crown19,root,goal0)",
+      "reward": 2578.0,
+      "loss": 2578.0
+    }
+  ],
+  "defendable_leaf_count": 13,
+  "defendable_mode": "vul",
+  "default_defense_cost": 1.0,
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "score",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 1547.0,
+  "legacy_global_cost_big_m": 8052.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 8052.0,
+    "min": 1.0,
+    "max": 1547.0,
+    "avg": 525.2073170731708
+  },
+  "utility_big_m": 2578.0,
+  "utility_upper_bound": 2578.0,
+  "budget": null,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1254,
+    "original_arcs": 2016,
+    "reduced_vertices": 82,
+    "reduced_arcs": 86,
+    "removed_vertices": 1172,
+    "removed_arcs": 1930,
+    "goal_count": 1
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 0.00029381364583969116,
+    "resolve_game_defaults": 7.430091500282288e-06,
+    "target_closure": 0.00033665401861071587,
+    "build_parameters": 9.428244084119797e-05,
+    "build_mip": 0.044478219002485275,
+    "optimize": 0.005665394011884928,
+    "extract_solution": 1.8041115254163742e-05,
+    "total_solve_game": 0.050893834326416254,
+    "read_csv": 0.0011447449214756489,
+    "read_config": 3.8975849747657776e-07,
+    "solve_game_call": 0.05132652912288904,
+    "total_wall": 0.052473853807896376
+  },
+  "selected_defenses": [
+    {
+      "id": 13,
+      "label": "vulExists(dmz1,CVE-SYN-0001-01-00,api1,remoteExploit,privEscalation)",
+      "cost": 1.0
+    }
+  ],
+  "reachable_goals": [],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "attacker_utility": 0.0,
+  "defender_utility": -1.0,
+  "objective_cost_form": 1.0
+}

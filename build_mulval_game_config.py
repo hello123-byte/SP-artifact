@@ -15,6 +15,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from mulval_cost_calibration import calibrate_goal_values
+
 
 def safe_print(text: str):
     encoding = sys.stdout.encoding or "utf-8"
@@ -122,8 +124,8 @@ def build_config(
     goal_ids: list[int] | None,
     summary_goal_ids: list[int] | None,
     defendable_mode: str,
-    goal_reward: float,
-    goal_loss: float,
+    goal_reward: float | None,
+    goal_loss: float | None,
     defense_cost: float,
     attack_cost_source: str,
     action_attack_cost: float,
@@ -132,11 +134,28 @@ def build_config(
     cost_big_m: float | None,
     target_closure: bool,
     solver: str,
+    reward_multiplier: float,
+    min_goal_reward: float,
 ):
     goals, goal_source = select_goals(vertices, arcs, goal_ids, summary_goal_ids)
     missing_goals = [goal for goal in goals if goal not in vertices]
     if missing_goals:
         raise SystemExit(f"Unknown goal id(s): {missing_goals}")
+
+    calibration = calibrate_goal_values(
+        vertices=vertices,
+        arcs=arcs,
+        goals=goals,
+        attack_cost_source=attack_cost_source,
+        reward_multiplier=reward_multiplier,
+        min_goal_reward=min_goal_reward,
+        explicit_reward=goal_reward,
+        explicit_loss=goal_loss,
+        default_action_cost=action_attack_cost,
+        default_leaf_cost=leaf_attack_cost,
+    )
+    goal_reward = calibration["reward"]
+    goal_loss = calibration["loss"]
 
     nodes = []
     for node_id, node in sorted(vertices.items()):
@@ -176,7 +195,9 @@ def build_config(
                 "Edit goal reward/loss values in goals.",
                 "Edit attack_cost, defendable, and defense_cost values in nodes.",
                 "The solver does not enumerate attack paths; it computes minimum AND/OR derivation cost implicitly.",
+                "When goal reward/loss is not provided, values are calibrated from no-defense minimum goal costs.",
             ],
+            "reward_calibration": calibration,
         },
         "defaults": {
             "defendable_mode": defendable_mode,
@@ -229,16 +250,38 @@ def main():
         choices=["all", "vul", "hacl", "vul_hacl"],
         default="all",
     )
-    parser.add_argument("--goal-reward", type=float, default=100.0)
-    parser.add_argument("--goal-loss", type=float, default=100.0)
+    parser.add_argument(
+        "--goal-reward",
+        type=float,
+        default=None,
+        help="Override the auto-calibrated goal reward.",
+    )
+    parser.add_argument(
+        "--goal-loss",
+        type=float,
+        default=None,
+        help="Override the auto-calibrated goal loss. Defaults to the calibrated reward.",
+    )
     parser.add_argument("--defense-cost", type=float, default=1.0)
     parser.add_argument(
         "--attack-cost-source",
         choices=["constant", "score"],
-        default="constant",
+        default="score",
     )
     parser.add_argument("--action-attack-cost", type=float, default=1.0)
     parser.add_argument("--leaf-attack-cost", type=float, default=0.0)
+    parser.add_argument(
+        "--reward-multiplier",
+        type=float,
+        default=2.0,
+        help="Auto reward is at least this multiplier times the largest no-defense goal cost.",
+    )
+    parser.add_argument(
+        "--min-goal-reward",
+        type=float,
+        default=1000.0,
+        help="Minimum auto-calibrated reward/loss value.",
+    )
     parser.add_argument("--budget", type=float, default=None)
     parser.add_argument("--cost-big-m", type=float, default=None)
     parser.add_argument(
@@ -274,6 +317,8 @@ def main():
         cost_big_m=args.cost_big_m,
         target_closure=args.target_closure,
         solver=args.solver,
+        reward_multiplier=args.reward_multiplier,
+        min_goal_reward=args.min_goal_reward,
     )
 
     out_path = Path(args.out)
@@ -283,6 +328,14 @@ def main():
     safe_print(f"goals: {[goal['id'] for goal in config['goals']]}")
     safe_print(f"nodes: {len(config['nodes'])}")
     safe_print(f"defendable leaves: {sum(1 for node in config['nodes'] if node['defendable'])}")
+    calibration = config["metadata"].get("reward_calibration", {})
+    safe_print(
+        "cost/reward: "
+        f"source={config['defaults']['attack_cost_source']} "
+        f"reward={config['defaults']['goal_reward']} "
+        f"loss={config['defaults']['goal_loss']} "
+        f"max_goal_cost={calibration.get('goal_min_attack_cost_max')}"
+    )
 
 
 if __name__ == "__main__":
