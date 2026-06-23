@@ -503,6 +503,16 @@ def solve_game(
     y_empty = model.addVar(vtype="B", name="choose_empty")
     y_goal = {goal: model.addVar(vtype="B", name=f"choose_goal_{goal}") for goal in goals}
 
+    # U: maximum attacker net utility across all reachable goals and empty attack.
+    # This avoids pairwise goal comparisons and keeps best-response constraints
+    # linear in the number of goals.
+    attacker_max_utility = model.addVar(
+        vtype="C",
+        lb=0.0,
+        ub=utility_big_m,
+        name="attacker_max_utility",
+    )
+
     # LEAF semantics: defendable facts are true unless defended; non-defendable
     # facts remain true.
     for node_id in defendable:
@@ -601,27 +611,23 @@ def solve_game(
     #   empty = 0
     #   goal g = reward_g - min_cost_g if reachable
     #
-    # For non-selected goals, reward_h * x_h - min_cost_h is <= 0 if unreachable.
+    # U is forced to be the maximum attacker utility. A selected response must
+    # attain U, so the attacker can choose only empty or a maximum-utility goal.
     for g in goals:
-        for h in goals:
-            if g == h:
-                continue
-            model.addCons(
-                rewards[g] - c[g]
-                >= rewards[h] * x[h] - c[h] - utility_big_m * (1 - y_goal[g]),
-                name=f"br_goal_{g}_ge_goal_{h}",
-            )
+        goal_utility = rewards[g] * x[g] - c[g]
         model.addCons(
-            rewards[g] - c[g] >= -utility_big_m * (1 - y_goal[g]),
-            name=f"br_goal_{g}_ge_empty",
+            attacker_max_utility >= goal_utility,
+            name=f"max_utility_ge_goal_{g}",
+        )
+        model.addCons(
+            attacker_max_utility <= goal_utility + utility_big_m * (1 - y_goal[g]),
+            name=f"choose_goal_{g}_attains_max_utility",
         )
 
-    for h in goals:
-        model.addCons(
-            0
-            >= rewards[h] * x[h] - c[h] - utility_big_m * (1 - y_empty),
-            name=f"br_empty_ge_goal_{h}",
-        )
+    model.addCons(
+        attacker_max_utility <= utility_big_m * (1 - y_empty),
+        name="choose_empty_attains_max_utility",
+    )
 
     defense_cost = quicksum(
         defense_costs.get(node_id, default_defense_cost) * d[node_id] for node_id in defendable
@@ -649,6 +655,7 @@ def solve_game(
         "does_not_enumerate_attack_paths": True,
         "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
         "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+        "best_response_formulation": "max_attacker_utility_variable",
         "cost_model_note": (
             "The attack cost is a minimum AND/OR derivation cost. AND nodes add "
             "their action cost and all prerequisite costs; OR nodes select the "
