@@ -61,11 +61,14 @@ def is_defendable_leaf(label: str, mode: str) -> bool:
 
 
 def default_attack_cost(node: dict, attack_cost_source: str, action_cost: float, leaf_cost: float) -> float:
+    node_type = node["type"]
+    if node_type == "OR":
+        return 0.0
     if attack_cost_source == "score" and node["score"] > 0:
         return float(node["score"])
-    if node["type"] == "AND":
+    if node_type == "AND":
         return action_cost
-    if node["type"] == "LEAF":
+    if node_type == "LEAF":
         return leaf_cost
     return 0.0
 

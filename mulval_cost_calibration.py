@@ -52,11 +52,14 @@ def node_attack_cost(
     default_action_cost: float,
     default_leaf_cost: float,
 ) -> float:
+    node_type = node["type"]
+    if node_type == "OR":
+        return 0.0
     if attack_cost_source == "score" and node["score"] > 0:
         return float(node["score"])
-    if node["type"] == "AND":
+    if node_type == "AND":
         return float(default_action_cost)
-    if node["type"] == "LEAF":
+    if node_type == "LEAF":
         return float(default_leaf_cost)
     return 0.0
 
