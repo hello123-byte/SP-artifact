@@ -326,7 +326,7 @@ def compute_dependency_closure(
 class GurobiModelAdapter:
     """Small adapter so the model-building code can support SCIP and Gurobi."""
 
-    def __init__(self, name: str, time_limit: float | None):
+    def __init__(self, name: str, time_limit: float | None, mip_gap: float | None):
         try:
             import gurobipy as gp
         except ImportError as exc:
@@ -340,6 +340,8 @@ class GurobiModelAdapter:
         self.model = gp.Model(name)
         if time_limit is not None:
             self.model.Params.TimeLimit = time_limit
+        if mip_gap is not None:
+            self.model.Params.MIPGap = mip_gap
 
     def addVar(self, vtype: str, lb: float = 0.0, ub=None, name: str | None = None):
         var_type = {
@@ -389,11 +391,14 @@ class GurobiModelAdapter:
     def getObjVal(self):
         return self.model.ObjVal
 
+    def getGap(self):
+        return self.model.MIPGap
+
     def getVal(self, var):
         return var.X
 
 
-def create_model_backend(solver: str, time_limit: float | None):
+def create_model_backend(solver: str, time_limit: float | None, mip_gap: float | None):
     if solver == "scip":
         try:
             from pyscipopt import Model, quicksum
@@ -406,6 +411,8 @@ def create_model_backend(solver: str, time_limit: float | None):
         model = Model("mulval_cost_sensitive_stackelberg")
         if time_limit is not None:
             model.setRealParam("limits/time", time_limit)
+        if mip_gap is not None:
+            model.setRealParam("limits/gap", mip_gap)
         return model, quicksum
 
     if solver == "gurobi":
@@ -416,7 +423,7 @@ def create_model_backend(solver: str, time_limit: float | None):
                 "gurobipy is not installed in this Python environment. "
                 "Install it and make sure a valid Gurobi license is available."
             ) from exc
-        return GurobiModelAdapter("mulval_cost_sensitive_stackelberg", time_limit), gp.quicksum
+        return GurobiModelAdapter("mulval_cost_sensitive_stackelberg", time_limit, mip_gap), gp.quicksum
 
     raise SystemExit(f"Unknown solver: {solver}")
 
@@ -441,6 +448,7 @@ def solve_game(
     cost_big_m_override: float | None,
     target_closure: bool | None,
     time_limit: float | None,
+    mip_gap: float | None,
     solver: str | None,
     write_lp: str | None,
 ):
@@ -475,6 +483,11 @@ def solve_game(
     default_leaf_cost = float(config_defaults.get("leaf_attack_cost", default_leaf_cost))
     cost_big_m_override = coalesce(cost_big_m_override, config_defaults.get("cost_big_m"))
     target_closure = bool(coalesce(target_closure, config_defaults.get("target_closure"), False))
+    mip_gap = coalesce(mip_gap, config_defaults.get("mip_gap"))
+    if mip_gap is not None:
+        mip_gap = float(mip_gap)
+        if mip_gap < 0:
+            raise SystemExit("--mip-gap must be non-negative")
     solver = coalesce(solver, config_defaults.get("solver"), "scip")
 
     if goal_ids:
@@ -598,7 +611,7 @@ def solve_game(
     timings["build_parameters"] = time.perf_counter() - stage_start
 
     stage_start = time.perf_counter()
-    model, quicksum = create_model_backend(solver, time_limit)
+    model, quicksum = create_model_backend(solver, time_limit, mip_gap)
 
     # x_i: node i is true/reachable after defense.
     x = {node_id: model.addVar(vtype="B", name=f"x_{node_id}") for node_id in sorted(vertices)}
@@ -805,6 +818,8 @@ def solve_game(
         "utility_big_m": utility_big_m,
         "utility_upper_bound": utility_upper_bound,
         "budget": budget,
+        "mip_gap_limit": mip_gap,
+        "relative_gap": None,
         "target_closure": target_closure_stats,
         "timings_seconds": timings,
         "selected_defenses": [],
@@ -823,6 +838,8 @@ def solve_game(
     objective = model.getObjVal()
     result["objective_cost_form"] = objective
     result["defender_utility"] = -objective
+    if hasattr(model, "getGap"):
+        result["relative_gap"] = float(model.getGap())
 
     for node_id in defendable:
         if model.getVal(d[node_id]) > 0.5:
@@ -953,6 +970,12 @@ def main():
     )
     parser.add_argument("--time-limit", type=float, default=None)
     parser.add_argument(
+        "--mip-gap",
+        type=float,
+        default=None,
+        help="Optional relative MIP gap stopping threshold; 0.01 means 1 percent.",
+    )
+    parser.add_argument(
         "--solver",
         choices=["scip", "gurobi"],
         default=None,
@@ -994,6 +1017,7 @@ def main():
         budget=args.budget,
         attack_cost_source=args.attack_cost_source,
         default_action_cost=args.default_action_cost,
+        mip_gap=args.mip_gap,
         default_leaf_cost=args.default_leaf_cost,
         node_attack_costs_raw=args.node_attack_costs,
         cost_big_m_override=args.cost_big_m,

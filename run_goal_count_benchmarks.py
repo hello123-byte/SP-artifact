@@ -35,6 +35,7 @@ DEFAULT_GOAL_COUNTS = {
 DEFAULT_ATTACK_COST_SOURCE = "score"
 DEFAULT_REWARD_MULTIPLIER = 2.0
 DEFAULT_MIN_GOAL_REWARD = 1000.0
+DEFAULT_MIP_GAP = 0.01
 
 # These parameters are chosen to land near thousand-, ten-thousand-, and
 # hundred-thousand-node graph sizes while always generating 200 target goals.
@@ -99,6 +100,8 @@ def append_summary(summary_path: Path, rows: list[dict]):
         "wall_seconds",
         "status",
         "solver",
+        "mip_gap_limit",
+        "relative_gap",
         "attack_cost_source",
         "default_reward",
         "default_loss",
@@ -319,6 +322,8 @@ def build_row(
         "wall_seconds": round(wall_seconds, 6),
         "status": result.get("status"),
         "solver": result.get("solver"),
+        "mip_gap_limit": result.get("mip_gap_limit"),
+        "relative_gap": result.get("relative_gap"),
         "attack_cost_source": result.get("attack_cost_source", calibration.get("attack_cost_source")),
         "default_reward": calibration.get("reward"),
         "default_loss": calibration.get("loss"),
@@ -365,6 +370,7 @@ def run_case(
     solver: str,
     defendable: str,
     attack_cost_source: str,
+    mip_gap: float | None,
     default_reward: float,
     default_loss: float,
     calibration: dict,
@@ -406,10 +412,12 @@ def run_case(
     ]
     if time_limit is not None:
         cmd.extend(["--time-limit", str(time_limit)])
+    if mip_gap is not None:
+        cmd.extend(["--mip-gap", str(mip_gap)])
 
     print(
         f"[run] {scale}, goals={goal_count}, closure=on, defendable={defendable}, "
-        f"cost={attack_cost_source}, reward={default_reward:g}, loss={default_loss:g}",
+        f"cost={attack_cost_source}, reward={default_reward:g}, loss={default_loss:g}, gap={mip_gap}",
         flush=True,
     )
     print("      " + " ".join(cmd[:2]) + " ...", flush=True)
@@ -486,12 +494,20 @@ def main():
         help="Regenerate benchmark CSV/goal_sets and exit without running solvers.",
     )
     parser.add_argument(
+        "--mip-gap",
+        type=float,
+        default=DEFAULT_MIP_GAP,
+        help="Relative MIP gap stopping threshold. Defaults to 0.01 (1 percent); use 0 for exact optimization.",
+    )
+    parser.add_argument(
         "--time-limit",
         type=float,
         default=None,
         help="Optional solver time limit. Omit this argument for unlimited runs.",
     )
     args = parser.parse_args()
+    if args.mip_gap < 0:
+        raise SystemExit("--mip-gap must be non-negative")
 
     repo = Path(__file__).resolve().parent
     root = Path(args.root)
@@ -551,6 +567,7 @@ def main():
                 default_loss=calibration["loss"],
                 calibration=calibration,
                 time_limit=args.time_limit,
+                mip_gap=args.mip_gap,
             )
             rows.append(row)
             append_summary(summary_path, rows)
