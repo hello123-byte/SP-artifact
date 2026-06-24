@@ -20,7 +20,8 @@ structure rather than merely inflate node/edge counts:
   * The graph is a DAG: no head-to-tail dependency cycle is allowed.
   * Each AND rule depends on at most one OR prerequisite plus one or more
     LEAF prerequisites; AND-to-AND prerequisites are rejected.
-  * LEAF nodes have no prerequisite edges.
+  * LEAF nodes have no prerequisite edges and every emitted LEAF is consumed
+    by at least one AND rule.
   * Every non-LEAF node must have at least one prerequisite edge.
   * Network reachability is segmented: only a small DMZ-like entry set is
     directly reachable from the internet; internal access is produced by
@@ -196,6 +197,11 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         for node_id, node in vertices_by_id.items()
         if node["type"] == "LEAF" and outgoing[node_id]
     ]
+    leaf_nodes_without_consumers = [
+        node_id
+        for node_id, node in vertices_by_id.items()
+        if node["type"] == "LEAF" and not incoming[node_id]
+    ]
     non_leaf_nodes_without_prerequisites = [
         node_id
         for node_id, node in vertices_by_id.items()
@@ -260,6 +266,7 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         "type_counts": dict(Counter(node_type for _, _, node_type, _ in vertices)),
         "missing_arc_endpoints": len(missing_arc_endpoints),
         "leaf_nodes_with_prerequisites": len(leaf_nodes_with_prerequisites),
+        "leaf_nodes_without_consumers": len(leaf_nodes_without_consumers),
         "non_leaf_nodes_without_prerequisites": len(non_leaf_nodes_without_prerequisites),
         "and_nodes_without_prerequisites": len(and_without_prerequisites),
         "or_nodes_without_producers": len(or_without_producers),
@@ -276,6 +283,10 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
                 ],
             }
             for node_id in leaf_nodes_with_prerequisites[:10]
+        ],
+        "sample_leaf_nodes_without_consumers": [
+            {"id": node_id, "label": vertices_by_id[node_id]["label"]}
+            for node_id in leaf_nodes_without_consumers[:10]
         ],
         "sample_non_leaf_nodes_without_prerequisites": [
             {"id": node_id, "type": vertices_by_id[node_id]["type"], "label": vertices_by_id[node_id]["label"]}
@@ -327,6 +338,10 @@ def validate_graph_structure(vertices, arcs, goal_nodes: list[int]) -> dict:
         errors.append(f"directed cycle detected involving {diagnostics['cyclic_node_count']} node(s)")
     if diagnostics["leaf_nodes_with_prerequisites"]:
         errors.append(f"{diagnostics['leaf_nodes_with_prerequisites']} LEAF node(s) have prerequisites")
+    if diagnostics["leaf_nodes_without_consumers"]:
+        errors.append(
+            f"{diagnostics['leaf_nodes_without_consumers']} LEAF node(s) are not consumed by any AND rule"
+        )
     if diagnostics["non_leaf_nodes_without_prerequisites"]:
         errors.append(
             f"{diagnostics['non_leaf_nodes_without_prerequisites']} non-LEAF node(s) have no prerequisites"
@@ -346,6 +361,29 @@ def validate_graph_structure(vertices, arcs, goal_nodes: list[int]) -> dict:
     if errors:
         raise SystemExit("Generated graph violates structural constraints: " + "; ".join(errors))
     return diagnostics
+
+
+def prune_unconsumed_leaves(vertices, arcs):
+    """Remove LEAF facts that are not prerequisites of any AND rule."""
+    vertices_by_id = {
+        node_id: {"type": node_type}
+        for node_id, _, node_type, _ in vertices
+    }
+    consumed_leaf_ids = {
+        dst
+        for src, dst in arcs
+        if vertices_by_id.get(src, {}).get("type") == "AND"
+        and vertices_by_id.get(dst, {}).get("type") == "LEAF"
+    }
+    removed = [
+        vertex
+        for vertex in vertices
+        if vertex[2] == "LEAF" and vertex[0] not in consumed_leaf_ids
+    ]
+    removed_ids = {node_id for node_id, _, _, _ in removed}
+    kept_vertices = [vertex for vertex in vertices if vertex[0] not in removed_ids]
+    kept_arcs = [(src, dst) for src, dst in arcs if src not in removed_ids and dst not in removed_ids]
+    return kept_vertices, kept_arcs, removed
 
 
 def build_graph(
@@ -523,6 +561,8 @@ def build_graph(
             goal_rule_count += 1
         goal_nodes.append(goal_id)
 
+    vertices, arcs, pruned_leaf_nodes = prune_unconsumed_leaves(vertices, arcs)
+
     structure = {
         "host_zones": dict(Counter(zones)),
         "entry_host_count": entry_host_count,
@@ -532,9 +572,14 @@ def build_graph(
         "remote_exploit_rules": remote_exploit_rules,
         "local_privilege_rules": local_privilege_rules,
         "goal_rules": goal_rule_count,
+        "pruned_unconsumed_leaf_count": len(pruned_leaf_nodes),
+        "sample_pruned_unconsumed_leaves": [
+            {"id": node_id, "label": label}
+            for node_id, label, _, _ in pruned_leaf_nodes[:10]
+        ],
         "score_range": [1, 100],
         "and_prerequisite_rule": "Each AND node has at most one OR prerequisite and at least one LEAF prerequisite. AND-to-AND prerequisites are rejected.",
-        "leaf_prerequisite_rule": "LEAF nodes must have no prerequisite edges.",
+        "leaf_prerequisite_rule": "LEAF nodes must have no prerequisite edges and must be consumed by at least one AND rule.",
         "non_leaf_prerequisite_rule": "Every non-LEAF node must have at least one prerequisite edge.",
         "cycle_rule": "The generated dependency graph must be acyclic under conclusion -> prerequisite edges.",
         "notes": [
@@ -542,6 +587,7 @@ def build_graph(
             "Internal netAccess is inferred from compromised earlier hosts plus hacl facts.",
             "Remote exploit AND rules converge on per-host execCode(user) OR nodes.",
             "Local privilege escalation produces per-host execCode(root) OR nodes.",
+            "Unconsumed LEAF facts are pruned before CSV output.",
         ],
     }
 
