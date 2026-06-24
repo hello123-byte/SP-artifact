@@ -35,7 +35,7 @@ DEFAULT_GOAL_COUNTS = {
 DEFAULT_ATTACK_COST_SOURCE = "score"
 DEFAULT_REWARD_MULTIPLIER = 2.0
 DEFAULT_MIN_GOAL_REWARD = 1000.0
-DEFAULT_MIP_GAP = 0.01
+DEFAULT_MIP_GAP = 0.0
 
 # These parameters are chosen to land near thousand-, ten-thousand-, and
 # hundred-thousand-node graph sizes while always generating 200 target goals.
@@ -497,7 +497,7 @@ def main():
         "--mip-gap",
         type=float,
         default=DEFAULT_MIP_GAP,
-        help="Relative MIP gap stopping threshold. Defaults to 0.01 (1 percent); use 0 for exact optimization.",
+        help="Relative MIP gap stopping threshold. Defaults to 0 for exact optimization.",
     )
     parser.add_argument(
         "--time-limit",
