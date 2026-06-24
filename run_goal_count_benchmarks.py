@@ -157,15 +157,6 @@ def write_goal_sets(scale_dir: Path, scale: str, goals: list[int], goal_counts: 
             ",".join(str(goal_id) for goal_id in selected),
             encoding="utf-8",
         )
-        summary = {
-            "scale": scale,
-            "goal_count": goal_count,
-            "goals": selected,
-        }
-        (goal_sets_dir / f"summary_goals_{goal_count}.json").write_text(
-            json.dumps(summary, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
 
 
 def prepare_scale(
