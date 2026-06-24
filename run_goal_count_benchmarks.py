@@ -47,14 +47,14 @@ DEFAULT_SCALE_CONFIGS = {
         "goals": 200,
     },
     "scale_10k": {
-        "hosts": 600,
+        "hosts": 700,
         "services_per_host": 2,
         "vuln_per_service": 2,
         "lateral_rules_per_host": 1,
         "goals": 200,
     },
     "scale_100k": {
-        "hosts": 6500,
+        "hosts": 8000,
         "services_per_host": 2,
         "vuln_per_service": 2,
         "lateral_rules_per_host": 1,
@@ -377,6 +377,9 @@ def run_case(
     goals = goal_file.read_text(encoding="utf-8").strip()
     result_path = results_dir / f"{scale}_goals_{goal_count}.json"
     log_path = results_dir / f"{scale}_goals_{goal_count}.log"
+
+    # A failed solver must not leak a successful result from an earlier run.
+    result_path.unlink(missing_ok=True)
 
     cmd = [
         python_exe,
