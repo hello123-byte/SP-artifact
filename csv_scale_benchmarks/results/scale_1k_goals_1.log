@@ -1,39 +1,41 @@
 presolving:
-(round 1, fast)       97 del vars, 148 del conss, 0 add conss, 48 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 13 impls, 93 clqs, 0 implints
-(round 2, fast)       101 del vars, 175 del conss, 0 add conss, 50 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 13 impls, 95 clqs, 0 implints
-(round 3, fast)       101 del vars, 175 del conss, 0 add conss, 50 chg bounds, 25 chg sides, 25 chg coeffs, 0 upgd conss, 13 impls, 95 clqs, 0 implints
-(round 4, medium)     131 del vars, 175 del conss, 0 add conss, 50 chg bounds, 25 chg sides, 25 chg coeffs, 0 upgd conss, 13 impls, 35 clqs, 0 implints
-(round 5, fast)       131 del vars, 255 del conss, 0 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 0 upgd conss, 15 impls, 35 clqs, 0 implints
-(round 6, exhaustive) 131 del vars, 275 del conss, 0 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 0 upgd conss, 15 impls, 35 clqs, 0 implints
-(round 7, fast)       133 del vars, 278 del conss, 0 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 0 upgd conss, 15 impls, 35 clqs, 0 implints
-(round 8, exhaustive) 133 del vars, 278 del conss, 0 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 91 upgd conss, 15 impls, 35 clqs, 0 implints
-(round 9, exhaustive) 133 del vars, 318 del conss, 13 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 91 upgd conss, 58 impls, 35 clqs, 0 implints
+(round 1, fast)       97 del vars, 161 del conss, 0 add conss, 26 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 0 impls, 93 clqs, 0 implints
+(round 2, fast)       103 del vars, 177 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 0 impls, 91 clqs, 0 implints
+(round 3, fast)       103 del vars, 181 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 2 impls, 91 clqs, 0 implints
+(round 4, medium)     131 del vars, 181 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 2 impls, 35 clqs, 0 implints
+(round 5, fast)       131 del vars, 255 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 2 impls, 35 clqs, 0 implints
+(round 6, exhaustive) 131 del vars, 275 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 2 impls, 35 clqs, 0 implints
+(round 7, fast)       133 del vars, 278 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 0 upgd conss, 2 impls, 35 clqs, 0 implints
+(round 8, exhaustive) 133 del vars, 278 del conss, 0 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 80 upgd conss, 2 impls, 35 clqs, 0 implints
+(round 9, exhaustive) 133 del vars, 285 del conss, 2 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 80 upgd conss, 45 impls, 35 clqs, 0 implints
+(round 10, exhaustive) 133 del vars, 285 del conss, 2 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 91 upgd conss, 45 impls, 35 clqs, 0 implints
+(round 11, exhaustive) 133 del vars, 318 del conss, 13 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 91 upgd conss, 45 impls, 35 clqs, 0 implints
    (0.0s) probing cycle finished: starting next cycle
-(round 10, exhaustive) 134 del vars, 318 del conss, 13 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 91 upgd conss, 580 impls, 124 clqs, 0 implints
-(round 11, fast)       134 del vars, 319 del conss, 13 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 91 upgd conss, 580 impls, 124 clqs, 0 implints
+(round 12, exhaustive) 134 del vars, 318 del conss, 13 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 91 upgd conss, 567 impls, 124 clqs, 0 implints
+(round 13, fast)       134 del vars, 319 del conss, 13 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 91 upgd conss, 567 impls, 124 clqs, 0 implints
    (0.0s) probing cycle finished: starting next cycle
-(round 12, exhaustive) 135 del vars, 319 del conss, 13 add conss, 50 chg bounds, 27 chg sides, 27 chg coeffs, 91 upgd conss, 581 impls, 121 clqs, 0 implints
-(round 13, fast)       135 del vars, 320 del conss, 13 add conss, 50 chg bounds, 28 chg sides, 28 chg coeffs, 91 upgd conss, 581 impls, 121 clqs, 0 implints
-(round 14, exhaustive) 135 del vars, 320 del conss, 13 add conss, 50 chg bounds, 28 chg sides, 28 chg coeffs, 93 upgd conss, 581 impls, 121 clqs, 0 implints
-(round 15, medium)     135 del vars, 321 del conss, 13 add conss, 50 chg bounds, 28 chg sides, 28 chg coeffs, 93 upgd conss, 581 impls, 121 clqs, 0 implints
+(round 14, exhaustive) 135 del vars, 319 del conss, 13 add conss, 28 chg bounds, 23 chg sides, 23 chg coeffs, 91 upgd conss, 568 impls, 121 clqs, 0 implints
+(round 15, fast)       135 del vars, 320 del conss, 13 add conss, 28 chg bounds, 24 chg sides, 24 chg coeffs, 91 upgd conss, 568 impls, 121 clqs, 0 implints
+(round 16, exhaustive) 135 del vars, 320 del conss, 13 add conss, 28 chg bounds, 24 chg sides, 24 chg coeffs, 93 upgd conss, 568 impls, 121 clqs, 0 implints
+(round 17, medium)     135 del vars, 321 del conss, 13 add conss, 28 chg bounds, 24 chg sides, 24 chg coeffs, 93 upgd conss, 568 impls, 121 clqs, 0 implints
    (0.0s) probing cycle finished: starting next cycle
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present (symcode time: 0.00)
-presolving (16 rounds: 16 fast, 9 medium, 7 exhaustive):
- 135 deleted vars, 321 deleted constraints, 13 added constraints, 50 tightened bounds, 0 added holes, 28 changed sides, 28 changed coefficients
- 581 implications, 121 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+presolving (18 rounds: 18 fast, 11 medium, 9 exhaustive):
+ 135 deleted vars, 321 deleted constraints, 13 added constraints, 28 tightened bounds, 0 added holes, 24 changed sides, 24 changed coefficients
+ 568 implications, 121 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
 presolved problem has 72 variables (30 bin, 0 int, 42 cont) and 154 constraints
      44 constraints of type <varbound>
       6 constraints of type <setppc>
      13 constraints of type <and>
      91 constraints of type <linear>
 transformed objective value is always integral (scale: 1)
-Presolving Time: 0.00
+Presolving Time: 0.01
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
 t 0.0s|     1 |     0 |     0 |     - | trivial|   0 |  72 | 154 |   0 |   0 |  0 |   0 |   0 | 0.000000e+00 | 2.000000e+00 |    Inf | unknown
-* 0.0s|     1 |     0 |    12 |     - |    LP  |   0 |  72 | 112 | 171 |   0 |  0 |   3 |   0 | 1.000000e+00 | 1.000000e+00 |   0.00%| unknown
-  0.0s|     1 |     0 |    12 |     - |  3056k |   0 |  72 | 112 | 171 |   0 |  0 |   3 |   0 | 1.000000e+00 | 1.000000e+00 |   0.00%| unknown
+* 0.0s|     1 |     0 |    13 |     - |    LP  |   0 |  72 | 112 | 171 |   0 |  0 |   3 |   0 | 1.000000e+00 | 1.000000e+00 |   0.00%| unknown
+  0.0s|     1 |     0 |    13 |     - |  3093k |   0 |  72 | 112 | 171 |   0 |  0 |   3 |   0 | 1.000000e+00 | 1.000000e+00 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
 Solving Time (sec) : 0.01
@@ -43,7 +45,7 @@ Dual Bound         : +1.00000000000000e+00
 Gap                : 0.00 %
 status: optimal
 solver: scip
-target closure: 1254 -> 82 vertices, 2016 -> 86 arcs
+target closure: 1216 -> 82 vertices, 2016 -> 86 arcs
 objective cost form: 1.0
 defender utility: -1.0
 attacker utility: 0.0
@@ -58,8 +60,8 @@ timings seconds:
   resolve_game_defaults: 0.000
   target_closure: 0.000
   build_parameters: 0.000
-  build_mip: 0.044
-  optimize: 0.006
+  build_mip: 0.062
+  optimize: 0.008
   extract_solution: 0.000
-  total_wall: 0.052
+  total_wall: 0.072
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_1k_goals_1.json
