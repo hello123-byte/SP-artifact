@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="662" viewBox="0 0 1280 662">
+<rect width="100%" height="100%" fill="#f6f8fb"/>
+<text x="34" y="34" font-family="Arial" font-size="24" font-weight="700" fill="#111827">MulVAL Defense Baseline Comparison</text>
+<text x="34" y="54" font-family="Arial" font-size="12" fill="#667085">Benefit, objective decomposition, runtime, and attacker response in one view. Higher benefit is better.</text>
+<rect x="34" y="58" width="282" height="48" rx="8" fill="white" stroke="#d7dde5"/><rect x="34" y="58" width="6" height="48" rx="3" fill="#2aa876"/><text x="52" y="77" font-family="Arial" font-size="11" fill="#667085">Best benefit</text><text x="52" y="96" font-family="Arial" font-size="18" font-weight="700" fill="#111827">path_enum: 0.99</text><text x="188" y="96" font-family="Arial" font-size="11" fill="#667085">benefit_score</text>
+<rect x="332" y="58" width="282" height="48" rx="8" fill="white" stroke="#d7dde5"/><rect x="332" y="58" width="6" height="48" rx="3" fill="#2aa876"/><text x="350" y="77" font-family="Arial" font-size="11" fill="#667085">Lowest objective J</text><text x="350" y="96" font-family="Arial" font-size="18" font-weight="700" fill="#111827">path_enum: 1</text><text x="486" y="96" font-family="Arial" font-size="11" fill="#667085">defense + loss</text>
+<rect x="630" y="58" width="282" height="48" rx="8" fill="white" stroke="#d7dde5"/><rect x="630" y="58" width="6" height="48" rx="3" fill="#6b7280"/><text x="648" y="77" font-family="Arial" font-size="11" fill="#667085">Fastest run</text><text x="648" y="96" font-family="Arial" font-size="18" font-weight="700" fill="#111827">empty: 5.8e-05s</text><text x="784" y="96" font-family="Arial" font-size="11" fill="#667085">wall time</text>
+<rect x="928" y="58" width="282" height="48" rx="8" fill="white" stroke="#d7dde5"/><rect x="928" y="58" width="6" height="48" rx="3" fill="#f59e0b"/><text x="946" y="77" font-family="Arial" font-size="11" fill="#667085">Empty-defense J</text><text x="946" y="96" font-family="Arial" font-size="18" font-weight="700" fill="#111827">100.0</text><text x="1082" y="96" font-family="Arial" font-size="11" fill="#667085">comparison base</text>
+<rect x="34" y="128" width="590" height="242" rx="10" fill="white" stroke="#d7dde5"/>
+<rect x="656" y="128" width="590" height="242" rx="10" fill="white" stroke="#d7dde5"/>
+<text x="58" y="156" font-family="Arial" font-size="16" font-weight="700" fill="#111827">Benefit Score Ranking</text>
+<text x="680" y="156" font-family="Arial" font-size="16" font-weight="700" fill="#111827">Objective Decomposition</text>
+<text x="58" y="176" font-family="Arial" font-size="11" fill="#667085">(J_empty - J_method) / J_empty</text>
+<text x="680" y="176" font-family="Arial" font-size="11" fill="#667085">J = defense_cost + attack_loss</text>
+<line x1="190.00" y1="190" x2="190.00" y2="352" stroke="#9aa4b2" stroke-dasharray="3 3"/>
+<text x="190" y="362" font-family="Arial" font-size="10" fill="#667085">0.00</text>
+<text x="550" y="362" text-anchor="end" font-family="Arial" font-size="10" fill="#667085">0.99</text>
+<text x="812" y="362" font-family="Arial" font-size="10" fill="#667085">0</text>
+<text x="1142" y="362" text-anchor="end" font-family="Arial" font-size="10" fill="#667085">100.0</text>
+<rect x="1164" y="148" width="12" height="12" fill="#14b8a6"/>
+<text x="1182" y="158" font-family="Arial" font-size="11" fill="#667085">defense</text>
+<rect x="1164" y="166" width="12" height="12" fill="#f97316"/>
+<text x="1182" y="176" font-family="Arial" font-size="11" fill="#667085">loss</text>
+<text x="58" y="221" font-family="Arial" font-size="12" font-weight="700" fill="#111827">#1</text>
+<text x="88" y="221" font-family="Arial" font-size="12" fill="#111827">path_enum</text>
+<rect x="190.00" y="207" width="360.00" height="18" rx="4" fill="#2aa876" opacity="0.88"/>
+<text x="558.00" y="221" text-anchor="start" font-family="Arial" font-size="12" font-weight="700" fill="#111827">0.99</text>
+<text x="568" y="221" text-anchor="end" font-family="Arial" font-size="11" fill="#667085">J=1</text>
+<text x="58" y="263" font-family="Arial" font-size="12" font-weight="700" fill="#111827">#2</text>
+<text x="88" y="263" font-family="Arial" font-size="12" fill="#111827">stackelberg</text>
+<rect x="190.00" y="249" width="360.00" height="18" rx="4" fill="#b83280" opacity="0.88"/>
+<text x="558.00" y="263" text-anchor="start" font-family="Arial" font-size="12" font-weight="700" fill="#111827">0.99</text>
+<text x="568" y="263" text-anchor="end" font-family="Arial" font-size="11" fill="#667085">J=1</text>
+<text x="58" y="305" font-family="Arial" font-size="12" font-weight="700" fill="#111827">#3</text>
+<text x="88" y="305" font-family="Arial" font-size="12" fill="#111827">random</text>
+<rect x="190.00" y="291" width="356.36" height="18" rx="4" fill="#2f80ed" opacity="0.88"/>
+<text x="554.36" y="305" text-anchor="start" font-family="Arial" font-size="12" font-weight="700" fill="#111827">0.98</text>
+<text x="568" y="305" text-anchor="end" font-family="Arial" font-size="11" fill="#667085">J=2</text>
+<text x="58" y="347" font-family="Arial" font-size="12" font-weight="700" fill="#111827">#4</text>
+<text x="88" y="347" font-family="Arial" font-size="12" fill="#111827">empty</text>
+<rect x="190.00" y="333" width="2.00" height="18" rx="4" fill="#6b7280" opacity="0.88"/>
+<text x="198.00" y="347" text-anchor="start" font-family="Arial" font-size="12" font-weight="700" fill="#111827">0</text>
+<text x="568" y="347" text-anchor="end" font-family="Arial" font-size="11" fill="#667085">J=100.0</text>
+<text x="680" y="221" font-family="Arial" font-size="12" fill="#111827">empty</text>
+<rect x="812" y="207" width="1.00" height="18" rx="4" fill="#14b8a6"/>
+<rect x="812.00" y="207" width="330.00" height="18" rx="4" fill="#f97316" opacity="0.9"/>
+<text x="1150.00" y="221" font-family="Arial" font-size="11" fill="#111827">J=100.0 · D=0 · L=100.0</text>
+<text x="680" y="263" font-family="Arial" font-size="12" fill="#111827">random</text>
+<rect x="812" y="249" width="6.60" height="18" rx="4" fill="#14b8a6"/>
+<rect x="818.60" y="249" width="1.00" height="18" rx="4" fill="#f97316" opacity="0.9"/>
+<text x="826.60" y="263" font-family="Arial" font-size="11" fill="#111827">J=2 · D=2 · L=0</text>
+<text x="680" y="305" font-family="Arial" font-size="12" fill="#111827">path_enum</text>
+<rect x="812" y="291" width="3.30" height="18" rx="4" fill="#14b8a6"/>
+<rect x="815.30" y="291" width="1.00" height="18" rx="4" fill="#f97316" opacity="0.9"/>
+<text x="823.30" y="305" font-family="Arial" font-size="11" fill="#111827">J=1 · D=1 · L=0</text>
+<text x="680" y="347" font-family="Arial" font-size="12" fill="#111827">stackelberg</text>
+<rect x="812" y="333" width="3.30" height="18" rx="4" fill="#14b8a6"/>
+<rect x="815.30" y="333" width="1.00" height="18" rx="4" fill="#f97316" opacity="0.9"/>
+<text x="823.30" y="347" font-family="Arial" font-size="11" fill="#111827">J=1 · D=1 · L=0</text>
+<rect x="34" y="412" width="1212" height="210" rx="10" fill="white" stroke="#d7dde5"/>
+<text x="58" y="442" font-family="Arial" font-size="16" font-weight="700" fill="#111827">Detailed Results</text>
+<text x="58" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">METHOD</text>
+<text x="214" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">STATUS</text>
+<text x="330" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">BENEFIT</text>
+<text x="434" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">J</text>
+<text x="522" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">DEFENSE</text>
+<text x="620" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">LOSS</text>
+<text x="714" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">RUNTIME</text>
+<text x="848" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">DEFENSES</text>
+<text x="948" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">ATTACKER</text>
+<text x="1086" y="468" font-family="Arial" font-size="11" font-weight="700" fill="#667085">RESULT</text>
+<rect x="48" y="466" width="1180" height="32" rx="5" fill="#f8fafc"/>
+<circle cx="50" cy="480" r="4" fill="#6b7280"/>
+<text x="58" y="484" font-family="Arial" font-size="12" fill="#111827">empty</text>
+<text x="214" y="484" font-family="Arial" font-size="12" fill="#111827">ok</text>
+<text x="330" y="484" font-family="Arial" font-size="12" fill="#111827">0</text>
+<text x="434" y="484" font-family="Arial" font-size="12" fill="#111827">100.0</text>
+<text x="522" y="484" font-family="Arial" font-size="12" fill="#111827">0</text>
+<text x="620" y="484" font-family="Arial" font-size="12" fill="#111827">100.0</text>
+<rect x="714" y="472" width="88" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="714" y="472" width="0.08" height="10" rx="5" fill="#64748b"/>
+<text x="810" y="484" font-family="Arial" font-size="11" fill="#111827">5.8e-05s</text>
+<text x="848" y="484" font-family="Arial" font-size="12" fill="#111827">0</text>
+<text x="948" y="484" font-family="Arial" font-size="12" fill="#111827">attack_goal</text>
+<text x="1086" y="484" font-family="Arial" font-size="11" fill="#667085">empty_defense.json</text>
+<circle cx="50" cy="518" r="4" fill="#2f80ed"/>
+<text x="58" y="522" font-family="Arial" font-size="12" fill="#111827">random</text>
+<text x="214" y="522" font-family="Arial" font-size="12" fill="#111827">ok</text>
+<text x="330" y="522" font-family="Arial" font-size="12" fill="#111827">0.98</text>
+<text x="434" y="522" font-family="Arial" font-size="12" fill="#111827">2</text>
+<text x="522" y="522" font-family="Arial" font-size="12" fill="#111827">2</text>
+<text x="620" y="522" font-family="Arial" font-size="12" fill="#111827">0</text>
+<rect x="714" y="510" width="88" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="714" y="510" width="2.42" height="10" rx="5" fill="#64748b"/>
+<text x="810" y="522" font-family="Arial" font-size="11" fill="#111827">0.0017s</text>
+<text x="848" y="522" font-family="Arial" font-size="12" fill="#111827">2</text>
+<text x="948" y="522" font-family="Arial" font-size="12" fill="#111827">empty</text>
+<text x="1086" y="522" font-family="Arial" font-size="11" fill="#667085">random_defense.json</text>
+<rect x="48" y="542" width="1180" height="32" rx="5" fill="#f8fafc"/>
+<circle cx="50" cy="556" r="4" fill="#2aa876"/>
+<text x="58" y="560" font-family="Arial" font-size="12" fill="#111827">path_enum</text>
+<text x="214" y="560" font-family="Arial" font-size="12" fill="#111827">ok</text>
+<text x="330" y="560" font-family="Arial" font-size="12" fill="#111827">0.99</text>
+<text x="434" y="560" font-family="Arial" font-size="12" fill="#111827">1</text>
+<text x="522" y="560" font-family="Arial" font-size="12" fill="#111827">1</text>
+<text x="620" y="560" font-family="Arial" font-size="12" fill="#111827">0</text>
+<rect x="714" y="548" width="88" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="714" y="548" width="0.27" height="10" rx="5" fill="#64748b"/>
+<text x="810" y="560" font-family="Arial" font-size="11" fill="#111827">0.00019s</text>
+<text x="848" y="560" font-family="Arial" font-size="12" fill="#111827">1</text>
+<text x="948" y="560" font-family="Arial" font-size="12" fill="#111827">empty</text>
+<text x="1086" y="560" font-family="Arial" font-size="11" fill="#667085">full_path_enumeration.json</text>
+<circle cx="50" cy="594" r="4" fill="#b83280"/>
+<text x="58" y="598" font-family="Arial" font-size="12" fill="#111827">stackelberg</text>
+<text x="214" y="598" font-family="Arial" font-size="12" fill="#111827">optimal</text>
+<text x="330" y="598" font-family="Arial" font-size="12" fill="#111827">0.99</text>
+<text x="434" y="598" font-family="Arial" font-size="12" fill="#111827">1</text>
+<text x="522" y="598" font-family="Arial" font-size="12" fill="#111827">1</text>
+<text x="620" y="598" font-family="Arial" font-size="12" fill="#111827">0</text>
+<rect x="714" y="586" width="88" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="714" y="586" width="88.00" height="10" rx="5" fill="#64748b"/>
+<text x="810" y="598" font-family="Arial" font-size="11" fill="#111827">0.06s</text>
+<text x="848" y="598" font-family="Arial" font-size="12" fill="#111827">1</text>
+<text x="948" y="598" font-family="Arial" font-size="12" fill="#111827">empty</text>
+<text x="1086" y="598" font-family="Arial" font-size="11" fill="#667085">stackelberg_model.json</text>
+</svg>

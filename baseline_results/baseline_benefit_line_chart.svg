@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+<rect width="100%" height="100%" fill="white"/>
+<text x="36" y="30" font-family="Arial" font-size="20" font-weight="700">Baseline Benefit Score Comparison</text>
+<text x="36" y="52" font-family="Arial" font-size="12" fill="#555">Higher is better. benefit_score = (J_empty - J_method) / J_empty</text>
+<line x1="84" y1="48" x2="84" y2="400" stroke="#333"/>
+<line x1="84" y1="400" x2="924" y2="400" stroke="#333"/>
+<line x1="84" y1="400.00" x2="924" y2="400.00" stroke="#e6e8eb"/>
+<text x="72" y="404.00" text-anchor="end" font-family="Arial" font-size="11" fill="#555">-0.12</text>
+<line x1="84" y1="329.60" x2="924" y2="329.60" stroke="#e6e8eb"/>
+<text x="72" y="333.60" text-anchor="end" font-family="Arial" font-size="11" fill="#555">0.13</text>
+<line x1="84" y1="259.20" x2="924" y2="259.20" stroke="#e6e8eb"/>
+<text x="72" y="263.20" text-anchor="end" font-family="Arial" font-size="11" fill="#555">0.37</text>
+<line x1="84" y1="188.80" x2="924" y2="188.80" stroke="#e6e8eb"/>
+<text x="72" y="192.80" text-anchor="end" font-family="Arial" font-size="11" fill="#555">0.62</text>
+<line x1="84" y1="118.40" x2="924" y2="118.40" stroke="#e6e8eb"/>
+<text x="72" y="122.40" text-anchor="end" font-family="Arial" font-size="11" fill="#555">0.86</text>
+<line x1="84" y1="48.00" x2="924" y2="48.00" stroke="#e6e8eb"/>
+<text x="72" y="52.00" text-anchor="end" font-family="Arial" font-size="11" fill="#555">1.11</text>
+<polyline points="84.00,365.94 364.00,93.53 644.00,82.06 924.00,82.06" fill="none" stroke="#1f77b4" stroke-width="3"/>
+<line x1="84.00" y1="400" x2="84.00" y2="406" stroke="#333"/>
+<text x="84.00" y="424" text-anchor="end" transform="rotate(-35 84.00 424)" font-family="Arial" font-size="12">empty</text>
+<circle cx="84.00" cy="365.94" r="5" fill="#1f77b4"/>
+<text x="84.00" y="355.94" text-anchor="middle" font-family="Arial" font-size="11" fill="#1f2933">0</text>
+<text x="84.00" y="387.94" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">J=100.0</text>
+<line x1="364.00" y1="400" x2="364.00" y2="406" stroke="#333"/>
+<text x="364.00" y="424" text-anchor="end" transform="rotate(-35 364.00 424)" font-family="Arial" font-size="12">random</text>
+<circle cx="364.00" cy="93.53" r="5" fill="#1f77b4"/>
+<text x="364.00" y="83.53" text-anchor="middle" font-family="Arial" font-size="11" fill="#1f2933">0.95</text>
+<text x="364.00" y="115.53" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">J=5.0</text>
+<line x1="644.00" y1="400" x2="644.00" y2="406" stroke="#333"/>
+<text x="644.00" y="424" text-anchor="end" transform="rotate(-35 644.00 424)" font-family="Arial" font-size="12">path_enum</text>
+<circle cx="644.00" cy="82.06" r="5" fill="#1f77b4"/>
+<text x="644.00" y="72.06" text-anchor="middle" font-family="Arial" font-size="11" fill="#1f2933">0.99</text>
+<text x="644.00" y="104.06" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">J=1.0</text>
+<line x1="924.00" y1="400" x2="924.00" y2="406" stroke="#333"/>
+<text x="924.00" y="424" text-anchor="end" transform="rotate(-35 924.00 424)" font-family="Arial" font-size="12">stackelberg</text>
+<circle cx="924.00" cy="82.06" r="5" fill="#1f77b4"/>
+<text x="924.00" y="72.06" text-anchor="middle" font-family="Arial" font-size="11" fill="#1f2933">0.99</text>
+<text x="924.00" y="104.06" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">J=1.0</text>
+<text x="22" y="224.00" text-anchor="middle" transform="rotate(-90 22 224.00)" font-family="Arial" font-size="13">benefit_score</text>
+</svg>
