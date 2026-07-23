@@ -499,7 +499,7 @@ python3 generate_large_mulval_csv.py \
   --summary-out large_mulval_summary.json
 ```
 
-生成器验证图无环、LEAF 无前提、非 LEAF 有前提、AND 不依赖 AND、每个 AND 至多一个 OR 前提且至少一个 LEAF 前提。score 随机取 1 到 100；summary 包含目标 ID 和结构诊断。
+生成器验证图无环、LEAF 无前提且会被 AND 消费、每个 OR 至少由一个 AND 规则推导、OR 只依赖 AND、非 LEAF 有前提、AND 不依赖 AND、每个 AND 至多一个 OR 前提且至少一个 LEAF 前提。多主机图必须至少启用一条每主机横向移动规则，否则内部主机的 `execCode(...,user)` 无法被推导。score 随机取 1 到 100；summary 包含目标 ID 和结构诊断。
 
 ### run_goal_count_benchmarks.py
 

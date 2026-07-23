@@ -6,7 +6,7 @@
 
 ```text
 LEAF 节点无前提
-AND / OR 节点必须有前提
+AND 节点必须有前提；每个 OR 节点必须由至少一个 AND 节点推导
 AND 节点最多依赖 1 个 OR 节点
 AND 节点至少依赖 1 个 LEAF 节点
 图必须是 conclusion -> prerequisite 方向下的有向无环图

@@ -22,7 +22,7 @@ structure rather than merely inflate node/edge counts:
     LEAF prerequisites; AND-to-AND prerequisites are rejected.
   * LEAF nodes have no prerequisite edges and every emitted LEAF is consumed
     by at least one AND rule.
-  * Every non-LEAF node must have at least one prerequisite edge.
+  * Every OR node is derived by at least one AND rule; every AND node has one or more prerequisite edges.
   * Network reachability is segmented: only a small DMZ-like entry set is
     directly reachable from the internet; internal access is produced by
     lateral-movement rules from already-compromised earlier hosts.
@@ -175,6 +175,11 @@ def validate_parameters(
         raise SystemExit("--vuln-per-service must be at least 1")
     if lateral_rules_per_host < 0:
         raise SystemExit("--lateral-rules-per-host must be non-negative")
+    if hosts > 1 and lateral_rules_per_host == 0:
+        raise SystemExit(
+            "--lateral-rules-per-host must be at least 1 when --hosts is greater than 1 "
+            "so every execCode(...,user) OR node has an AND-rule derivation"
+        )
     if goals < 1:
         raise SystemExit("--goals must be at least 1")
 
@@ -215,12 +220,26 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
     or_without_producers = [
         node_id
         for node_id, node in vertices_by_id.items()
-        if node["type"] == "OR" and not outgoing[node_id]
+        if node["type"] == "OR"
+        and not any(
+            vertices_by_id.get(child_id, {}).get("type") == "AND"
+            for child_id in outgoing[node_id]
+        )
     ]
+    or_nodes_with_non_and_producers = []
     and_nodes_with_multiple_or_prerequisites = []
     and_nodes_without_leaf_prerequisites = []
     and_nodes_with_non_leaf_or_prerequisites = []
     for node_id, node in vertices_by_id.items():
+        if node["type"] == "OR":
+            invalid_producers = [
+                child_id
+                for child_id in outgoing[node_id]
+                if vertices_by_id.get(child_id, {}).get("type") != "AND"
+            ]
+            if invalid_producers:
+                or_nodes_with_non_and_producers.append((node_id, invalid_producers))
+            continue
         if node["type"] != "AND":
             continue
         or_prerequisites = [
@@ -270,6 +289,7 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         "non_leaf_nodes_without_prerequisites": len(non_leaf_nodes_without_prerequisites),
         "and_nodes_without_prerequisites": len(and_without_prerequisites),
         "or_nodes_without_producers": len(or_without_producers),
+        "or_nodes_with_non_and_producers": len(or_nodes_with_non_and_producers),
         "and_nodes_with_multiple_or_prerequisites": len(and_nodes_with_multiple_or_prerequisites),
         "and_nodes_without_leaf_prerequisites": len(and_nodes_without_leaf_prerequisites),
         "and_nodes_with_non_leaf_or_prerequisites": len(and_nodes_with_non_leaf_or_prerequisites),
@@ -291,6 +311,25 @@ def graph_diagnostics(vertices, arcs, goal_nodes: list[int]) -> dict:
         "sample_non_leaf_nodes_without_prerequisites": [
             {"id": node_id, "type": vertices_by_id[node_id]["type"], "label": vertices_by_id[node_id]["label"]}
             for node_id in non_leaf_nodes_without_prerequisites[:10]
+        ],
+        "sample_or_nodes_without_producers": [
+            {"id": node_id, "label": vertices_by_id[node_id]["label"]}
+            for node_id in or_without_producers[:10]
+        ],
+        "sample_or_nodes_with_non_and_producers": [
+            {
+                "or_id": node_id,
+                "or_label": vertices_by_id[node_id]["label"],
+                "invalid_producers": [
+                    {
+                        "id": child_id,
+                        "type": vertices_by_id[child_id]["type"],
+                        "label": vertices_by_id[child_id]["label"],
+                    }
+                    for child_id in child_ids
+                ],
+            }
+            for node_id, child_ids in or_nodes_with_non_and_producers[:10]
         ],
         "sample_and_nodes_with_multiple_or_prerequisites": [
             {
@@ -345,6 +384,14 @@ def validate_graph_structure(vertices, arcs, goal_nodes: list[int]) -> dict:
     if diagnostics["non_leaf_nodes_without_prerequisites"]:
         errors.append(
             f"{diagnostics['non_leaf_nodes_without_prerequisites']} non-LEAF node(s) have no prerequisites"
+        )
+    if diagnostics["or_nodes_without_producers"]:
+        errors.append(
+            f"{diagnostics['or_nodes_without_producers']} OR node(s) are not derived by any AND rule"
+        )
+    if diagnostics["or_nodes_with_non_and_producers"]:
+        errors.append(
+            f"{diagnostics['or_nodes_with_non_and_producers']} OR node(s) have non-AND producer edges"
         )
     if diagnostics["and_nodes_with_multiple_or_prerequisites"]:
         errors.append(
@@ -580,6 +627,7 @@ def build_graph(
         "score_range": [1, 100],
         "and_prerequisite_rule": "Each AND node has at most one OR prerequisite and at least one LEAF prerequisite. AND-to-AND prerequisites are rejected.",
         "leaf_prerequisite_rule": "LEAF nodes must have no prerequisite edges and must be consumed by at least one AND rule.",
+        "or_producer_rule": "Every OR node must be derived by at least one AND rule; OR prerequisite edges may only target AND nodes.",
         "non_leaf_prerequisite_rule": "Every non-LEAF node must have at least one prerequisite edge.",
         "cycle_rule": "The generated dependency graph must be acyclic under conclusion -> prerequisite edges.",
         "notes": [
