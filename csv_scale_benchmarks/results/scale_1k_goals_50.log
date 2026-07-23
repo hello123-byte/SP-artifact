@@ -17,7 +17,7 @@ presolving:
 (round 15, fast)       659 del vars, 1695 del conss, 90 add conss, 108 chg bounds, 211 chg sides, 216 chg coeffs, 893 upgd conss, 22867 impls, 5363 clqs, 0 implints
 (round 16, exhaustive) 659 del vars, 1712 del conss, 90 add conss, 108 chg bounds, 211 chg sides, 216 chg coeffs, 893 upgd conss, 22867 impls, 5363 clqs, 0 implints
 (round 17, exhaustive) 659 del vars, 1712 del conss, 90 add conss, 108 chg bounds, 211 chg sides, 216 chg coeffs, 895 upgd conss, 22867 impls, 5363 clqs, 0 implints
-   (0.1s) probing cycle finished: starting next cycle
+   (0.2s) probing cycle finished: starting next cycle
    (0.2s) probing: 51/255 (20.0%) - 13 fixings, 34 aggregations, 30676 implications, 0 bound changes
    (0.2s) probing aborted: 50/50 successive totally useless probings
 (round 18, exhaustive) 666 del vars, 1713 del conss, 90 add conss, 108 chg bounds, 211 chg sides, 216 chg coeffs, 895 upgd conss, 23862 impls, 5509 clqs, 0 implints
@@ -35,7 +35,7 @@ presolved problem has 573 variables (255 bin, 0 int, 318 cont) and 1645 constrai
      58 constraints of type <and>
    1063 constraints of type <linear>
 transformed objective value is always integral (scale: 1)
-Presolving Time: 0.16
+Presolving Time: 0.20
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
 p 0.2s|     1 |     0 |     0 |     - |  clique|   0 | 573 |1645 |1703 |   0 |  0 |   0 |   0 | 0.000000e+00 | 3.400000e+01 |    Inf | unknown
@@ -45,7 +45,7 @@ p 0.2s|     1 |     0 |     3 |     - | vbounds|   0 | 573 |1650 |1703 |   0 |  
   0.2s|     1 |     0 |     3 |     - |    19M |   0 | 573 | 121 |1703 |   0 |  0 |   5 |   0 | 2.000000e+00 | 2.000000e+00 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.17
+Solving Time (sec) : 0.21
 Solving Nodes      : 1
 Primal Bound       : +2.00000000000000e+00 (4 solutions)
 Dual Bound         : +2.00000000000000e+00
@@ -66,10 +66,10 @@ timings seconds:
   read_config: 0.000
   prepare_goals_and_config: 0.000
   resolve_game_defaults: 0.000
-  target_closure: 0.000
+  target_closure: 0.001
   build_parameters: 0.000
-  build_mip: 0.071
-  optimize: 0.168
+  build_mip: 0.066
+  optimize: 0.215
   extract_solution: 0.000
-  total_wall: 0.243
+  total_wall: 0.285
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_1k_goals_50.json

@@ -633,43 +633,15 @@ def summarize_objectives(values: list[float]) -> dict:
 
 
 def summary_row(method: str, result: dict, result_path: str | Path | None = None) -> dict:
-    response = result.get("attacker_response") or {}
-    timings = result.get("timings_seconds") or {}
-    selected_defenses = result.get("selected_defenses") or []
-    row = {
+    del result_path
+    return {
         "method": method,
-        "status": result.get("status"),
-        "benefit_score": result.get("benefit_score"),
-        "objective_cost_form": result.get("objective_cost_form"),
-        "empty_objective_cost_form": result.get("empty_objective_cost_form"),
-        "defense_cost": result.get("defense_cost"),
-        "attack_loss": result.get("attack_loss"),
-        "selected_defense_count": len(selected_defenses),
-        "attacker_response_type": response.get("type"),
-        "wall_seconds": timings.get("total_wall"),
-        "budget_used": result.get("budget_used"),
-        "attacker_utility": result.get("attacker_utility"),
-        "result_json": str(result_path) if result_path is not None else None,
+        "defense_benefit": result.get("benefit_score"),
     }
-    return row
 
 
 def write_summary_csv(path: str | Path, rows: list[dict[str, Any]]):
-    fieldnames = [
-        "method",
-        "status",
-        "benefit_score",
-        "objective_cost_form",
-        "empty_objective_cost_form",
-        "defense_cost",
-        "attack_loss",
-        "selected_defense_count",
-        "attacker_response_type",
-        "wall_seconds",
-        "budget_used",
-        "attacker_utility",
-        "result_json",
-    ]
+    fieldnames = ["method", "defense_benefit"]
     out_path = Path(path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", newline="", encoding="utf-8") as f:
@@ -677,4 +649,3 @@ def write_summary_csv(path: str | Path, rows: list[dict[str, Any]]):
         writer.writeheader()
         for row in rows:
             writer.writerow({key: row.get(key, "") for key in fieldnames})
-

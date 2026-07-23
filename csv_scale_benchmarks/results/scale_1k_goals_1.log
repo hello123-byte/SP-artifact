@@ -60,8 +60,8 @@ timings seconds:
   resolve_game_defaults: 0.000
   target_closure: 0.000
   build_parameters: 0.000
-  build_mip: 0.062
-  optimize: 0.008
+  build_mip: 0.056
+  optimize: 0.007
   extract_solution: 0.000
-  total_wall: 0.072
+  total_wall: 0.066
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_1k_goals_1.json

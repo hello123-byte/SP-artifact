@@ -258,16 +258,16 @@ def style_axis(ax, methods: list[str], panel_title: str, ylabel: str):
 
 
 def write_benefit_line_chart(path: Path, rows: list[dict], dpi: int = 300):
-    """Write a publication-style matplotlib experiment figure."""
+    """Write a single-panel figure that reports defense benefit only."""
     path.parent.mkdir(parents=True, exist_ok=True)
     if not rows:
         raise SystemExit("No result rows available for plotting.")
 
     try:
         import matplotlib
+
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
-        from matplotlib.ticker import MaxNLocator
     except ImportError as exc:
         raise SystemExit(
             "matplotlib is required to generate experiment figures. Install it with: pip install matplotlib"
@@ -276,77 +276,29 @@ def write_benefit_line_chart(path: Path, rows: list[dict], dpi: int = 300):
     methods = [str(row.get("method", "")) for row in rows]
     x = list(range(len(methods)))
     colors = [method_color(method) for method in methods]
-
-    benefits = [finite_number(row.get("benefit_score")) for row in rows]
-    objectives = [finite_number(row.get("objective_cost_form")) for row in rows]
-    defense_costs = [finite_number(row.get("defense_cost")) or 0.0 for row in rows]
-    attack_losses = [finite_number(row.get("attack_loss")) or 0.0 for row in rows]
-    runtimes = [finite_number(row.get("wall_seconds")) for row in rows]
-    defense_counts = [finite_number(row.get("selected_defense_count")) or 0.0 for row in rows]
-    responses = [str(row.get("attacker_response_type", "")) for row in rows]
+    benefits = [finite_number(row.get("defense_benefit")) for row in rows]
 
     plt.rcParams.update({
         "font.family": "DejaVu Sans",
-        "font.size": 8,
-        "axes.titlesize": 9,
-        "axes.labelsize": 8,
-        "legend.fontsize": 7,
+        "font.size": 9,
+        "axes.titlesize": 10,
+        "axes.labelsize": 9,
         "figure.dpi": dpi,
         "savefig.dpi": dpi,
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
     })
-
-    fig, axes = plt.subplots(2, 2, figsize=(7.2, 5.4), constrained_layout=True)
-    fig.suptitle("Vulnerability-only defense comparison", fontsize=10, fontweight="bold")
-
-    # (a) Defense benefit.
-    ax = axes[0][0]
+    fig, ax = plt.subplots(figsize=(5.6, 3.6), constrained_layout=True)
     benefit_values = [value if value is not None else math.nan for value in benefits]
     ax.bar(x, benefit_values, color=colors, width=0.62)
     ax.axhline(0, color="black", linewidth=0.8)
-    benefit_max = nice_ylim([value for value in benefits if value is not None], minimum=1.0)
-    benefit_min = min([0.0] + [value for value in benefits if value is not None])
-    ax.set_ylim(benefit_min, benefit_max * 1.12)
-    style_axis(ax, methods, "(a) Defense benefit", "benefit score")
+    finite_benefits = [value for value in benefits if value is not None]
+    if finite_benefits:
+        benefit_max = nice_ylim(finite_benefits, minimum=1.0)
+        benefit_min = min([0.0] + finite_benefits)
+        ax.set_ylim(benefit_min, benefit_max * 1.12)
+    style_axis(ax, methods, "Defense benefit", "benefit score")
     annotate_bars(ax, benefits)
-
-    # (b) Objective decomposition.
-    ax = axes[0][1]
-    objective_available = [objective is not None for objective in objectives]
-    defense_plot = [defense_costs[i] if objective_available[i] else math.nan for i in x]
-    loss_plot = [attack_losses[i] if objective_available[i] else math.nan for i in x]
-    ax.bar(x, defense_plot, color="#56B4E9", width=0.62, label="defense cost")
-    ax.bar(x, loss_plot, bottom=defense_plot, color="#E69F00", width=0.62, label="attack loss")
-    ax.set_ylim(0, nice_ylim([value for value in objectives if value is not None], minimum=1.0) * 1.12)
-    style_axis(ax, methods, "(b) Objective decomposition", "objective J")
-    ax.legend(frameon=False, loc="upper right")
-    annotate_bars(ax, objectives)
-
-    # (c) Runtime on log scale.
-    ax = axes[1][0]
-    runtime_plot = [value if value is not None and value > 0 else math.nan for value in runtimes]
-    ax.bar(x, runtime_plot, color=colors, width=0.62)
-    ax.set_yscale("log")
-    style_axis(ax, methods, "(c) Runtime", "seconds, log scale")
-    for index, value in enumerate(runtimes):
-        number = finite_number(value)
-        if number is None or number <= 0:
-            ax.text(index, 1.0, "n/a", ha="center", va="bottom", fontsize=7)
-            continue
-        ax.text(index, number * 1.15, format_metric(number, digits=2), ha="center", va="bottom", fontsize=7)
-
-    # (d) Defense size and attacker response.
-    ax = axes[1][1]
-    ax.bar(x, defense_counts, color=colors, width=0.62)
-    ax.set_ylim(0, max(1.0, max(defense_counts) * 1.35))
-    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-    style_axis(ax, methods, "(d) Defense size", "# defended vulnerabilities")
-    for index, count in enumerate(defense_counts):
-        ax.text(index, count + max(0.06, ax.get_ylim()[1] * 0.025), format_metric(count, digits=0), ha="center", va="bottom", fontsize=7)
-        if responses[index]:
-            ax.text(index, -0.26, responses[index], ha="center", va="top", fontsize=6.5, transform=ax.get_xaxis_transform())
-    ax.text(0.5, -0.38, "attacker response", ha="center", va="top", fontsize=7, transform=ax.transAxes)
 
     suffix = path.suffix.lower()
     if not suffix:
@@ -386,10 +338,23 @@ def main():
     empty_objective = empty_result["objective_cost_form"]
 
     rows = []
+
+    def print_defense_strategy(method: str, result: dict) -> None:
+        selected = result.get("selected_defenses") or []
+        safe_print(f"{method} selected defenses (total cost={result.get('defense_cost', 0.0)}):")
+        if not selected:
+            safe_print("  none")
+            return
+        for defense in selected:
+            safe_print(
+                f"  {defense.get('id')}: {defense.get('label')} "
+                f"(cost={defense.get('cost')})"
+            )
     if "empty" in methods:
         path = out_dir / "empty_defense.json"
         write_json(path, empty_result)
         rows.append(summary_row("empty", empty_result, path))
+        print_defense_strategy("empty", empty_result)
 
     if "random" in methods:
         random_budget = infer_budget(problem, args.random_budget, reference_result, "random baseline")
@@ -403,6 +368,7 @@ def main():
         path = out_dir / "random_defense.json"
         write_json(path, result)
         rows.append(summary_row("random", result, path))
+        print_defense_strategy("random", result)
 
     if "path_enum" in methods:
         path_budget = infer_budget(problem, args.path_budget, reference_result, "path enumeration baseline")
@@ -416,14 +382,27 @@ def main():
         path = out_dir / "full_path_enumeration.json"
         write_json(path, result)
         rows.append(summary_row("path_enum", result, path))
+        print_defense_strategy("path_enum", result)
 
     if "stackelberg" in methods:
         result, path = run_stackelberg_model(args, out_dir, empty_objective)
         rows.append(summary_row("stackelberg", result, path))
+        print_defense_strategy("stackelberg", result)
 
     reference_row = build_reference_row(reference_result, empty_objective, args.reference_result)
     if reference_row:
         rows.append(reference_row)
+        reference_selected_defenses = reference_result.get("selected_defenses") or []
+        reference_defense_cost = sum(
+            float(item.get("cost", 0.0)) for item in reference_selected_defenses
+        )
+        print_defense_strategy(
+            "stackelberg_reference",
+            {
+                "selected_defenses": reference_selected_defenses,
+                "defense_cost": reference_defense_cost,
+            },
+        )
 
     summary_path = out_dir / "baseline_summary.csv"
     write_summary_csv(summary_path, rows)
