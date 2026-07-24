@@ -1,64 +1,68 @@
 presolving:
-(round 1, fast)       2095 del vars, 3770 del conss, 0 add conss, 494 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 1 impls, 3202 clqs, 0 implints
-(round 2, fast)       2157 del vars, 3952 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 1 impls, 3198 clqs, 0 implints
-(round 3, fast)       2157 del vars, 4014 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 41 impls, 3198 clqs, 0 implints
-(round 4, medium)     2730 del vars, 4014 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 41 impls, 2052 clqs, 0 implints
-(round 5, fast)       2730 del vars, 5413 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 41 impls, 2052 clqs, 0 implints
-(round 6, exhaustive) 2730 del vars, 5706 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 41 impls, 2052 clqs, 0 implints
-(round 7, fast)       2770 del vars, 5747 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 0 upgd conss, 41 impls, 2052 clqs, 0 implints
-(round 8, exhaustive) 2770 del vars, 5747 del conss, 0 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 3476 upgd conss, 41 impls, 2052 clqs, 0 implints
-(round 9, exhaustive) 2770 del vars, 6498 del conss, 221 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 3476 upgd conss, 1243 impls, 2052 clqs, 0 implints
-(round 10, exhaustive) 2772 del vars, 6500 del conss, 221 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 3863 upgd conss, 1245 impls, 2046 clqs, 0 implints
-(round 11, exhaustive) 2772 del vars, 7661 del conss, 608 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 3863 upgd conss, 1245 impls, 2046 clqs, 0 implints
-   (0.2s) probing: 1000/1578 (63.4%) - 8 fixings, 0 aggregations, 33582 implications, 0 bound changes
-   (0.2s) probing: 1406/1578 (89.1%) - 8 fixings, 0 aggregations, 55188 implications, 0 bound changes
-   (0.2s) probing aborted: 1000/1000 successive useless probings
-(round 12, exhaustive) 2780 del vars, 7661 del conss, 608 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 3863 upgd conss, 39861 impls, 19179 clqs, 0 implints
-(round 13, fast)       2780 del vars, 7685 del conss, 608 add conss, 514 chg bounds, 747 chg sides, 747 chg coeffs, 3863 upgd conss, 39861 impls, 19179 clqs, 0 implints
-   (0.3s) probing: 1506/1578 (95.4%) - 8 fixings, 0 aggregations, 73096 implications, 0 bound changes
-   (0.3s) probing aborted: 1000/1000 successive useless probings
-   (0.3s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.3s) symmetry computation finished: 2 generators found (max: 1500, log10 of symmetry group size: 108.10) (symcode time: 0.00)
+(round 1, fast)       2145 del vars, 3720 del conss, 0 add conss, 494 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 1 impls, 2752 clqs, 0 implints
+(round 2, fast)       2207 del vars, 3902 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 1 impls, 2748 clqs, 0 implints
+(round 3, fast)       2207 del vars, 3964 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 41 impls, 2748 clqs, 0 implints
+(round 4, medium)     2730 del vars, 3964 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 41 impls, 1702 clqs, 0 implints
+(round 5, fast)       2730 del vars, 5313 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 41 impls, 1702 clqs, 0 implints
+(round 6, exhaustive) 2730 del vars, 5656 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 41 impls, 1702 clqs, 0 implints
+(round 7, fast)       2770 del vars, 5697 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 0 upgd conss, 41 impls, 1702 clqs, 0 implints
+(round 8, exhaustive) 2770 del vars, 5697 del conss, 0 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 2976 upgd conss, 41 impls, 1702 clqs, 0 implints
+(round 9, exhaustive) 2770 del vars, 6248 del conss, 171 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 2976 upgd conss, 1143 impls, 1702 clqs, 0 implints
+(round 10, exhaustive) 2770 del vars, 6248 del conss, 171 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 3363 upgd conss, 1143 impls, 1702 clqs, 0 implints
+(round 11, exhaustive) 2770 del vars, 7409 del conss, 558 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 3363 upgd conss, 1143 impls, 1702 clqs, 0 implints
+   (0.2s) probing: 1000/1380 (72.5%) - 8 fixings, 0 aggregations, 28506 implications, 0 bound changes
+   (0.4s) probing cycle finished: starting next cycle
+(round 12, exhaustive) 2778 del vars, 7409 del conss, 558 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 3363 upgd conss, 37073 impls, 16916 clqs, 0 implints
+(round 13, fast)       2778 del vars, 7433 del conss, 558 add conss, 514 chg bounds, 647 chg sides, 647 chg coeffs, 3363 upgd conss, 37073 impls, 16916 clqs, 0 implints
+   (0.4s) probing: 115/1372 (8.4%) - 8 fixings, 0 aggregations, 52327 implications, 0 bound changes
+   (0.4s) probing aborted: 1000/1000 successive useless probings
+   (0.4s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
+   (0.4s) symmetry computation finished: 2 generators found (max: 1500, log10 of symmetry group size: 70.75) (symcode time: 0.00)
 dynamic symmetry handling statistics:
    orbitopal reduction:       no components
    orbital reduction:         no components
    lexicographic reduction:    2 permutations with support sizes 8, 8
 handled 2 out of 2 symmetry components
 presolving (14 rounds: 14 fast, 8 medium, 7 exhaustive):
- 2780 deleted vars, 7685 deleted constraints, 608 added constraints, 514 tightened bounds, 0 added holes, 747 changed sides, 747 changed coefficients
- 51589 implications, 25359 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
-presolved problem has 2734 variables (1570 bin, 0 int, 1164 cont) and 5995 constraints
-   1203 constraints of type <varbound>
-    740 constraints of type <setppc>
-    606 constraints of type <and>
-   3446 constraints of type <linear>
+ 2778 deleted vars, 7433 deleted constraints, 558 added constraints, 514 tightened bounds, 0 added holes, 647 changed sides, 647 changed coefficients
+ 38743 implications, 16916 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+presolved problem has 2436 variables (1372 bin, 0 int, 1064 cont) and 5097 constraints
+   1103 constraints of type <varbound>
+    540 constraints of type <setppc>
+    558 constraints of type <and>
+   2896 constraints of type <linear>
 transformed objective value is always integral (scale: 1)
-Presolving Time: 0.29
+Presolving Time: 0.40
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-p 0.3s|     1 |     0 |     0 |     - |   locks|   0 |2734 |5996 |6601 |   0 |  0 |   0 |   0 | 0.000000e+00 | 2.940000e+02 |    Inf | unknown
-p 0.3s|     1 |     0 |   133 |     - | vbounds|   0 |2734 |6010 |6601 |   0 |  0 |  67 |   0 | 0.000000e+00 | 4.000000e+01 |    Inf | unknown
-  0.4s|     1 |     0 |  3513 |     - |    75M |   0 |2734 |5978 |6602 |   0 |  0 |  73 |   0 | 6.000000e+00 | 4.000000e+01 | 566.67%| unknown
-r 0.4s|     1 |     0 |  3513 |     - |shifting|   0 |2734 |5978 |6602 |   0 |  0 |  73 |   0 | 6.000000e+00 | 3.900000e+01 | 550.00%| unknown
-i 0.4s|     1 |     0 |  3985 |     - |  oneopt|   0 |2734 |5978 |6602 |   0 |  0 |  73 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
-  0.5s|     1 |     0 |  4043 |     - |    78M |   0 |2734 |5978 |5079 |  50 |  1 |  73 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
-  0.5s|     1 |     0 |  4093 |     - |    78M |   0 |2734 |5837 |4880 |  77 |  2 |  73 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
-  0.5s|     1 |     0 |  4127 |     - |    79M |   0 |2734 |5837 |4905 | 102 |  3 |  73 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
-r 0.5s|     1 |     0 |  4127 |     - |shifting|   0 |2734 |5837 |4905 | 102 |  3 |  73 |   0 | 6.000000e+00 | 2.200000e+01 | 266.67%| unknown
-  0.5s|     1 |     0 |  4159 |     - |    79M |   0 |2734 |5837 |4926 | 123 |  4 |  73 |   0 | 6.000000e+00 | 2.200000e+01 | 266.67%| unknown
-i 0.5s|     1 |     0 |  4557 |     - |  oneopt|   0 |2734 |5837 |4926 | 123 |  4 |  73 |   0 | 6.000000e+00 | 2.000000e+01 | 233.33%| unknown
-r 0.5s|     1 |     0 |  4776 |     - |shifting|   0 |2734 |5837 |4926 | 123 |  4 |  73 |   0 | 6.000000e+00 | 6.000000e+00 |   0.00%| unknown
-  0.5s|     1 |     0 |  4776 |     - |    80M |   0 |2734 |5837 |4926 | 123 |  4 |  73 |   0 | 6.000000e+00 | 6.000000e+00 |   0.00%| unknown
+p 0.4s|     1 |     0 |     0 |     - |   locks|   0 |2436 |5098 |5655 |   0 |  0 |   0 |   0 | 0.000000e+00 | 2.940000e+02 |    Inf | unknown
+p 0.5s|     1 |     0 |     1 |     - | vbounds|   0 |2436 |5107 |5655 |   0 |  0 |  59 |   0 | 0.000000e+00 | 4.000000e+01 |    Inf | unknown
+  0.5s|     1 |     0 |  2144 |     - |    67M |   0 |2436 |5111 |5655 |   0 |  0 |  63 |   0 | 6.000000e+00 | 4.000000e+01 | 566.67%| unknown
+r 0.5s|     1 |     0 |  2144 |     - |shifting|   0 |2436 |5111 |5655 |   0 |  0 |  63 |   0 | 6.000000e+00 | 3.900000e+01 | 550.00%| unknown
+i 0.5s|     1 |     0 |  2688 |     - |  oneopt|   0 |2436 |5111 |5655 |   0 |  0 |  63 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
+  0.6s|     1 |     0 |  2757 |     - |    69M |   0 |2436 |5111 |4889 |  60 |  1 |  63 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
+  0.6s|     1 |     0 |  2804 |     - |    70M |   0 |2436 |5035 |4764 | 103 |  2 |  63 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
+r 0.6s|     1 |     0 |  2804 |     - |shifting|   0 |2436 |5035 |4764 | 103 |  2 |  63 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
+  0.6s|     1 |     0 |  2839 |     - |    70M |   0 |2436 |5035 |4795 | 134 |  3 |  63 |   0 | 6.000000e+00 | 3.400000e+01 | 466.67%| unknown
+i 0.6s|     1 |     0 |  3385 |     - |  oneopt|   0 |2436 |5035 |4795 | 134 |  3 |  63 |   0 | 6.000000e+00 | 3.100000e+01 | 416.67%| unknown
+r 0.7s|     1 |     0 |  3556 |     - |shifting|   0 |2436 |5035 |4795 | 134 |  3 |  63 |   0 | 6.000000e+00 | 2.600000e+01 | 333.33%| unknown
+  0.7s|     1 |     0 |  3584 |     - |    71M |   0 |2436 |5035 |4811 | 150 |  4 |  63 |   0 | 6.000000e+00 | 2.600000e+01 | 333.33%| unknown
+r 0.7s|     1 |     0 |  3584 |     - |shifting|   0 |2436 |5035 |4811 | 150 |  4 |  63 |   0 | 6.000000e+00 | 2.100000e+01 | 250.00%| unknown
+i 0.7s|     1 |     0 |  3936 |     - |  oneopt|   0 |2436 |5035 |4811 | 150 |  4 |  63 |   0 | 6.000000e+00 | 2.000000e+01 | 233.33%| unknown
+  0.7s|     1 |     0 |  3952 |     - |    72M |   0 |2436 |5035 |4829 | 168 |  5 |  63 |   0 | 6.000000e+00 | 2.000000e+01 | 233.33%| unknown
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+r 0.7s|     1 |     0 |  3952 |     - |shifting|   0 |2436 |5035 |4829 | 168 |  5 |  63 |   0 | 6.000000e+00 | 6.000000e+00 |   0.00%| unknown
+  0.7s|     1 |     0 |  3952 |     - |    72M |   0 |2436 |5035 |4829 | 168 |  5 |  63 |   0 | 6.000000e+00 | 6.000000e+00 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.54
+Solving Time (sec) : 0.69
 Solving Nodes      : 1
-Primal Bound       : +6.00000000000000e+00 (7 solutions)
+Primal Bound       : +6.00000000000000e+00 (10 solutions)
 Dual Bound         : +6.00000000000000e+00
 Gap                : 0.00 %
 status: optimal
 solver: scip
-target closure: 9990 -> 2124 vertices, 12363 -> 2713 arcs
+target closure: 9590 -> 2024 vertices, 11163 -> 2413 arcs
 objective cost form: 6.0
 defender utility: -6.0
 attacker utility: 0.0
@@ -68,18 +72,18 @@ selected defenses:
   9637: vulExists(dmz3,CVE-LOCAL-0003,kernel,localExploit,privEscalation)  cost=1.0
   9641: vulExists(dmz5,CVE-LOCAL-0005,kernel,localExploit,privEscalation)  cost=1.0
   9645: vulExists(dmz7,CVE-LOCAL-0007,kernel,localExploit,privEscalation)  cost=1.0
+  9661: vulExists(dmz15,CVE-LOCAL-0015,kernel,localExploit,privEscalation)  cost=1.0
   9675: vulExists(dmz22,CVE-LOCAL-0022,kernel,localExploit,privEscalation)  cost=1.0
   9695: vulExists(dmz32,CVE-LOCAL-0032,kernel,localExploit,privEscalation)  cost=1.0
-  9707: vulExists(dmz38,CVE-LOCAL-0038,kernel,localExploit,privEscalation)  cost=1.0
 timings seconds:
-  read_csv: 0.009
+  read_csv: 0.015
   read_config: 0.000
-  prepare_goals_and_config: 0.002
+  prepare_goals_and_config: 0.003
   resolve_game_defaults: 0.000
-  target_closure: 0.003
-  build_parameters: 0.003
-  build_mip: 0.109
-  optimize: 0.542
+  target_closure: 0.005
+  build_parameters: 0.005
+  build_mip: 0.158
+  optimize: 0.692
   extract_solution: 0.000
-  total_wall: 0.685
+  total_wall: 0.902
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_10k_goals_50.json

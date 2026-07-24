@@ -338,14 +338,14 @@ id,label,type,score
 无表头：
 
 ```text
-source,target
+source,target,-1
 ```
 
 若 OR 目标 1 由 AND 规则 2 推出，规则依赖 LEAF 3：
 
 ```text
-1,2
-2,3
+1,2,-1
+2,3,-1
 ```
 
 需要 Python 3.10 或更新版本。默认 SCIP：
@@ -499,7 +499,7 @@ python3 generate_large_mulval_csv.py \
   --summary-out large_mulval_summary.json
 ```
 
-生成器验证图无环、LEAF 无前提且会被 AND 消费、每个 OR 至少由一个 AND 规则推导、OR 只依赖 AND、非 LEAF 有前提、AND 不依赖 AND、每个 AND 至多一个 OR 前提且至少一个 LEAF 前提。多主机图必须至少启用一条每主机横向移动规则，否则内部主机的 `execCode(...,user)` 无法被推导。score 随机取 1 到 100；summary 包含目标 ID 和结构诊断。
+生成器验证图无环、LEAF 无前提且会被 AND 消费、每个 OR 至少由一个 AND 规则推导、OR 只依赖 AND、非 LEAF 有前提、AND 不依赖 AND、每个 AND 至多一个 OR 前提且至少一个 LEAF 前提。多主机图必须至少启用一条每主机横向移动规则，否则内部主机的 `execCode(...,user)` 无法被推导。每个关键资产目标只接受资产所在主机的 root 权限作为权限前提，其他主机必须先通过横向移动和利用链获得该目标主机权限。score 随机取 1 到 100；summary 包含目标 ID 和结构诊断。
 
 ### run_goal_count_benchmarks.py
 

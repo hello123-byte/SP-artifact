@@ -4,7 +4,7 @@
 Output format:
   VERTICES.CSV rows: id,label,type,score
   The score column is a randomized attack-cost value in [1, 100].
-  ARCS.CSV rows: source,target
+  ARCS.CSV rows: source,target,-1
 
 Edge direction follows the MulVAL CSV convention used by the solver:
   conclusion -> prerequisite
@@ -433,6 +433,37 @@ def prune_unconsumed_leaves(vertices, arcs):
     return kept_vertices, kept_arcs, removed
 
 
+def prune_to_goal_closure(vertices, arcs, goal_nodes: list[int]):
+    """Keep only final goals and their recursive prerequisites.
+
+    Arcs are stored as conclusion -> prerequisite. In the visual direction,
+    the retained nodes are exactly those that can reach a final goal.
+    """
+    vertex_ids = {node_id for node_id, _, _, _ in vertices}
+    missing_goals = [goal_id for goal_id in goal_nodes if goal_id not in vertex_ids]
+    if missing_goals:
+        raise SystemExit(f"Cannot close graph around missing goal id(s): {missing_goals}")
+
+    outgoing = defaultdict(list)
+    for source, target in arcs:
+        if source in vertex_ids and target in vertex_ids:
+            outgoing[source].append(target)
+
+    kept_ids = set(goal_nodes)
+    stack = list(goal_nodes)
+    while stack:
+        node_id = stack.pop()
+        for prerequisite_id in outgoing[node_id]:
+            if prerequisite_id not in kept_ids:
+                kept_ids.add(prerequisite_id)
+                stack.append(prerequisite_id)
+
+    removed = [vertex for vertex in vertices if vertex[0] not in kept_ids]
+    kept_vertices = [vertex for vertex in vertices if vertex[0] in kept_ids]
+    kept_arcs = [(source, target) for source, target in arcs if source in kept_ids and target in kept_ids]
+    return kept_vertices, kept_arcs, removed
+
+
 def build_graph(
     hosts: int,
     services_per_host: int,
@@ -440,6 +471,7 @@ def build_graph(
     lateral_rules_per_host: int,
     goals: int,
     seed: int,
+    target_closed: bool = False,
 ):
     validate_parameters(hosts, services_per_host, vuln_per_service, lateral_rules_per_host, goals)
 
@@ -510,10 +542,14 @@ def build_graph(
 
     for host_index in range(1, hosts):
         for lateral_index in range(lateral_rules_per_host):
-            source_host = choose_source_host(rng, host_index)
+            source_host = host_index - 1 if target_closed else choose_source_host(rng, host_index)
             service_index = rng.randrange(services_per_host)
             _, port, _ = service_meta[(host_index, service_index)]
-            source_privilege = root_exec[source_host] if rng.random() < 0.35 else user_exec[source_host]
+            source_privilege = (
+                root_exec[source_host]
+                if target_closed or rng.random() < 0.35
+                else user_exec[source_host]
+            )
             credential_label = None
             if rng.random() < 0.45:
                 credential_label = (
@@ -592,23 +628,22 @@ def build_graph(
             "LEAF",
             score(rng),
         )
-        alt_count = max(1, min(4, services_per_host + 1))
-        candidate_hosts = sorted({target_host, *crown_hosts[max(0, len(crown_hosts) - alt_count):]})
-        for alt_index in range(alt_count):
-            prerequisite_host = candidate_hosts[alt_index % len(candidate_hosts)]
-            _, next_id = add_rule(
-                vertices=vertices,
-                arcs=arcs,
-                next_id=next_id,
-                conclusion_id=goal_id,
-                label=f"RULE reach crown jewel goal{goal_index} alt{alt_index}",
-                prerequisite_ids=[root_exec[prerequisite_host], asset_id],
-                rng=rng,
-            )
-            goal_rule_count += 1
+        _, next_id = add_rule(
+            vertices=vertices,
+            arcs=arcs,
+            next_id=next_id,
+            conclusion_id=goal_id,
+            label=f"RULE reach crown jewel goal{goal_index}",
+            prerequisite_ids=[root_exec[target_host], asset_id],
+            rng=rng,
+        )
+        goal_rule_count += 1
         goal_nodes.append(goal_id)
 
     vertices, arcs, pruned_leaf_nodes = prune_unconsumed_leaves(vertices, arcs)
+    pruned_outside_goal_closure = []
+    if target_closed:
+        vertices, arcs, pruned_outside_goal_closure = prune_to_goal_closure(vertices, arcs, goal_nodes)
 
     structure = {
         "host_zones": dict(Counter(zones)),
@@ -620,6 +655,8 @@ def build_graph(
         "local_privilege_rules": local_privilege_rules,
         "goal_rules": goal_rule_count,
         "pruned_unconsumed_leaf_count": len(pruned_leaf_nodes),
+        "pruned_outside_goal_closure_count": len(pruned_outside_goal_closure),
+        "target_closed": target_closed,
         "sample_pruned_unconsumed_leaves": [
             {"id": node_id, "label": label}
             for node_id, label, _, _ in pruned_leaf_nodes[:10]
@@ -635,7 +672,9 @@ def build_graph(
             "Internal netAccess is inferred from compromised earlier hosts plus hacl facts.",
             "Remote exploit AND rules converge on per-host execCode(user) OR nodes.",
             "Local privilege escalation produces per-host execCode(root) OR nodes.",
+            "Each crown-jewel goal requires root access on the same host that owns the critical asset.",
             "Unconsumed LEAF facts are pruned before CSV output.",
+            "Target-closed mode retains only nodes that can reach one of the final goals.",
         ],
     }
 
@@ -651,7 +690,7 @@ def write_csv(vertices, arcs, vertices_path: Path, arcs_path: Path):
 
     with arcs_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerows(arcs)
+        writer.writerows((source, target, -1) for source, target in arcs)
 
 
 def main():
@@ -662,6 +701,11 @@ def main():
     parser.add_argument("--lateral-rules-per-host", type=int, default=1)
     parser.add_argument("--goals", type=int, default=4)
     parser.add_argument("--seed", type=int, default=7)
+    parser.add_argument(
+        "--target-closed",
+        action="store_true",
+        help="Keep only final goals and their prerequisites; use a deterministic lateral chain so every host branch reaches a goal.",
+    )
     parser.add_argument("--vertices-out", default="large_mulval_VERTICES.CSV")
     parser.add_argument("--arcs-out", default="large_mulval_ARCS.CSV")
     parser.add_argument("--summary-out", default="large_mulval_summary.json")
@@ -674,6 +718,7 @@ def main():
         lateral_rules_per_host=args.lateral_rules_per_host,
         goals=args.goals,
         seed=args.seed,
+        target_closed=args.target_closed,
     )
 
     vertices_path = Path(args.vertices_out)
@@ -689,7 +734,7 @@ def main():
         "diagnostics": structure["diagnostics"],
         "format": {
             "VERTICES.CSV": "id,label,type,score",
-            "ARCS.CSV": "source,target",
+            "ARCS.CSV": "source,target,-1",
             "edge_direction": "conclusion -> prerequisite",
         },
     }

@@ -41,7 +41,7 @@ DEFAULT_MIP_GAP = 0.0
 # hundred-thousand-node graph sizes while always generating 200 target goals.
 DEFAULT_SCALE_CONFIGS = {
     "scale_1k": {
-        "hosts": 20,
+        "hosts": 38,
         "services_per_host": 2,
         "vuln_per_service": 1,
         "lateral_rules_per_host": 1,
@@ -211,7 +211,7 @@ def prepare_scale(
         },
         "format": {
             "VERTICES.CSV": "id,label,type,score",
-            "ARCS.CSV": "source,target",
+            "ARCS.CSV": "source,target,-1",
             "edge_direction": "conclusion -> prerequisite",
         },
     }
