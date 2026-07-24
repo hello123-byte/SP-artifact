@@ -42,7 +42,7 @@ i 0.1s|     1 |     0 |     0 |     - |  oneopt|   0 | 593 |1572 |1646 |   0 |  
   0.1s|     1 |     0 |     0 |     - |    18M |   0 | 593 | 101 |1646 |   0 |  0 |   2 |   0 | 2.000000e+00 | 2.000000e+00 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.09
+Solving Time (sec) : 0.10
 Solving Nodes      : 1
 Primal Bound       : +2.00000000000000e+00 (3 solutions)
 Dual Bound         : +2.00000000000000e+00
@@ -59,14 +59,14 @@ selected defenses:
   5: vulExists(dmz0,CVE-SYN-0000-00-00,web0,remoteExploit,privEscalation)  cost=1.0
   7: vulExists(dmz0,CVE-SYN-0000-01-00,ssh1,remoteExploit,privEscalation)  cost=1.0
 timings seconds:
-  read_csv: 0.002
+  read_csv: 0.001
   read_config: 0.000
   prepare_goals_and_config: 0.000
   resolve_game_defaults: 0.000
   target_closure: 0.001
   build_parameters: 0.001
-  build_mip: 0.103
-  optimize: 0.094
+  build_mip: 0.112
+  optimize: 0.096
   extract_solution: 0.000
-  total_wall: 0.205
+  total_wall: 0.216
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_1k_goals_100.json

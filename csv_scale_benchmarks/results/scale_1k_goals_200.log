@@ -24,14 +24,14 @@ presolving:
 (round 23, exhaustive) 1803 del vars, 3864 del conss, 76 add conss, 299 chg bounds, 314 chg sides, 475 chg coeffs, 1059 upgd conss, 10904 impls, 950 clqs, 0 implints
 (round 24, fast)       1803 del vars, 3889 del conss, 76 add conss, 299 chg bounds, 314 chg sides, 500 chg coeffs, 1059 upgd conss, 10904 impls, 950 clqs, 0 implints
    (0.1s) probing cycle finished: starting next cycle
-   (0.2s) probing: 51/167 (30.5%) - 189 fixings, 0 aggregations, 13047 implications, 0 bound changes
-   (0.2s) probing aborted: 50/50 successive totally useless probings
+   (0.1s) probing: 51/167 (30.5%) - 189 fixings, 0 aggregations, 13047 implications, 0 bound changes
+   (0.1s) probing aborted: 50/50 successive totally useless probings
 (round 25, exhaustive) 1806 del vars, 3889 del conss, 76 add conss, 299 chg bounds, 314 chg sides, 500 chg coeffs, 1059 upgd conss, 12178 impls, 1016 clqs, 0 implints
 (round 26, fast)       1806 del vars, 3892 del conss, 76 add conss, 299 chg bounds, 314 chg sides, 503 chg coeffs, 1059 upgd conss, 12178 impls, 1016 clqs, 0 implints
-   (0.2s) probing: 56/167 (33.5%) - 189 fixings, 0 aggregations, 13047 implications, 0 bound changes
-   (0.2s) probing aborted: 50/50 successive totally useless probings
-   (0.2s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.2s) symmetry computation finished: 3 generators found (max: 1500, log10 of symmetry group size: 1.20) (symcode time: 0.00)
+   (0.1s) probing: 56/167 (33.5%) - 189 fixings, 0 aggregations, 13047 implications, 0 bound changes
+   (0.1s) probing aborted: 50/50 successive totally useless probings
+   (0.1s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
+   (0.1s) symmetry computation finished: 3 generators found (max: 1500, log10 of symmetry group size: 1.20) (symcode time: 0.00)
 dynamic symmetry handling statistics:
    orbitopal reduction:       no components
    orbital reduction:         no components
@@ -46,16 +46,16 @@ presolved problem has 793 variables (167 bin, 0 int, 626 cont) and 2370 constrai
      76 constraints of type <and>
    1652 constraints of type <linear>
 transformed objective value is always integral (scale: 1)
-Presolving Time: 0.16
+Presolving Time: 0.13
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-p 0.2s|     1 |     0 |     0 |     - |  clique|   0 | 793 |2370 |2446 |   0 |  0 |   0 |   0 | 0.000000e+00 | 6.800000e+01 |    Inf | unknown
-p 0.2s|     1 |     0 |     0 |     - |   locks|   0 | 793 |2370 |2446 |   0 |  0 |   0 |   0 | 0.000000e+00 | 5.300000e+01 |    Inf | unknown
-i 0.2s|     1 |     0 |     0 |     - |  oneopt|   0 | 793 |2370 |2446 |   0 |  0 |   0 |   0 | 0.000000e+00 | 2.000000e+00 |    Inf | unknown
-  0.2s|     1 |     0 |     0 |     - |    30M |   0 | 793 | 101 |2446 |   0 |  0 |   0 |   0 | 2.000000e+00 | 2.000000e+00 |   0.00%| unknown
+p 0.1s|     1 |     0 |     0 |     - |  clique|   0 | 793 |2370 |2446 |   0 |  0 |   0 |   0 | 0.000000e+00 | 6.800000e+01 |    Inf | unknown
+p 0.1s|     1 |     0 |     0 |     - |   locks|   0 | 793 |2370 |2446 |   0 |  0 |   0 |   0 | 0.000000e+00 | 5.300000e+01 |    Inf | unknown
+i 0.1s|     1 |     0 |     0 |     - |  oneopt|   0 | 793 |2370 |2446 |   0 |  0 |   0 |   0 | 0.000000e+00 | 2.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |     0 |     - |    30M |   0 | 793 | 101 |2446 |   0 |  0 |   0 |   0 | 2.000000e+00 | 2.000000e+00 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.18
+Solving Time (sec) : 0.15
 Solving Nodes      : 1
 Primal Bound       : +2.00000000000000e+00 (3 solutions)
 Dual Bound         : +2.00000000000000e+00
@@ -78,8 +78,8 @@ timings seconds:
   resolve_game_defaults: 0.000
   target_closure: 0.001
   build_parameters: 0.001
-  build_mip: 0.128
-  optimize: 0.182
+  build_mip: 0.100
+  optimize: 0.147
   extract_solution: 0.000
-  total_wall: 0.322
+  total_wall: 0.257
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_1k_goals_200.json
