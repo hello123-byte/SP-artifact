@@ -36,6 +36,9 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
+DEFAULT_KEY_PATH_MAX_NONIMPROVING_STEPS = 64
+
+
 def safe_print(text: str):
     encoding = sys.stdout.encoding or "utf-8"
     print(text.encode(encoding, errors="backslashreplace").decode(encoding))
@@ -450,18 +453,41 @@ def build_key_path_warm_start(
     goals: list[int],
     rewards: dict[int, float],
     losses: dict[int, float],
+    max_nonimproving_steps: int = DEFAULT_KEY_PATH_MAX_NONIMPROVING_STEPS,
 ) -> dict:
-    """Greedily defend leaves on the attacker's current minimum-cost path."""
+    """Greedily defend key paths while retaining the best encountered state.
+
+    A single defense may only make the attacker switch to an equivalent path.
+    Limited non-improving steps let the heuristic cross that plateau and block
+    several parallel paths before deciding whether their combination is useful.
+    """
+    if max_nonimproving_steps < 0:
+        raise ValueError("max_nonimproving_steps must be non-negative")
+
     outgoing, _ = build_graph_indexes(arcs)
     defendable_set = set(defendable)
     defended = set()
     state = evaluate_defense_state(vertices, arcs, attack_costs, defended)
     selected_goal, attacker_utility = choose_attacker_response(state, goals, rewards, losses)
 
-    iterations = 0
+    initial_objective = losses[selected_goal] if selected_goal is not None else 0.0
+    best_snapshot = {
+        "defended": set(),
+        "state": state,
+        "selected_goal": selected_goal,
+        "attacker_utility": attacker_utility,
+        "defense_total": 0.0,
+        "objective": initial_objective,
+        "iterations": 0,
+    }
+    explored_iterations = 0
+    consecutive_nonimproving_steps = 0
+
     while selected_goal is not None:
-        current_defense_cost = sum(defense_costs.get(node_id, default_defense_cost) for node_id in defended)
-        current_objective = current_defense_cost + losses[selected_goal]
+        current_defense_cost = sum(
+            defense_costs.get(node_id, default_defense_cost)
+            for node_id in defended
+        )
         candidates = [
             candidate
             for candidate in key_path_defendable_leaves(
@@ -489,7 +515,12 @@ def build_key_path_warm_start(
             candidate_objective = candidate_defense_cost + (
                 losses[candidate_goal] if candidate_goal is not None else 0.0
             )
-            candidate_rank = (candidate_objective, -candidate_utility, candidate)
+            candidate_rank = (
+                candidate_objective,
+                candidate_utility,
+                candidate_defense_cost,
+                candidate,
+            )
             if best is None or candidate_rank < best[0]:
                 best = (candidate_rank, candidate, candidate_state, candidate_goal, candidate_utility)
             # With zero attack loss and the lowest available added defense cost,
@@ -497,23 +528,42 @@ def build_key_path_warm_start(
             if candidate_goal is None and candidate_defense_cost <= minimum_candidate_cost + 1e-9:
                 break
 
-        if best is None or best[0][0] >= current_objective - 1e-9:
+        if best is None:
             break
+
+        candidate_objective = best[0][0]
+        improves_best = candidate_objective < best_snapshot["objective"] - 1e-9
+        if not improves_best and consecutive_nonimproving_steps >= max_nonimproving_steps:
+            break
+
         _, selected_leaf, state, selected_goal, attacker_utility = best
         defended.add(selected_leaf)
-        iterations += 1
+        explored_iterations += 1
+        defense_total = sum(
+            defense_costs.get(node_id, default_defense_cost)
+            for node_id in defended
+        )
+        objective = defense_total + (
+            losses[selected_goal] if selected_goal is not None else 0.0
+        )
+        if objective < best_snapshot["objective"] - 1e-9:
+            best_snapshot = {
+                "defended": set(defended),
+                "state": state,
+                "selected_goal": selected_goal,
+                "attacker_utility": attacker_utility,
+                "defense_total": defense_total,
+                "objective": objective,
+                "iterations": explored_iterations,
+            }
+            consecutive_nonimproving_steps = 0
+        else:
+            consecutive_nonimproving_steps += 1
 
-    defense_total = sum(defense_costs.get(node_id, default_defense_cost) for node_id in defended)
-    objective = defense_total + (losses[selected_goal] if selected_goal is not None else 0.0)
-    return {
-        "defended": defended,
-        "state": state,
-        "selected_goal": selected_goal,
-        "attacker_utility": attacker_utility,
-        "defense_total": defense_total,
-        "objective": objective,
-        "iterations": iterations,
-    }
+    best_snapshot["explored_iterations"] = explored_iterations
+    best_snapshot["max_nonimproving_steps"] = max_nonimproving_steps
+    best_snapshot["stopped_after_nonimproving_steps"] = consecutive_nonimproving_steps
+    return best_snapshot
 
 
 def submit_warm_start(
@@ -1027,6 +1077,9 @@ def solve_game(
         "heuristic_objective": None,
         "attacker_goal": None,
         "iterations": 0,
+        "explored_iterations": 0,
+        "max_nonimproving_steps": DEFAULT_KEY_PATH_MAX_NONIMPROVING_STEPS,
+        "stopped_after_nonimproving_steps": 0,
     }
     if warm_start_key_path:
         warm_start_begin = time.perf_counter()
@@ -1063,6 +1116,11 @@ def solve_game(
                     "heuristic_objective": warm_start["objective"],
                     "attacker_goal": warm_start["selected_goal"],
                     "iterations": warm_start["iterations"],
+                    "explored_iterations": warm_start["explored_iterations"],
+                    "max_nonimproving_steps": warm_start["max_nonimproving_steps"],
+                    "stopped_after_nonimproving_steps": warm_start[
+                        "stopped_after_nonimproving_steps"
+                    ],
                 }
             )
         except ValueError as exc:
