@@ -285,6 +285,7 @@ def run_case(
     attack_cost_source: str,
     mip_gap: float,
     time_limit: float | None,
+    warm_start_key_path: bool,
 ) -> dict:
     summary, goals = load_case(case_dir)
     protocol = summary["benchmark_protocol"]
@@ -311,10 +312,13 @@ def run_case(
     ]
     if time_limit is not None:
         cmd.extend(["--time-limit", str(time_limit)])
+    if warm_start_key_path:
+        cmd.append("--warm-start-key-path")
 
     print(
         f"[run] {case_name}: nodes={summary['scale_reference']['actual_nodes']}, "
-        f"goals={goal_count}, reward={protocol['default_reward']:g}",
+        f"goals={goal_count}, reward={protocol['default_reward']:g}, "
+        f"warm_start={'key_path' if warm_start_key_path else 'off'}",
         flush=True,
     )
     start = time.perf_counter()
@@ -326,6 +330,7 @@ def run_case(
     if result_path.exists():
         result = json.loads(result_path.read_text(encoding="utf-8"))
     closure = result.get("target_closure", {})
+    warm_start = result.get("warm_start", {})
     timings = result.get("timings_seconds", {})
     row = {
         "scale": scale,
@@ -340,6 +345,12 @@ def run_case(
         "closure_reduced_arcs": closure.get("reduced_arcs"),
         "closure_removed_vertices": closure.get("removed_vertices"),
         "closure_removed_arcs": closure.get("removed_arcs"),
+        "warm_start_enabled": warm_start.get("enabled"),
+        "warm_start_submitted": warm_start.get("submitted"),
+        "warm_start_accepted": warm_start.get("accepted"),
+        "warm_start_defense_count": warm_start.get("defense_count"),
+        "warm_start_objective": warm_start.get("heuristic_objective"),
+        "warm_start_seconds": timings.get("key_path_warm_start"),
         "returncode": proc.returncode,
         "status": result.get("status"),
         "wall_seconds": round(wall_seconds, 6),
@@ -363,7 +374,8 @@ def run_case(
         f"closure nodes {row['closure_original_vertices']} -> {row['closure_reduced_vertices']} "
         f"(removed {row['closure_removed_vertices']}), arcs "
         f"{row['closure_original_arcs']} -> {row['closure_reduced_arcs']} "
-        f"(removed {row['closure_removed_arcs']})",
+        f"(removed {row['closure_removed_arcs']}); warm start "
+        f"submitted={row['warm_start_submitted']}, accepted={row['warm_start_accepted']}",
         flush=True,
     )
     return row
@@ -374,8 +386,9 @@ def write_summary(path: Path, rows: list[dict]):
         "scale", "goal_count", "target_nodes", "actual_nodes", "actual_arcs",
         "node_delta", "closure_original_vertices", "closure_reduced_vertices",
         "closure_original_arcs", "closure_reduced_arcs", "closure_removed_vertices",
-        "closure_removed_arcs",
-        "returncode", "status", "wall_seconds", "solver", "relative_gap",
+        "closure_removed_arcs", "warm_start_enabled", "warm_start_submitted",
+        "warm_start_accepted", "warm_start_defense_count", "warm_start_objective",
+        "warm_start_seconds", "returncode", "status", "wall_seconds", "solver", "relative_gap",
         "default_reward", "default_loss", "goal_min_attack_cost_min",
         "goal_min_attack_cost_max", "goal_min_attack_cost_avg",
         "read_csv_seconds", "target_closure_seconds", "build_mip_seconds",
@@ -405,6 +418,11 @@ def main():
     parser.add_argument("--skip-prepare", action="store_true")
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--mip-gap", type=float, default=DEFAULT_MIP_GAP)
+    parser.add_argument(
+        "--warm-start-key-path",
+        action="store_true",
+        help="Submit a greedy key-path defender solution to the MIP solver before optimization.",
+    )
     parser.add_argument("--time-limit", type=float, default=None)
     args = parser.parse_args()
     if args.mip_gap < 0:
@@ -462,6 +480,7 @@ def main():
                     attack_cost_source=args.attack_cost_source,
                     mip_gap=args.mip_gap,
                     time_limit=args.time_limit,
+                    warm_start_key_path=args.warm_start_key_path,
                 )
             )
             write_summary(results_dir / "benchmark_runtime_summary.csv", rows)

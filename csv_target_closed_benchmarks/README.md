@@ -18,6 +18,7 @@ python3 run_target_closed_benchmarks.py \
   --skip-prepare \
   --scales scale_1k,scale_10k,scale_100k \
   --goal-counts 1,50,100,200 \
+  --warm-start-key-path \
   --solver scip \
   --mip-gap 0 \
   --time-limit 600

@@ -323,6 +323,241 @@ def compute_dependency_closure(
     return reduced_vertices, reduced_arcs, kept_ids, stats
 
 
+def evaluate_defense_state(
+    vertices: dict[int, dict],
+    arcs: list[tuple[int, int]],
+    attack_costs: dict[int, float],
+    defended: set[int],
+) -> dict:
+    """Evaluate reachability and minimum derivation costs for fixed defenses.
+
+    The returned state follows exactly the AND/OR and cost semantics used by
+    the MIP. It also records the minimum-cost child selected at each reachable
+    OR node, so it can be submitted as a complete MIP start.
+    """
+    outgoing, _ = build_graph_indexes(arcs)
+    parents = defaultdict(list)
+    remaining = {node_id: 0 for node_id in vertices}
+    for source, target in arcs:
+        if source in vertices and target in vertices:
+            parents[target].append(source)
+            remaining[source] += 1
+
+    queue = sorted(node_id for node_id, count in remaining.items() if count == 0)
+    order = []
+    index = 0
+    while index < len(queue):
+        node_id = queue[index]
+        index += 1
+        order.append(node_id)
+        for parent_id in parents[node_id]:
+            remaining[parent_id] -= 1
+            if remaining[parent_id] == 0:
+                queue.append(parent_id)
+
+    if len(order) != len(vertices):
+        raise ValueError("Key-path warm start requires an acyclic dependency graph")
+
+    reachable = {}
+    min_cost = {}
+    or_choice = {}
+    for node_id in order:
+        node_type = vertices[node_id]["type"]
+        children = [child for child in outgoing[node_id] if child in vertices]
+        if node_type == "LEAF":
+            reachable[node_id] = node_id not in defended
+            min_cost[node_id] = 0.0
+        elif node_type == "AND":
+            reachable[node_id] = bool(children) and all(reachable[child] for child in children)
+            min_cost[node_id] = (
+                attack_costs[node_id] + sum(min_cost[child] for child in children)
+                if reachable[node_id]
+                else 0.0
+            )
+        elif node_type == "OR":
+            candidates = [child for child in children if reachable[child]]
+            if candidates:
+                chosen_child = min(candidates, key=lambda child: (min_cost[child], child))
+                reachable[node_id] = True
+                min_cost[node_id] = min_cost[chosen_child]
+                or_choice[node_id] = chosen_child
+            else:
+                reachable[node_id] = False
+                min_cost[node_id] = 0.0
+        else:
+            raise ValueError(f"Unknown node type for {node_id}: {node_type}")
+
+    return {"reachable": reachable, "min_cost": min_cost, "or_choice": or_choice}
+
+
+def choose_attacker_response(state: dict, goals: list[int], rewards: dict[int, float], losses: dict[int, float]):
+    """Return the optimistic defender-favorable best response represented by the MIP."""
+    utilities = {
+        goal: rewards[goal] - state["min_cost"][goal]
+        for goal in goals
+        if state["reachable"][goal]
+    }
+    max_utility = max([0.0] + list(utilities.values()))
+    if max_utility <= 1e-9:
+        return None, 0.0
+    best_goals = [
+        goal for goal, utility in utilities.items()
+        if abs(utility - max_utility) <= 1e-9
+    ]
+    return min(best_goals, key=lambda goal: (losses[goal], goal)), max_utility
+
+
+def key_path_defendable_leaves(
+    goal: int,
+    vertices: dict[int, dict],
+    outgoing: dict[int, list[int]],
+    state: dict,
+    defendable: set[int],
+) -> list[int]:
+    """Collect defendable leaves in deterministic current-path traversal order."""
+    leaves = []
+    leaf_seen = set()
+    visited = set()
+    stack = [goal]
+    while stack:
+        node_id = stack.pop()
+        if node_id in visited:
+            continue
+        visited.add(node_id)
+        node_type = vertices[node_id]["type"]
+        if node_type == "LEAF":
+            if node_id in defendable and node_id not in leaf_seen:
+                leaves.append(node_id)
+                leaf_seen.add(node_id)
+        elif node_type == "AND":
+            # Stack is LIFO: reverse preserves CSV prerequisite order during traversal.
+            stack.extend(reversed([child for child in outgoing[node_id] if child in vertices]))
+        elif node_type == "OR":
+            child = state["or_choice"].get(node_id)
+            if child is not None:
+                stack.append(child)
+    return leaves
+
+
+def build_key_path_warm_start(
+    vertices: dict[int, dict],
+    arcs: list[tuple[int, int]],
+    attack_costs: dict[int, float],
+    defendable: list[int],
+    defense_costs: dict[int, float],
+    default_defense_cost: float,
+    budget: float | None,
+    goals: list[int],
+    rewards: dict[int, float],
+    losses: dict[int, float],
+) -> dict:
+    """Greedily defend leaves on the attacker's current minimum-cost path."""
+    outgoing, _ = build_graph_indexes(arcs)
+    defendable_set = set(defendable)
+    defended = set()
+    state = evaluate_defense_state(vertices, arcs, attack_costs, defended)
+    selected_goal, attacker_utility = choose_attacker_response(state, goals, rewards, losses)
+
+    iterations = 0
+    while selected_goal is not None:
+        current_defense_cost = sum(defense_costs.get(node_id, default_defense_cost) for node_id in defended)
+        current_objective = current_defense_cost + losses[selected_goal]
+        candidates = [
+            candidate
+            for candidate in key_path_defendable_leaves(
+                selected_goal, vertices, outgoing, state, defendable_set
+            )
+            if candidate not in defended
+        ]
+        feasible_candidate_costs = [
+            current_defense_cost + defense_costs.get(candidate, default_defense_cost)
+            for candidate in candidates
+            if budget is None
+            or current_defense_cost + defense_costs.get(candidate, default_defense_cost) <= budget + 1e-9
+        ]
+        minimum_candidate_cost = min(feasible_candidate_costs, default=None)
+        best = None
+        for candidate in candidates:
+            candidate_defended = defended | {candidate}
+            candidate_defense_cost = current_defense_cost + defense_costs.get(candidate, default_defense_cost)
+            if budget is not None and candidate_defense_cost > budget + 1e-9:
+                continue
+            candidate_state = evaluate_defense_state(vertices, arcs, attack_costs, candidate_defended)
+            candidate_goal, candidate_utility = choose_attacker_response(
+                candidate_state, goals, rewards, losses
+            )
+            candidate_objective = candidate_defense_cost + (
+                losses[candidate_goal] if candidate_goal is not None else 0.0
+            )
+            candidate_rank = (candidate_objective, -candidate_utility, candidate)
+            if best is None or candidate_rank < best[0]:
+                best = (candidate_rank, candidate, candidate_state, candidate_goal, candidate_utility)
+            # With zero attack loss and the lowest available added defense cost,
+            # no later candidate can improve this iteration's objective.
+            if candidate_goal is None and candidate_defense_cost <= minimum_candidate_cost + 1e-9:
+                break
+
+        if best is None or best[0][0] >= current_objective - 1e-9:
+            break
+        _, selected_leaf, state, selected_goal, attacker_utility = best
+        defended.add(selected_leaf)
+        iterations += 1
+
+    defense_total = sum(defense_costs.get(node_id, default_defense_cost) for node_id in defended)
+    objective = defense_total + (losses[selected_goal] if selected_goal is not None else 0.0)
+    return {
+        "defended": defended,
+        "state": state,
+        "selected_goal": selected_goal,
+        "attacker_utility": attacker_utility,
+        "defense_total": defense_total,
+        "objective": objective,
+        "iterations": iterations,
+    }
+
+
+def submit_warm_start(
+    model,
+    solver: str,
+    x: dict,
+    d: dict,
+    c: dict,
+    or_selectors: dict[tuple[int, int], object],
+    y_empty,
+    y_goal: dict,
+    attacker_max_utility,
+    warm_start: dict,
+) -> dict:
+    """Submit a complete, feasible key-path solution to SCIP or Gurobi."""
+    state = warm_start["state"]
+    assignments = []
+    assignments.extend((x[node_id], float(state["reachable"][node_id])) for node_id in x)
+    assignments.extend((d[node_id], float(node_id in warm_start["defended"])) for node_id in d)
+    assignments.extend((c[node_id], state["min_cost"][node_id]) for node_id in c)
+    assignments.extend(
+        (selector, float(state["or_choice"].get(or_id) == child_id))
+        for (or_id, child_id), selector in or_selectors.items()
+    )
+    assignments.append((y_empty, float(warm_start["selected_goal"] is None)))
+    assignments.extend(
+        (variable, float(goal == warm_start["selected_goal"]))
+        for goal, variable in y_goal.items()
+    )
+    assignments.append((attacker_max_utility, warm_start["attacker_utility"]))
+
+    if solver == "scip":
+        solution = model.createSol()
+        for variable, value in assignments:
+            model.setSolVal(solution, variable, value)
+        accepted = bool(model.addSol(solution, free=True))
+        return {"submitted": True, "accepted": accepted}
+    if solver == "gurobi":
+        for variable, value in assignments:
+            variable.Start = value
+        return {"submitted": True, "accepted": None}
+    return {"submitted": False, "accepted": None, "reason": f"Unsupported solver: {solver}"}
+
+
 class GurobiModelAdapter:
     """Small adapter so the model-building code can support SCIP and Gurobi."""
 
@@ -449,6 +684,7 @@ def solve_game(
     target_closure: bool | None,
     time_limit: float | None,
     mip_gap: float | None,
+    warm_start_key_path: bool | None,
     solver: str | None,
     write_lp: str | None,
 ):
@@ -489,6 +725,9 @@ def solve_game(
         if mip_gap < 0:
             raise SystemExit("--mip-gap must be non-negative")
     solver = coalesce(solver, config_defaults.get("solver"), "scip")
+    warm_start_key_path = bool(
+        coalesce(warm_start_key_path, config_defaults.get("warm_start_key_path"), False)
+    )
 
     if goal_ids:
         goals = parse_goal_ids(",".join(map(str, goal_ids)), default_goals)
@@ -635,6 +874,10 @@ def solve_game(
     y_empty = model.addVar(vtype="B", name="choose_empty")
     y_goal = {goal: model.addVar(vtype="B", name=f"choose_goal_{goal}") for goal in goals}
 
+    # OR child choices used by the minimum-cost formulation.  Retaining these
+    # variables lets the key-path heuristic submit a complete feasible solution.
+    or_selectors = {}
+
     # U: maximum attacker net utility across all reachable goals and empty attack.
     # This avoids pairwise goal comparisons and keeps best-response constraints
     # linear in the number of goals.
@@ -711,6 +954,7 @@ def solve_game(
             selected_children = []
             for child in children:
                 selector = model.addVar(vtype="B", name=f"or_{node_id}_select_{child}")
+                or_selectors[(node_id, child)] = selector
                 selected_children.append(selector)
                 model.addCons(selector <= x[child], name=f"cost_or_{node_id}_select_reachable_{child}")
 
@@ -773,6 +1017,58 @@ def solve_game(
     attack_loss = quicksum(losses[g] * y_goal[g] for g in goals)
     model.setObjective(defense_cost + attack_loss, "minimize")
 
+    warm_start_info = {
+        "enabled": warm_start_key_path,
+        "strategy": "key_path_greedy" if warm_start_key_path else None,
+        "submitted": False,
+        "accepted": None,
+        "defense_count": 0,
+        "defense_total": 0.0,
+        "heuristic_objective": None,
+        "attacker_goal": None,
+        "iterations": 0,
+    }
+    if warm_start_key_path:
+        warm_start_begin = time.perf_counter()
+        try:
+            warm_start = build_key_path_warm_start(
+                vertices=vertices,
+                arcs=arcs,
+                attack_costs=attack_costs,
+                defendable=defendable,
+                defense_costs=defense_costs,
+                default_defense_cost=default_defense_cost,
+                budget=budget,
+                goals=goals,
+                rewards=rewards,
+                losses=losses,
+            )
+            submission = submit_warm_start(
+                model=model,
+                solver=solver,
+                x=x,
+                d=d,
+                c=c,
+                or_selectors=or_selectors,
+                y_empty=y_empty,
+                y_goal=y_goal,
+                attacker_max_utility=attacker_max_utility,
+                warm_start=warm_start,
+            )
+            warm_start_info.update(submission)
+            warm_start_info.update(
+                {
+                    "defense_count": len(warm_start["defended"]),
+                    "defense_total": warm_start["defense_total"],
+                    "heuristic_objective": warm_start["objective"],
+                    "attacker_goal": warm_start["selected_goal"],
+                    "iterations": warm_start["iterations"],
+                }
+            )
+        except ValueError as exc:
+            warm_start_info["reason"] = str(exc)
+        timings["key_path_warm_start"] = time.perf_counter() - warm_start_begin
+
     if write_lp:
         model.writeProblem(write_lp)
     timings["build_mip"] = time.perf_counter() - stage_start
@@ -821,6 +1117,7 @@ def solve_game(
         "mip_gap_limit": mip_gap,
         "relative_gap": None,
         "target_closure": target_closure_stats,
+        "warm_start": warm_start_info,
         "timings_seconds": timings,
         "selected_defenses": [],
         "reachable_goals": [],
@@ -976,6 +1273,15 @@ def main():
         help="Optional relative MIP gap stopping threshold; 0.01 means 1 percent.",
     )
     parser.add_argument(
+        "--warm-start-key-path",
+        action="store_true",
+        default=None,
+        help=(
+            "Construct a greedy defender solution by repeatedly blocking the "
+            "attacker's current minimum-cost derivation, then submit it as a MIP start."
+        ),
+    )
+    parser.add_argument(
         "--solver",
         choices=["scip", "gurobi"],
         default=None,
@@ -1023,6 +1329,7 @@ def main():
         cost_big_m_override=args.cost_big_m,
         target_closure=args.target_closure,
         time_limit=args.time_limit,
+        warm_start_key_path=args.warm_start_key_path,
         solver=args.solver,
         write_lp=args.write_lp,
     )
@@ -1044,6 +1351,14 @@ def main():
             "target closure: "
             f"{closure['original_vertices']} -> {closure['reduced_vertices']} vertices, "
             f"{closure['original_arcs']} -> {closure['reduced_arcs']} arcs"
+        )
+    warm_start = result.get("warm_start", {})
+    if warm_start.get("enabled"):
+        safe_print(
+            "key-path warm start: "
+            f"submitted={warm_start.get('submitted')}, accepted={warm_start.get('accepted')}, "
+            f"defenses={warm_start.get('defense_count')}, "
+            f"heuristic_objective={warm_start.get('heuristic_objective')}"
         )
     if result.get("objective_cost_form") is not None:
         safe_print(f"objective cost form: {result['objective_cost_form']}")

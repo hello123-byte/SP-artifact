@@ -120,6 +120,12 @@ def append_summary(summary_path: Path, rows: list[dict]):
         "objective_cost_form",
         "attacker_utility",
         "defendable_leaf_count",
+        "warm_start_enabled",
+        "warm_start_submitted",
+        "warm_start_accepted",
+        "warm_start_defense_count",
+        "warm_start_objective",
+        "warm_start_seconds",
         "original_vertices",
         "original_arcs",
         "reduced_vertices",
@@ -305,6 +311,7 @@ def build_row(
 ) -> dict:
     result = load_result(result_path)
     closure = result.get("target_closure", {}) or {}
+    warm_start = result.get("warm_start", {}) or {}
     timings = result.get("timings_seconds", {}) or {}
     return {
         "scale": scale,
@@ -333,6 +340,12 @@ def build_row(
         "objective_cost_form": result.get("objective_cost_form"),
         "attacker_utility": result.get("attacker_utility"),
         "defendable_leaf_count": result.get("defendable_leaf_count"),
+        "warm_start_enabled": warm_start.get("enabled"),
+        "warm_start_submitted": warm_start.get("submitted"),
+        "warm_start_accepted": warm_start.get("accepted"),
+        "warm_start_defense_count": warm_start.get("defense_count"),
+        "warm_start_objective": warm_start.get("heuristic_objective"),
+        "warm_start_seconds": timings.get("key_path_warm_start"),
         "original_vertices": closure.get("original_vertices"),
         "original_arcs": closure.get("original_arcs"),
         "reduced_vertices": closure.get("reduced_vertices"),
@@ -366,6 +379,7 @@ def run_case(
     default_loss: float,
     calibration: dict,
     time_limit: float | None,
+    warm_start_key_path: bool,
 ) -> dict:
     goal_file = scale_dir / "goal_sets" / f"goals_{goal_count}.txt"
     if not goal_file.exists():
@@ -405,10 +419,13 @@ def run_case(
         cmd.extend(["--time-limit", str(time_limit)])
     if mip_gap is not None:
         cmd.extend(["--mip-gap", str(mip_gap)])
+    if warm_start_key_path:
+        cmd.append("--warm-start-key-path")
 
     print(
         f"[run] {scale}, goals={goal_count}, closure=on, defendable={defendable}, "
-        f"cost={attack_cost_source}, reward={default_reward:g}, loss={default_loss:g}, gap={mip_gap}",
+        f"cost={attack_cost_source}, reward={default_reward:g}, loss={default_loss:g}, gap={mip_gap}, "
+        f"warm_start={'key_path' if warm_start_key_path else 'off'}",
         flush=True,
     )
     print("      " + " ".join(cmd[:2]) + " ...", flush=True)
@@ -431,7 +448,8 @@ def run_case(
         f"{row['original_vertices']} -> {row['reduced_vertices']} "
         f"(removed {row['removed_vertices']}), arcs "
         f"{row['original_arcs']} -> {row['reduced_arcs']} "
-        f"(removed {row['removed_arcs']})",
+        f"(removed {row['removed_arcs']}); warm start "
+        f"submitted={row['warm_start_submitted']}, accepted={row['warm_start_accepted']}",
         flush=True,
     )
     return row
@@ -497,6 +515,11 @@ def main():
         type=float,
         default=DEFAULT_MIP_GAP,
         help="Relative MIP gap stopping threshold. Defaults to 0 for exact optimization.",
+    )
+    parser.add_argument(
+        "--warm-start-key-path",
+        action="store_true",
+        help="Submit a greedy key-path defender solution to the MIP solver before optimization.",
     )
     parser.add_argument(
         "--time-limit",
@@ -567,6 +590,7 @@ def main():
                 calibration=calibration,
                 time_limit=args.time_limit,
                 mip_gap=args.mip_gap,
+                warm_start_key_path=args.warm_start_key_path,
             )
             rows.append(row)
             append_summary(summary_path, rows)

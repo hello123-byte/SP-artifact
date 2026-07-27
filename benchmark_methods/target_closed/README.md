@@ -14,7 +14,10 @@ python3 benchmark_methods/target_closed/run_benchmarks.py \
   --skip-prepare \
   --scales scale_1k,scale_10k,scale_100k \
   --goal-counts 1,50,100,200 \
+  --warm-start-key-path \
   --solver scip --mip-gap 0 --time-limit 600
 ```
 
 这个方法中 `summary.json` 的 `actual_nodes` 就是实际求解规模。
+
+`--warm-start-key-path` 是可选项：它在当前攻击者最低成本推导链上贪心选择防御漏洞，并提交完整的 MIP 初始解。结果中的 `warm_start.accepted=true` 表示 SCIP 已接受该初始解；不加此选项可得到无 warm-start 的基线。

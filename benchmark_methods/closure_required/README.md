@@ -14,7 +14,10 @@ python3 benchmark_methods/closure_required/run_benchmarks.py \
   --skip-prepare \
   --scales scale_1k,scale_10k,scale_100k \
   --goal-counts 1,50,100,200 \
+  --warm-start-key-path \
   --solver scip --mip-gap 0 --time-limit 600
 ```
 
 这个方法的“实际求解规模”是运行时闭包后的规模，而不是总图规模。
+
+`--warm-start-key-path` 是可选项：它先用关键路径贪心构造一组防御方案，再作为 SCIP/Gurobi 的初始可行解。汇总 CSV 会记录该解是否被求解器接受；不加此选项即可复现实验中的无 warm-start 基线。
