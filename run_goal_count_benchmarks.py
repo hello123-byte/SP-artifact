@@ -416,9 +416,7 @@ def run_case(
     with log_path.open("w", encoding="utf-8") as log:
         proc = subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT)
     wall_seconds = time.perf_counter() - start
-    print(f"[done] {scale}, goals={goal_count}, returncode={proc.returncode}, wall={wall_seconds:.3f}s", flush=True)
-
-    return build_row(
+    row = build_row(
         scale=scale,
         goal_count=goal_count,
         returncode=proc.returncode,
@@ -427,6 +425,16 @@ def run_case(
         log_path=log_path,
         calibration=calibration,
     )
+    print(
+        f"[done] {scale}, goals={goal_count}, returncode={proc.returncode}, "
+        f"wall={wall_seconds:.3f}s; closure nodes "
+        f"{row['original_vertices']} -> {row['reduced_vertices']} "
+        f"(removed {row['removed_vertices']}), arcs "
+        f"{row['original_arcs']} -> {row['reduced_arcs']} "
+        f"(removed {row['removed_arcs']})",
+        flush=True,
+    )
+    return row
 
 
 def main():

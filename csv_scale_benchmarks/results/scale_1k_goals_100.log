@@ -33,7 +33,7 @@ presolved problem has 593 variables (167 bin, 0 int, 426 cont) and 1570 constrai
      76 constraints of type <and>
    1052 constraints of type <linear>
 transformed objective value is always integral (scale: 1)
-Presolving Time: 0.08
+Presolving Time: 0.09
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
 p 0.1s|     1 |     0 |     0 |     - |  clique|   0 | 593 |1570 |1646 |   0 |  0 |   0 |   0 | 0.000000e+00 | 7.400000e+01 |    Inf | unknown
@@ -42,7 +42,7 @@ i 0.1s|     1 |     0 |     0 |     - |  oneopt|   0 | 593 |1572 |1646 |   0 |  
   0.1s|     1 |     0 |     0 |     - |    18M |   0 | 593 | 101 |1646 |   0 |  0 |   2 |   0 | 2.000000e+00 | 2.000000e+00 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.10
+Solving Time (sec) : 0.11
 Solving Nodes      : 1
 Primal Bound       : +2.00000000000000e+00 (3 solutions)
 Dual Bound         : +2.00000000000000e+00
@@ -65,8 +65,8 @@ timings seconds:
   resolve_game_defaults: 0.000
   target_closure: 0.001
   build_parameters: 0.001
-  build_mip: 0.112
-  optimize: 0.096
+  build_mip: 0.108
+  optimize: 0.114
   extract_solution: 0.000
-  total_wall: 0.216
+  total_wall: 0.229
 wrote: /workspace/large-mulval-/csv_scale_benchmarks/results/scale_1k_goals_100.json

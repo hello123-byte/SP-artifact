@@ -334,6 +334,10 @@ def run_case(
         "actual_nodes": summary["scale_reference"]["actual_nodes"],
         "actual_arcs": summary["scale_reference"]["actual_arcs"],
         "node_delta": summary["scale_reference"]["node_delta"],
+        "closure_original_vertices": closure.get("original_vertices"),
+        "closure_reduced_vertices": closure.get("reduced_vertices"),
+        "closure_original_arcs": closure.get("original_arcs"),
+        "closure_reduced_arcs": closure.get("reduced_arcs"),
         "closure_removed_vertices": closure.get("removed_vertices"),
         "closure_removed_arcs": closure.get("removed_arcs"),
         "returncode": proc.returncode,
@@ -354,14 +358,23 @@ def run_case(
         "result_json": str(result_path),
         "log_file": str(log_path),
     }
-    print(f"[done] {case_name}: returncode={proc.returncode}, wall={wall_seconds:.3f}s", flush=True)
+    print(
+        f"[done] {case_name}: returncode={proc.returncode}, wall={wall_seconds:.3f}s; "
+        f"closure nodes {row['closure_original_vertices']} -> {row['closure_reduced_vertices']} "
+        f"(removed {row['closure_removed_vertices']}), arcs "
+        f"{row['closure_original_arcs']} -> {row['closure_reduced_arcs']} "
+        f"(removed {row['closure_removed_arcs']})",
+        flush=True,
+    )
     return row
 
 
 def write_summary(path: Path, rows: list[dict]):
     fields = [
         "scale", "goal_count", "target_nodes", "actual_nodes", "actual_arcs",
-        "node_delta", "closure_removed_vertices", "closure_removed_arcs",
+        "node_delta", "closure_original_vertices", "closure_reduced_vertices",
+        "closure_original_arcs", "closure_reduced_arcs", "closure_removed_vertices",
+        "closure_removed_arcs",
         "returncode", "status", "wall_seconds", "solver", "relative_gap",
         "default_reward", "default_loss", "goal_min_attack_cost_min",
         "goal_min_attack_cost_max", "goal_min_attack_cost_avg",
