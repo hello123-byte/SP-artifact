@@ -18,7 +18,11 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
-from generate_large_mulval_csv import build_graph, write_csv
+from generate_large_mulval_csv import (
+    build_graph,
+    find_single_vulnerability_global_cuts,
+    write_csv,
+)
 from mulval_cost_calibration import calibrate_goal_values
 
 
@@ -57,6 +61,7 @@ DEFAULT_ATTACK_COST_SOURCE = "score"
 DEFAULT_REWARD_MULTIPLIER = 2.0
 DEFAULT_MIN_GOAL_REWARD = 1_000.0
 DEFAULT_MIP_GAP = 0.0
+TARGET_CLOSED_TOPOLOGY = "redundant"
 
 
 def parse_csv_list(raw: str | None, allowed: list[str]) -> list[str]:
@@ -129,6 +134,15 @@ def validate_case_graph(vertices, arcs, goals: list[int]) -> dict:
         if or_prerequisites != [f"execCode({target_host},root)"]:
             raise SystemExit(f"Goal {goal_id} has a cross-host or invalid root prerequisite")
 
+    single_vulnerability_global_cuts = find_single_vulnerability_global_cuts(
+        vertices, arcs, goals
+    )
+    if single_vulnerability_global_cuts:
+        raise SystemExit(
+            "Target-closed benchmark has vulnerability nodes that individually block "
+            f"every goal: {single_vulnerability_global_cuts[:10]}"
+        )
+
     closure_arcs = [
         (source, target)
         for source, target in arcs
@@ -141,6 +155,7 @@ def validate_case_graph(vertices, arcs, goals: list[int]) -> dict:
         "closure_arcs": len(closure_arcs),
         "removed_vertices": len(vertices) - len(closure),
         "removed_arcs": len(arcs) - len(closure_arcs),
+        "single_vulnerability_global_cut_count": len(single_vulnerability_global_cuts),
     }
 
 
@@ -171,6 +186,7 @@ def build_case_graph(scale: str, goal_count: int, seed: int):
             goals=goal_count,
             seed=seed,
             target_closed=True,
+            target_closed_topology=TARGET_CLOSED_TOPOLOGY,
         )
         candidate = (vertices, arcs, goals, structure, hosts)
         if best is None or abs(len(vertices) - target_nodes) < abs(len(best[0]) - target_nodes):
@@ -231,6 +247,7 @@ def prepare_case(
             **SCALE_CONFIGS[scale],
             "seed": seed,
             "target_closed": True,
+            "target_closed_topology": TARGET_CLOSED_TOPOLOGY,
         },
         "scale_reference": scale_info,
         "structure": structure,
@@ -402,7 +419,7 @@ def write_summary(path: Path, rows: list[dict]):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default="csv_target_closed_benchmarks")
+    parser.add_argument("--root", default="csv_target_closed_redundant_benchmarks")
     parser.add_argument("--solver-script", default="solve_mulval__stackelberg_main.py")
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--solver", choices=["scip", "gurobi"], default="scip")

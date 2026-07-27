@@ -7,7 +7,12 @@ import unittest
 from collections import defaultdict
 from pathlib import Path
 
-from generate_large_mulval_csv import build_graph, validate_graph_structure, write_csv
+from generate_large_mulval_csv import (
+    build_graph,
+    find_single_vulnerability_global_cuts,
+    validate_graph_structure,
+    write_csv,
+)
 
 
 class GenerateLargeMulvalCsvTests(unittest.TestCase):
@@ -101,6 +106,38 @@ class GenerateLargeMulvalCsvTests(unittest.TestCase):
         self.assertTrue(structure["target_closed"])
         self.assertEqual(0, structure["pruned_outside_goal_closure_count"])
         self.assertEqual({node_id for node_id, *_ in vertices}, closure)
+
+    def test_redundant_target_closed_graph_has_no_single_vulnerability_global_cut(self):
+        vertices, arcs, goals, structure = build_graph(
+            hosts=40,
+            services_per_host=2,
+            vuln_per_service=1,
+            lateral_rules_per_host=1,
+            goals=10,
+            seed=7,
+            target_closed=True,
+            target_closed_topology="redundant",
+        )
+        self.assertEqual("redundant", structure["target_closed_topology"])
+        self.assertEqual(0, structure["pruned_outside_goal_closure_count"])
+        self.assertEqual(0, structure["single_vulnerability_global_cut_count"])
+        self.assertEqual([], find_single_vulnerability_global_cuts(vertices, arcs, goals))
+        self.assertEqual(80, structure["local_privilege_rules"])
+        self.assertEqual(78, structure["lateral_access_rules"])
+
+    def test_legacy_serial_target_closed_topology_is_preserved(self):
+        _, _, _, structure = build_graph(
+            hosts=10,
+            services_per_host=2,
+            vuln_per_service=1,
+            lateral_rules_per_host=1,
+            goals=2,
+            seed=7,
+            target_closed=True,
+        )
+        self.assertEqual("serial", structure["target_closed_topology"])
+        self.assertEqual(10, structure["local_privilege_rules"])
+        self.assertEqual(9, structure["lateral_access_rules"])
 
     def test_structure_validation_rejects_or_without_and_derivation(self):
         vertices = [

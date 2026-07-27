@@ -464,6 +464,64 @@ def prune_to_goal_closure(vertices, arcs, goal_nodes: list[int]):
     return kept_vertices, kept_arcs, removed
 
 
+def find_single_vulnerability_global_cuts(vertices, arcs, goal_nodes: list[int]) -> list[int]:
+    """Find vulnerability LEAF nodes whose individual removal blocks every goal.
+
+    For one blocked vulnerability in an acyclic monotone AND/OR graph, an AND
+    node inherits the union of its prerequisites' cuts, while an OR node
+    inherits the intersection of its alternative rules' cuts.
+    """
+    nodes = {node_id: (label, node_type) for node_id, label, node_type, _ in vertices}
+    outgoing = defaultdict(list)
+    parents = defaultdict(list)
+    remaining = {node_id: 0 for node_id in nodes}
+    for source, target in arcs:
+        if source in nodes and target in nodes:
+            outgoing[source].append(target)
+            parents[target].append(source)
+            remaining[source] += 1
+
+    queue = sorted(node_id for node_id, count in remaining.items() if count == 0)
+    order = []
+    index = 0
+    while index < len(queue):
+        node_id = queue[index]
+        index += 1
+        order.append(node_id)
+        for parent_id in parents[node_id]:
+            remaining[parent_id] -= 1
+            if remaining[parent_id] == 0:
+                queue.append(parent_id)
+    if len(order) != len(nodes):
+        raise SystemExit("Single-vulnerability cut analysis requires an acyclic graph")
+
+    cuts = {}
+    for node_id in order:
+        label, node_type = nodes[node_id]
+        children = outgoing[node_id]
+        if node_type == "LEAF":
+            cuts[node_id] = {node_id} if label.startswith("vulExists") else set()
+        elif node_type == "AND":
+            cuts[node_id] = set().union(*(cuts[child] for child in children))
+        elif node_type == "OR":
+            if not children:
+                cuts[node_id] = set()
+            else:
+                common = set(cuts[children[0]])
+                for child in children[1:]:
+                    common.intersection_update(cuts[child])
+                cuts[node_id] = common
+        else:
+            raise SystemExit(f"Unknown node type for cut analysis: {node_type}")
+
+    if not goal_nodes:
+        return []
+    common_goal_cuts = set(cuts[goal_nodes[0]])
+    for goal_id in goal_nodes[1:]:
+        common_goal_cuts.intersection_update(cuts[goal_id])
+    return sorted(common_goal_cuts)
+
+
 def build_graph(
     hosts: int,
     services_per_host: int,
@@ -472,8 +530,16 @@ def build_graph(
     goals: int,
     seed: int,
     target_closed: bool = False,
+    target_closed_topology: str = "serial",
 ):
     validate_parameters(hosts, services_per_host, vuln_per_service, lateral_rules_per_host, goals)
+    if target_closed_topology not in {"serial", "redundant"}:
+        raise SystemExit("--target-closed-topology must be serial or redundant")
+    if target_closed_topology == "redundant" and not target_closed:
+        raise SystemExit("redundant target-closed topology requires target_closed=True")
+    if target_closed_topology == "redundant" and services_per_host < 2:
+        raise SystemExit("redundant target-closed topology requires at least two services per host")
+    redundant_target_closed = target_closed and target_closed_topology == "redundant"
 
     rng = random.Random(seed)
     vertices = []
@@ -540,10 +606,19 @@ def build_graph(
             access_by_service[(host_index, service_index)].append(access_id)
             direct_access_rules += 1
 
+    effective_lateral_rules_per_host = (
+        max(2, lateral_rules_per_host)
+        if redundant_target_closed
+        else lateral_rules_per_host
+    )
     for host_index in range(1, hosts):
-        for lateral_index in range(lateral_rules_per_host):
+        for lateral_index in range(effective_lateral_rules_per_host):
             source_host = host_index - 1 if target_closed else choose_source_host(rng, host_index)
-            service_index = rng.randrange(services_per_host)
+            service_index = (
+                lateral_index % services_per_host
+                if redundant_target_closed
+                else rng.randrange(services_per_host)
+            )
             _, port, _ = service_meta[(host_index, service_index)]
             source_privilege = (
                 root_exec[source_host]
@@ -589,23 +664,30 @@ def build_graph(
 
     local_privilege_rules = 0
     for host_index, name in enumerate(host_names):
-        local_vuln_id, next_id = add_vertex(
-            vertices,
-            next_id,
-            f"vulExists({name},CVE-LOCAL-{host_index:04d},kernel,localExploit,privEscalation)",
-            "LEAF",
-            score(rng),
-        )
-        _, next_id = add_rule(
-            vertices=vertices,
-            arcs=arcs,
-            next_id=next_id,
-            conclusion_id=root_exec[host_index],
-            label=f"RULE local privilege escalation on {name}",
-            prerequisite_ids=[user_exec[host_index], local_vuln_id],
-            rng=rng,
-        )
-        local_privilege_rules += 1
+        local_alternatives = 2 if redundant_target_closed else 1
+        for local_index in range(local_alternatives):
+            cve_suffix = (
+                f"{host_index:04d}-{local_index:02d}"
+                if redundant_target_closed
+                else f"{host_index:04d}"
+            )
+            local_vuln_id, next_id = add_vertex(
+                vertices,
+                next_id,
+                f"vulExists({name},CVE-LOCAL-{cve_suffix},kernel,localExploit,privEscalation)",
+                "LEAF",
+                score(rng),
+            )
+            _, next_id = add_rule(
+                vertices=vertices,
+                arcs=arcs,
+                next_id=next_id,
+                conclusion_id=root_exec[host_index],
+                label=f"RULE local privilege escalation on {name} alt{local_index}",
+                prerequisite_ids=[user_exec[host_index], local_vuln_id],
+                rng=rng,
+            )
+            local_privilege_rules += 1
 
     goal_nodes = []
     goal_rule_count = 0
@@ -657,6 +739,7 @@ def build_graph(
         "pruned_unconsumed_leaf_count": len(pruned_leaf_nodes),
         "pruned_outside_goal_closure_count": len(pruned_outside_goal_closure),
         "target_closed": target_closed,
+        "target_closed_topology": target_closed_topology if target_closed else None,
         "sample_pruned_unconsumed_leaves": [
             {"id": node_id, "label": label}
             for node_id, label, _, _ in pruned_leaf_nodes[:10]
@@ -675,10 +758,23 @@ def build_graph(
             "Each crown-jewel goal requires root access on the same host that owns the critical asset.",
             "Unconsumed LEAF facts are pruned before CSV output.",
             "Target-closed mode retains only nodes that can reach one of the final goals.",
+            "Redundant target-closed mode gives every host at least two vulnerability-distinct remote and local privilege derivations.",
         ],
     }
 
     diagnostics = validate_graph_structure(vertices, arcs, goal_nodes)
+    single_vulnerability_global_cuts = (
+        find_single_vulnerability_global_cuts(vertices, arcs, goal_nodes)
+        if redundant_target_closed
+        else []
+    )
+    structure["single_vulnerability_global_cut_count"] = len(single_vulnerability_global_cuts)
+    structure["sample_single_vulnerability_global_cuts"] = single_vulnerability_global_cuts[:10]
+    if redundant_target_closed and single_vulnerability_global_cuts:
+        raise SystemExit(
+            "Redundant target-closed graph still has vulnerability nodes that individually "
+            f"block every goal: {single_vulnerability_global_cuts[:10]}"
+        )
     structure["diagnostics"] = diagnostics
     return vertices, arcs, goal_nodes, structure
 
@@ -704,7 +800,16 @@ def main():
     parser.add_argument(
         "--target-closed",
         action="store_true",
-        help="Keep only final goals and their prerequisites; use a deterministic lateral chain so every host branch reaches a goal.",
+        help="Keep only final goals and their recursive prerequisites.",
+    )
+    parser.add_argument(
+        "--target-closed-topology",
+        choices=["serial", "redundant"],
+        default="serial",
+        help=(
+            "Topology used with --target-closed. serial preserves the legacy chain; "
+            "redundant adds vulnerability-distinct remote and local derivations."
+        ),
     )
     parser.add_argument("--vertices-out", default="large_mulval_VERTICES.CSV")
     parser.add_argument("--arcs-out", default="large_mulval_ARCS.CSV")
@@ -719,6 +824,7 @@ def main():
         goals=args.goals,
         seed=args.seed,
         target_closed=args.target_closed,
+        target_closed_topology=args.target_closed_topology,
     )
 
     vertices_path = Path(args.vertices_out)
