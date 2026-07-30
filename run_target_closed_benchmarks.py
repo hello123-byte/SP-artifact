@@ -61,7 +61,7 @@ DEFAULT_ATTACK_COST_SOURCE = "score"
 DEFAULT_REWARD_MULTIPLIER = 2.0
 DEFAULT_MIN_GOAL_REWARD = 1_000.0
 DEFAULT_MIP_GAP = 0.0
-TARGET_CLOSED_TOPOLOGY = "redundant"
+TARGET_CLOSED_TOPOLOGY = "layered"
 
 
 def parse_csv_list(raw: str | None, allowed: list[str]) -> list[str]:
@@ -419,7 +419,7 @@ def write_summary(path: Path, rows: list[dict]):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default="csv_target_closed_redundant_benchmarks")
+    parser.add_argument("--root", default="csv_target_closed_layered_benchmarks")
     parser.add_argument("--solver-script", default="solve_mulval__stackelberg_main.py")
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--solver", choices=["scip", "gurobi"], default="scip")

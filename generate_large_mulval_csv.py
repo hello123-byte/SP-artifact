@@ -36,6 +36,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import random
 import sys
 from collections import Counter, defaultdict
@@ -522,6 +523,58 @@ def find_single_vulnerability_global_cuts(vertices, arcs, goal_nodes: list[int])
     return sorted(common_goal_cuts)
 
 
+def build_layered_host_layers(hosts: int, goals: int) -> list[list[int]]:
+    """Partition hosts into balanced attack layers ending in goal hosts."""
+    goal_host_count = min(hosts, goals)
+    internal_host_count = hosts - goal_host_count
+    if internal_host_count == 0:
+        return [list(range(hosts))]
+
+    target_width = max(2, math.ceil(math.sqrt(internal_host_count)))
+    internal_layer_count = math.ceil(internal_host_count / target_width)
+    base_size, extra = divmod(internal_host_count, internal_layer_count)
+    layer_sizes = [
+        base_size + (1 if layer_index < extra else 0)
+        for layer_index in range(internal_layer_count)
+    ]
+
+    layers = []
+    next_host = 0
+    for layer_size in layer_sizes:
+        layers.append(list(range(next_host, next_host + layer_size)))
+        next_host += layer_size
+    layers.append(list(range(internal_host_count, hosts)))
+    return layers
+
+
+def layered_source_plan(
+    previous_hosts: list[int],
+    current_hosts: list[int],
+    minimum_paths_per_target: int = 2,
+) -> dict[int, list[int]]:
+    """Connect adjacent layers while covering every source and target host."""
+    if not previous_hosts or not current_hosts:
+        raise SystemExit("Layered topology requires non-empty adjacent host layers")
+
+    sources_by_target = {target_host: [] for target_host in current_hosts}
+    for target_position, target_host in enumerate(current_hosts):
+        for offset in range(minimum_paths_per_target):
+            sources_by_target[target_host].append(
+                previous_hosts[(target_position + offset) % len(previous_hosts)]
+            )
+
+    used_sources = {
+        source_host
+        for source_hosts in sources_by_target.values()
+        for source_host in source_hosts
+    }
+    for source_position, source_host in enumerate(previous_hosts):
+        if source_host not in used_sources:
+            target_host = current_hosts[source_position % len(current_hosts)]
+            sources_by_target[target_host].append(source_host)
+    return sources_by_target
+
+
 def build_graph(
     hosts: int,
     services_per_host: int,
@@ -533,13 +586,19 @@ def build_graph(
     target_closed_topology: str = "serial",
 ):
     validate_parameters(hosts, services_per_host, vuln_per_service, lateral_rules_per_host, goals)
-    if target_closed_topology not in {"serial", "redundant"}:
-        raise SystemExit("--target-closed-topology must be serial or redundant")
-    if target_closed_topology == "redundant" and not target_closed:
-        raise SystemExit("redundant target-closed topology requires target_closed=True")
-    if target_closed_topology == "redundant" and services_per_host < 2:
-        raise SystemExit("redundant target-closed topology requires at least two services per host")
+    if target_closed_topology not in {"serial", "redundant", "layered"}:
+        raise SystemExit("--target-closed-topology must be serial, redundant, or layered")
+    if target_closed_topology in {"redundant", "layered"} and not target_closed:
+        raise SystemExit(
+            f"{target_closed_topology} target-closed topology requires target_closed=True"
+        )
+    if target_closed_topology in {"redundant", "layered"} and services_per_host < 2:
+        raise SystemExit(
+            f"{target_closed_topology} target-closed topology requires at least two services per host"
+        )
     redundant_target_closed = target_closed and target_closed_topology == "redundant"
+    layered_target_closed = target_closed and target_closed_topology == "layered"
+    resilient_target_closed = redundant_target_closed or layered_target_closed
 
     rng = random.Random(seed)
     vertices = []
@@ -584,12 +643,18 @@ def build_graph(
                 )
                 vulnerability_facts[(host_index, service_index)].append(vuln_id)
 
-    entry_host_count = min(hosts, max(1, min(20, max(1, hosts // 20))))
+    host_layers = build_layered_host_layers(hosts, goals) if layered_target_closed else []
+    entry_hosts = (
+        host_layers[0]
+        if layered_target_closed
+        else list(range(min(hosts, max(1, min(20, max(1, hosts // 20))))))
+    )
+    entry_host_count = len(entry_hosts)
     public_service_count = max(1, min(services_per_host, 2))
     direct_access_rules = 0
     lateral_access_rules = 0
 
-    for host_index in range(entry_host_count):
+    for host_index in entry_hosts:
         for service_index in range(public_service_count):
             service_name, port, _ = service_meta[(host_index, service_index)]
             access_id, next_id = add_network_access(
@@ -606,44 +671,61 @@ def build_graph(
             access_by_service[(host_index, service_index)].append(access_id)
             direct_access_rules += 1
 
-    effective_lateral_rules_per_host = (
-        max(2, lateral_rules_per_host)
-        if redundant_target_closed
-        else lateral_rules_per_host
-    )
-    for host_index in range(1, hosts):
-        for lateral_index in range(effective_lateral_rules_per_host):
-            source_host = host_index - 1 if target_closed else choose_source_host(rng, host_index)
-            service_index = (
-                lateral_index % services_per_host
-                if redundant_target_closed
-                else rng.randrange(services_per_host)
+    lateral_source_hosts = defaultdict(set)
+
+    def add_lateral_access(host_index: int, source_host: int, lateral_index: int):
+        nonlocal next_id, lateral_access_rules
+        service_index = (
+            lateral_index % services_per_host
+            if resilient_target_closed
+            else rng.randrange(services_per_host)
+        )
+        _, port, _ = service_meta[(host_index, service_index)]
+        source_privilege = (
+            root_exec[source_host]
+            if target_closed or rng.random() < 0.35
+            else user_exec[source_host]
+        )
+        credential_label = None
+        if rng.random() < 0.45:
+            credential_label = (
+                f"credentialAvailable({host_names[source_host]},{host_names[host_index]},cred{lateral_index})"
             )
-            _, port, _ = service_meta[(host_index, service_index)]
-            source_privilege = (
-                root_exec[source_host]
-                if target_closed or rng.random() < 0.35
-                else user_exec[source_host]
+        access_id, next_id = add_network_access(
+            vertices=vertices,
+            arcs=arcs,
+            next_id=next_id,
+            src_label=host_names[source_host],
+            dst_label=host_names[host_index],
+            protocol="tcp",
+            port=port,
+            source_prerequisite_id=source_privilege,
+            rng=rng,
+            credential_label=credential_label,
+        )
+        access_by_service[(host_index, service_index)].append(access_id)
+        lateral_source_hosts[host_index].add(source_host)
+        lateral_access_rules += 1
+
+    if layered_target_closed:
+        for layer_index in range(1, len(host_layers)):
+            sources_by_target = layered_source_plan(
+                host_layers[layer_index - 1],
+                host_layers[layer_index],
             )
-            credential_label = None
-            if rng.random() < 0.45:
-                credential_label = (
-                    f"credentialAvailable({host_names[source_host]},{host_names[host_index]},cred{lateral_index})"
-                )
-            access_id, next_id = add_network_access(
-                vertices=vertices,
-                arcs=arcs,
-                next_id=next_id,
-                src_label=host_names[source_host],
-                dst_label=host_names[host_index],
-                protocol="tcp",
-                port=port,
-                source_prerequisite_id=source_privilege,
-                rng=rng,
-                credential_label=credential_label,
-            )
-            access_by_service[(host_index, service_index)].append(access_id)
-            lateral_access_rules += 1
+            for host_index in host_layers[layer_index]:
+                for lateral_index, source_host in enumerate(sources_by_target[host_index]):
+                    add_lateral_access(host_index, source_host, lateral_index)
+    else:
+        effective_lateral_rules_per_host = (
+            max(2, lateral_rules_per_host)
+            if redundant_target_closed
+            else lateral_rules_per_host
+        )
+        for host_index in range(1, hosts):
+            for lateral_index in range(effective_lateral_rules_per_host):
+                source_host = host_index - 1 if target_closed else choose_source_host(rng, host_index)
+                add_lateral_access(host_index, source_host, lateral_index)
 
     remote_exploit_rules = 0
     for host_index in range(hosts):
@@ -664,11 +746,11 @@ def build_graph(
 
     local_privilege_rules = 0
     for host_index, name in enumerate(host_names):
-        local_alternatives = 2 if redundant_target_closed else 1
+        local_alternatives = 2 if resilient_target_closed else 1
         for local_index in range(local_alternatives):
             cve_suffix = (
                 f"{host_index:04d}-{local_index:02d}"
-                if redundant_target_closed
+                if resilient_target_closed
                 else f"{host_index:04d}"
             )
             local_vuln_id, next_id = add_vertex(
@@ -683,7 +765,11 @@ def build_graph(
                 arcs=arcs,
                 next_id=next_id,
                 conclusion_id=root_exec[host_index],
-                label=f"RULE local privilege escalation on {name} alt{local_index}",
+                label=(
+                    f"RULE local privilege escalation on {name} alt{local_index}"
+                    if resilient_target_closed
+                    else f"RULE local privilege escalation on {name}"
+                ),
                 prerequisite_ids=[user_exec[host_index], local_vuln_id],
                 rng=rng,
             )
@@ -691,8 +777,11 @@ def build_graph(
 
     goal_nodes = []
     goal_rule_count = 0
-    crown_pool_size = max(1, min(hosts, max(goals, hosts // 10)))
-    crown_hosts = list(range(hosts - crown_pool_size, hosts))
+    if layered_target_closed:
+        crown_hosts = host_layers[-1]
+    else:
+        crown_pool_size = max(1, min(hosts, max(goals, hosts // 10)))
+        crown_hosts = list(range(hosts - crown_pool_size, hosts))
     for goal_index in range(goals):
         target_host = crown_hosts[-1 - (goal_index % len(crown_hosts))]
         target_name = host_names[target_host]
@@ -740,6 +829,19 @@ def build_graph(
         "pruned_outside_goal_closure_count": len(pruned_outside_goal_closure),
         "target_closed": target_closed,
         "target_closed_topology": target_closed_topology if target_closed else None,
+        "host_layer_count": len(host_layers) if layered_target_closed else None,
+        "host_layer_sizes": [len(layer) for layer in host_layers] if layered_target_closed else [],
+        "max_host_layer_width": max(map(len, host_layers)) if layered_target_closed else None,
+        "max_visual_host_hops": max(0, len(host_layers) - 1) if layered_target_closed else None,
+        "lateral_source_hosts_per_target": {
+            "min": min(map(len, lateral_source_hosts.values()), default=0),
+            "max": max(map(len, lateral_source_hosts.values()), default=0),
+            "avg": (
+                sum(map(len, lateral_source_hosts.values())) / len(lateral_source_hosts)
+                if lateral_source_hosts
+                else 0
+            ),
+        },
         "sample_pruned_unconsumed_leaves": [
             {"id": node_id, "label": label}
             for node_id, label, _, _ in pruned_leaf_nodes[:10]
@@ -758,22 +860,38 @@ def build_graph(
             "Each crown-jewel goal requires root access on the same host that owns the critical asset.",
             "Unconsumed LEAF facts are pruned before CSV output.",
             "Target-closed mode retains only nodes that can reach one of the final goals.",
-            "Redundant target-closed mode gives every host at least two vulnerability-distinct remote and local privilege derivations.",
+            *(
+                [
+                    "Resilient target-closed modes give every host at least two "
+                    "vulnerability-distinct remote and local privilege derivations."
+                ]
+                if resilient_target_closed
+                else []
+            ),
+            *(
+                [
+                    "Layered target-closed mode uses balanced host layers and multiple "
+                    "sources from each preceding layer while retaining every host in a goal closure."
+                ]
+                if layered_target_closed
+                else []
+            ),
         ],
     }
 
     diagnostics = validate_graph_structure(vertices, arcs, goal_nodes)
     single_vulnerability_global_cuts = (
         find_single_vulnerability_global_cuts(vertices, arcs, goal_nodes)
-        if redundant_target_closed
+        if resilient_target_closed
         else []
     )
     structure["single_vulnerability_global_cut_count"] = len(single_vulnerability_global_cuts)
     structure["sample_single_vulnerability_global_cuts"] = single_vulnerability_global_cuts[:10]
-    if redundant_target_closed and single_vulnerability_global_cuts:
+    if resilient_target_closed and single_vulnerability_global_cuts:
         raise SystemExit(
-            "Redundant target-closed graph still has vulnerability nodes that individually "
-            f"block every goal: {single_vulnerability_global_cuts[:10]}"
+            f"{target_closed_topology.capitalize()} target-closed graph still has "
+            "vulnerability nodes that individually block every goal: "
+            f"{single_vulnerability_global_cuts[:10]}"
         )
     structure["diagnostics"] = diagnostics
     return vertices, arcs, goal_nodes, structure
@@ -804,11 +922,11 @@ def main():
     )
     parser.add_argument(
         "--target-closed-topology",
-        choices=["serial", "redundant"],
+        choices=["serial", "redundant", "layered"],
         default="serial",
         help=(
             "Topology used with --target-closed. serial preserves the legacy chain; "
-            "redundant adds vulnerability-distinct remote and local derivations."
+            "redundant adds local path redundancy; layered adds balanced multi-source host layers."
         ),
     )
     parser.add_argument("--vertices-out", default="large_mulval_VERTICES.CSV")

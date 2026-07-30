@@ -9,7 +9,9 @@ from pathlib import Path
 
 from generate_large_mulval_csv import (
     build_graph,
+    build_layered_host_layers,
     find_single_vulnerability_global_cuts,
+    layered_source_plan,
     validate_graph_structure,
     write_csv,
 )
@@ -124,6 +126,51 @@ class GenerateLargeMulvalCsvTests(unittest.TestCase):
         self.assertEqual([], find_single_vulnerability_global_cuts(vertices, arcs, goals))
         self.assertEqual(80, structure["local_privilege_rules"])
         self.assertEqual(78, structure["lateral_access_rules"])
+
+    def test_layered_target_closed_graph_is_shallow_connected_and_redundant(self):
+        vertices, arcs, goals, structure = build_graph(
+            hosts=100,
+            services_per_host=2,
+            vuln_per_service=1,
+            lateral_rules_per_host=1,
+            goals=1,
+            seed=7,
+            target_closed=True,
+            target_closed_topology="layered",
+        )
+        self.assertEqual("layered", structure["target_closed_topology"])
+        self.assertEqual(100, sum(structure["host_layer_sizes"]))
+        self.assertEqual(1, structure["host_layer_sizes"][-1])
+        self.assertLess(structure["max_visual_host_hops"], 20)
+        self.assertEqual(0, structure["pruned_outside_goal_closure_count"])
+        self.assertEqual([], find_single_vulnerability_global_cuts(vertices, arcs, goals))
+
+    def test_layered_source_plan_covers_all_adjacent_layer_hosts(self):
+        previous_hosts = list(range(11))
+        current_hosts = list(range(20, 24))
+        plan = layered_source_plan(previous_hosts, current_hosts)
+        self.assertEqual(set(current_hosts), set(plan))
+        self.assertTrue(all(len(sources) >= 2 for sources in plan.values()))
+        self.assertEqual(
+            set(previous_hosts),
+            {source_host for sources in plan.values() for source_host in sources},
+        )
+
+    def test_layer_builder_uses_all_hosts_and_reserves_goal_hosts(self):
+        layers = build_layered_host_layers(hosts=100, goals=4)
+        self.assertEqual(list(range(100)), [host for layer in layers for host in layer])
+        self.assertEqual([96, 97, 98, 99], layers[-1])
+
+    def test_single_vulnerability_cut_detector_finds_known_bottleneck(self):
+        vertices = [
+            (1, "vulExists(host,CVE-BOTTLENECK,svc,remoteExploit,privEscalation)", "LEAF", 1),
+            (2, "RULE exploit host", "AND", 1),
+            (3, "execCode(host,root)", "OR", 1),
+        ]
+        self.assertEqual(
+            [1],
+            find_single_vulnerability_global_cuts(vertices, [(3, 2), (2, 1)], [3]),
+        )
 
     def test_legacy_serial_target_closed_topology_is_preserved(self):
         _, _, _, structure = build_graph(
