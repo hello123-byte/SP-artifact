@@ -136,7 +136,7 @@ def run_stackelberg_model(args, out_dir: Path, empty_objective: float) -> tuple[
     result["solver_returncode"] = proc.returncode
     result["log_file"] = str(log_path)
     result["defense_scope_ok"] = all(
-        str(item.get("label", "")).startswith("vulExists")
+        str(item.get("label", "")).startswith(("vulExists", "ttpExists"))
         for item in selected
     )
     result.setdefault("timings_seconds", {})
@@ -171,7 +171,7 @@ def build_reference_row(reference_result: dict, empty_objective: float, result_p
         "budget_used": defense_cost,
         "timings_seconds": reference_result.get("timings_seconds", {}),
         "reference_defense_scope_ok": all(
-            str(item.get("label", "")).startswith("vulExists")
+            str(item.get("label", "")).startswith(("vulExists", "ttpExists"))
             for item in selected
         ),
     }

@@ -366,7 +366,8 @@ def load_problem(args) -> Problem:
     defendable = sorted(
         node_id
         for node_id, node in vertices.items()
-        if node["type"] == "LEAF" and node["label"].startswith("vulExists")
+        if node["type"] == "LEAF"
+        and node["label"].startswith(("vulExists", "ttpExists"))
     )
 
     return Problem(

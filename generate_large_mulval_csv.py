@@ -501,7 +501,11 @@ def find_single_vulnerability_global_cuts(vertices, arcs, goal_nodes: list[int])
         label, node_type = nodes[node_id]
         children = outgoing[node_id]
         if node_type == "LEAF":
-            cuts[node_id] = {node_id} if label.startswith("vulExists") else set()
+            cuts[node_id] = (
+                {node_id}
+                if label.startswith(("vulExists", "ttpExists"))
+                else set()
+            )
         elif node_type == "AND":
             cuts[node_id] = set().union(*(cuts[child] for child in children))
         elif node_type == "OR":

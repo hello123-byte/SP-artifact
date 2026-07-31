@@ -6,6 +6,7 @@ import unittest
 from solve_mulval__stackelberg_main import (
     build_key_path_warm_start,
     evaluate_defense_state,
+    is_defendable_leaf,
 )
 
 
@@ -25,6 +26,11 @@ class KeyPathWarmStartTests(unittest.TestCase):
         self.assertTrue(state["reachable"][4])
         self.assertEqual(5.0, state["min_cost"][4])
         self.assertEqual(3, state["or_choice"][4])
+
+    def test_vulnerability_mode_accepts_real_ttp_exists_facts(self):
+        self.assertTrue(is_defendable_leaf("vulExists(host,CVE)", "vul"))
+        self.assertTrue(is_defendable_leaf("ttpExists(host,'CVE-1',svc,remote)", "vul"))
+        self.assertFalse(is_defendable_leaf("hacl(internet,host,tcp,80)", "vul"))
 
     def test_key_path_greedy_blocks_profitable_goal(self):
         warm_start = build_key_path_warm_start(

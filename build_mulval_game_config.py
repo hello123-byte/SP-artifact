@@ -52,11 +52,11 @@ def is_defendable_leaf(label: str, mode: str) -> bool:
     if mode == "all":
         return True
     if mode == "vul":
-        return label.startswith("vulExists")
+        return label.startswith(("vulExists", "ttpExists"))
     if mode == "hacl":
         return label.startswith("hacl")
     if mode == "vul_hacl":
-        return label.startswith("vulExists") or label.startswith("hacl")
+        return label.startswith(("vulExists", "ttpExists", "hacl"))
     raise ValueError(f"unknown defendable mode: {mode}")
 
 
