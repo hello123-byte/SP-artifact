@@ -214,6 +214,13 @@ def method_color(method: str) -> str:
     return palette.get(method, "#333333")
 
 
+def method_display_name(method: str) -> str:
+    """Return the publication label used in baseline comparison figures."""
+    return {
+        "stackelberg": "Our",
+    }.get(method, method)
+
+
 def finite_or_nan(value) -> float:
     number = finite_number(value)
     return number if number is not None else math.nan
@@ -251,7 +258,6 @@ def style_axis(ax, methods: list[str], panel_title: str, ylabel: str):
     ax.set_ylabel(ylabel)
     ax.set_xticks(list(range(len(methods))))
     ax.set_xticklabels(methods, rotation=30, ha="right")
-    ax.grid(axis="y", color="#d9d9d9", linewidth=0.6, alpha=0.8)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.tick_params(axis="both", labelsize=7)
@@ -288,16 +294,17 @@ def write_benefit_line_chart(path: Path, rows: list[dict], dpi: int = 300):
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
     })
-    fig, ax = plt.subplots(figsize=(5.6, 3.6), constrained_layout=True)
+    fig, ax = plt.subplots(figsize=(4.2, 3.0), constrained_layout=True)
     benefit_values = [value if value is not None else math.nan for value in benefits]
-    ax.bar(x, benefit_values, color=colors, width=0.62)
+    ax.bar(x, benefit_values, color=colors, width=0.46)
     ax.axhline(0, color="black", linewidth=0.8)
     finite_benefits = [value for value in benefits if value is not None]
     if finite_benefits:
         benefit_max = nice_ylim(finite_benefits, minimum=1.0)
         benefit_min = min([0.0] + finite_benefits)
         ax.set_ylim(benefit_min, benefit_max * 1.12)
-    style_axis(ax, methods, "Defense benefit", "benefit score")
+    display_methods = [method_display_name(method) for method in methods]
+    style_axis(ax, display_methods, "", "benefit score")
     annotate_bars(ax, benefits)
 
     suffix = path.suffix.lower()

@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import itertools
-import math
 import time
 from dataclasses import dataclass
 
@@ -139,56 +138,69 @@ def enumerate_goal_paths(problem, max_paths: int, max_depth: int) -> list[GoalPa
     return paths
 
 
-def greedy_path_cover(problem, paths: list[GoalPath], budget: float) -> set[int]:
-    attackable = {
-        index
-        for index, path in enumerate(paths)
-        if path.attacker_net_utility > 0 and path.vuln_leaves
+def exact_path_cover(problem, paths: list[GoalPath], budget: float) -> tuple[set[int], dict]:
+    """Exhaustively enumerate feasible defense sets and return an exact cover.
+
+    Only paths with positive attacker utility need to be blocked. Every
+    budget-feasible subset of relevant vulnerability leaves is examined, so a
+    returned blocking set is globally minimum-cost, with deterministic
+    cardinality and node-id tie breaks. If no complete cover fits the budget,
+    the empty strategy is returned.
+    """
+    attackable_paths = [
+        path.vuln_leaves
+        for path in paths
+        if path.attacker_net_utility > 0
+    ]
+    relevant_defenses = sorted(set().union(*attackable_paths)) if attackable_paths else []
+    costs = {
+        node_id: problem.defense_costs.get(node_id, problem.default_defense_cost)
+        for node_id in relevant_defenses
     }
-    selected: set[int] = set()
-    spent = 0.0
+    unblockable_path_count = sum(1 for leaves in attackable_paths if not leaves)
+    stats = {
+        "selection_algorithm": "exhaustive_defense_combination_enumeration",
+        "exact_cover": True,
+        "attackable_path_count": len(attackable_paths),
+        "relevant_defendable_count": len(relevant_defenses),
+        "unblockable_path_count": unblockable_path_count,
+        "defense_combination_count_evaluated": 0,
+        "blocking_combination_count": 0,
+        "blocking_strategy_found": False,
+    }
+    if not attackable_paths:
+        stats["blocking_strategy_found"] = True
+        return set(), stats
+    if unblockable_path_count:
+        return set(), stats
 
-    while attackable:
-        best_node = None
-        best_score = 0.0
-        best_covered: set[int] = set()
-        for node_id in problem.defendable:
-            if node_id in selected:
-                continue
-            cost = problem.defense_costs.get(node_id, problem.default_defense_cost)
-            if spent + cost > budget + 1e-9:
-                continue
-            covered = {
-                index
-                for index in attackable
-                if node_id in paths[index].vuln_leaves
-            }
-            if not covered:
-                continue
-            risk_reduction = sum(max(0.0, paths[index].loss) for index in covered)
-            score = risk_reduction / cost if cost > 0 else math.inf
-            if (
-                score,
-                risk_reduction,
-                -cost,
-                -node_id,
-            ) > (
-                best_score,
-                sum(max(0.0, paths[index].loss) for index in best_covered),
-                -problem.defense_costs.get(best_node, problem.default_defense_cost) if best_node else -math.inf,
-                -best_node if best_node else -math.inf,
-            ):
-                best_node = node_id
-                best_score = score
-                best_covered = covered
-
-        if best_node is None:
+    affordable_cardinality = 0
+    running_cost = 0.0
+    for cost in sorted(costs.values()):
+        if running_cost + cost > budget + 1e-9:
             break
-        selected.add(best_node)
-        spent += problem.defense_costs.get(best_node, problem.default_defense_cost)
-        attackable -= best_covered
+        running_cost += cost
+        affordable_cardinality += 1
 
-    return selected
+    best_set: set[int] | None = None
+    best_key: tuple[float, int, tuple[int, ...]] | None = None
+    for subset_size in range(1, affordable_cardinality + 1):
+        for combination in itertools.combinations(relevant_defenses, subset_size):
+            combination_cost = sum(costs[node_id] for node_id in combination)
+            if combination_cost > budget + 1e-9:
+                continue
+            stats["defense_combination_count_evaluated"] += 1
+            selected = frozenset(combination)
+            if not all(not selected.isdisjoint(path_leaves) for path_leaves in attackable_paths):
+                continue
+            stats["blocking_combination_count"] += 1
+            candidate_key = (combination_cost, subset_size, combination)
+            if best_key is None or candidate_key < best_key:
+                best_key = candidate_key
+                best_set = set(combination)
+
+    stats["blocking_strategy_found"] = best_set is not None
+    return best_set or set(), stats
 
 
 def skipped_result(method: str, status: str, reason: str, empty_objective: float | None, start_time: float, max_paths: int, max_depth: int):
@@ -252,7 +264,7 @@ def run_path_enumeration_baseline(
             max_depth=max_depth,
         )
 
-    selected = greedy_path_cover(problem, paths, budget)
+    selected, cover_stats = exact_path_cover(problem, paths, budget)
     result = evaluate_defense_set(
         problem,
         selected,
@@ -263,11 +275,11 @@ def run_path_enumeration_baseline(
     result["budget_used"] = result["defense_cost"]
     result["budget_feasible"] = result["defense_cost"] <= budget + 1e-9
     result["enumerated_path_count"] = len(paths)
-    result["attackable_path_count"] = sum(1 for path in paths if path.attacker_net_utility > 0)
     result["path_cover_selected_count"] = len(selected)
     result["max_paths"] = max_paths
     result["max_depth"] = max_depth
     result["limit_hit"] = False
+    result.update(cover_stats)
     attach_benefit(result, empty_objective)
     return result
 
