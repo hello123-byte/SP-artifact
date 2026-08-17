@@ -49,6 +49,8 @@ python3 benchmark_methods/git_attack_graph_baseline_comparison/run_benchmarks.py
 ## 输出
 
 - `git_attack_graph_baseline_comparison/benchmark_summary.csv`：六个实例的统一汇总；
+- `git_attack_graph_baseline_comparison/defense_effectiveness_table.csv`：每个数据集一行、四种方法各一列的直观防御收益表；
+- `git_attack_graph_baseline_comparison/selected_defense_strategies.csv`：每种方法选择的防御节点ID、标签、成本和策略口径；
 - `git_attack_graph_baseline_comparison/results/<dataset>/<method>/result.json`：标准化逐项结果；
 - `git_attack_graph_baseline_comparison/results/<dataset>/<method>/run.log`：运行日志；
 - `git_attack_graph_baseline_comparison/defense_effectiveness_comparison.png`：论文用位图；

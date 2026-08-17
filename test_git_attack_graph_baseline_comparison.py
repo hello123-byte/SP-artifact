@@ -96,3 +96,54 @@ def test_exact_path_cover_minimizes_cost_before_cardinality():
     paths = [make_attack_path(1, 2), make_attack_path(1, 3)]
     selected, _ = exact_path_cover(problem, paths, budget=5.0)
     assert selected == {2, 3}
+
+
+def test_effectiveness_table_formats_scores_and_timeout(tmp_path):
+    rows = [
+        {"dataset": "S1", "method": "empty", "budget": 1.0, "status": "ok", "effectiveness_score": 0.0},
+        {"dataset": "S1", "method": "random", "budget": 1.0, "status": "ok", "effectiveness_score": 0.719},
+        {"dataset": "S1", "method": "path_enum", "budget": 1.0, "status": "timeout", "effectiveness_score": None},
+        {"dataset": "S1", "method": "stackelberg", "budget": 1.0, "status": "optimal", "effectiveness_score": 0.999},
+    ]
+    output = tmp_path / "table.csv"
+    MODULE.write_effectiveness_table(output, rows)
+    text = output.read_text(encoding="utf-8-sig")
+    assert "数据集,预算,Empty,Random,Path enumeration,Our" in text
+    assert "S1,1,0.000,0.719,timeout,0.999" in text
+
+
+def test_strategy_table_lists_ids_labels_and_random_scope(tmp_path):
+    rows = [
+        {
+            "dataset": "S1",
+            "method": "random",
+            "display_name": "Random",
+            "status": "ok",
+            "effectiveness_score": 0.719,
+            "best_benefit_score": 0.999,
+            "strategy_scope": "best_of_random_trials",
+            "selected_defense_count": 1,
+            "defense_cost": 1.0,
+            "selected_defense_ids": "16",
+            "selected_defense_labels": "ttpExists(host,cve)",
+        },
+        {
+            "dataset": "S300",
+            "method": "path_enum",
+            "display_name": "Path enumeration",
+            "status": "timeout",
+            "effectiveness_score": None,
+            "best_benefit_score": None,
+            "strategy_scope": "not_completed",
+            "selected_defense_count": 0,
+            "defense_cost": None,
+            "selected_defense_ids": "",
+            "selected_defense_labels": "",
+        },
+    ]
+    output = tmp_path / "strategies.csv"
+    MODULE.write_strategy_table(output, rows)
+    text = output.read_text(encoding="utf-8-sig")
+    assert "Random,ok,0.719,0.999" in text
+    assert '16,"ttpExists(host,cve)"' in text
+    assert "Path enumeration,timeout,timeout,timeout,未完成" in text

@@ -72,6 +72,9 @@ SUMMARY_FIELDS = [
     "mean_benefit_score",
     "effectiveness_score",
     "selected_defense_count",
+    "selected_defense_ids",
+    "selected_defense_labels",
+    "strategy_scope",
     "defense_cost",
     "attack_loss",
     "attacker_response_type",
@@ -252,6 +255,13 @@ def result_row(
     best_benefit = result.get("benefit_score")
     average_benefit = mean_benefit(result) if method == "random" else best_benefit
     response = result.get("attacker_response") or {}
+    selected_defenses = result.get("selected_defenses") or []
+    if timed_out:
+        strategy_scope = "not_completed"
+    elif method == "random":
+        strategy_scope = "best_of_random_trials"
+    else:
+        strategy_scope = "deterministic_result"
     return {
         "dataset": dataset,
         "method": method,
@@ -272,7 +282,10 @@ def result_row(
         "best_benefit_score": best_benefit,
         "mean_benefit_score": average_benefit,
         "effectiveness_score": average_benefit,
-        "selected_defense_count": len(result.get("selected_defenses") or []),
+        "selected_defense_count": len(selected_defenses),
+        "selected_defense_ids": ";".join(str(item.get("id")) for item in selected_defenses),
+        "selected_defense_labels": ";".join(str(item.get("label", "")) for item in selected_defenses),
+        "strategy_scope": strategy_scope,
         "defense_cost": result.get("defense_cost"),
         "attack_loss": result.get("attack_loss"),
         "attacker_response_type": response.get("type"),
@@ -297,6 +310,89 @@ def write_summary(path: Path, rows: list[dict]) -> None:
         writer = csv.DictWriter(handle, fieldnames=SUMMARY_FIELDS)
         writer.writeheader()
         writer.writerows({field: row.get(field, "") for field in SUMMARY_FIELDS} for row in rows)
+
+
+def format_effectiveness_cell(row: dict | None) -> str:
+    if not row:
+        return ""
+    status = row.get("status")
+    if status == "timeout":
+        return "timeout"
+    if status == "skipped_limit":
+        return "limit"
+    value = row.get("effectiveness_score")
+    if value in (None, ""):
+        return str(status or "")
+    return f"{float(value):.3f}"
+
+
+def write_effectiveness_table(path: Path, rows: list[dict]) -> None:
+    """Write one dataset per row for quick visual comparison."""
+    datasets = sorted({row["dataset"] for row in rows}, key=dataset_sort_key)
+    lookup = {(row["dataset"], row["method"]): row for row in rows}
+    fieldnames = ["数据集", "预算", "Empty", "Random", "Path enumeration", "Our"]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8-sig") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for dataset in datasets:
+            dataset_rows = [row for row in rows if row["dataset"] == dataset]
+            budget = dataset_rows[0].get("budget", "") if dataset_rows else ""
+            if budget not in (None, "") and float(budget).is_integer():
+                budget = int(float(budget))
+            writer.writerow({
+                "数据集": dataset,
+                "预算": budget,
+                "Empty": format_effectiveness_cell(lookup.get((dataset, "empty"))),
+                "Random": format_effectiveness_cell(lookup.get((dataset, "random"))),
+                "Path enumeration": format_effectiveness_cell(lookup.get((dataset, "path_enum"))),
+                "Our": format_effectiveness_cell(lookup.get((dataset, "stackelberg"))),
+            })
+
+
+def write_strategy_table(path: Path, rows: list[dict]) -> None:
+    """Write the selected defense strategy for every dataset and method."""
+    fieldnames = [
+        "数据集", "方法", "状态", "对比收益", "该策略收益", "策略口径",
+        "防御节点数", "防御成本", "防御节点ID", "防御节点标签",
+    ]
+    ordered_rows = sorted(
+        rows,
+        key=lambda row: (dataset_sort_key(row["dataset"]), METHODS.index(row["method"])),
+    )
+    scope_labels = {
+        "best_of_random_trials": "50次随机试验中目标值最优的一次；对比收益使用50次均值",
+        "deterministic_result": "确定性结果",
+        "not_completed": "未完成",
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8-sig") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in ordered_rows:
+            status = row.get("status")
+            timed_out = status == "timeout"
+            ids = row.get("selected_defense_ids") or ("timeout" if timed_out else "none")
+            labels = row.get("selected_defense_labels") or ("timeout" if timed_out else "none")
+            best_benefit = row.get("best_benefit_score")
+            strategy_benefit = (
+                "timeout"
+                if timed_out
+                else "" if best_benefit in (None, "")
+                else "{:.3f}".format(float(best_benefit))
+            )
+            writer.writerow({
+                "数据集": row["dataset"],
+                "方法": row.get("display_name", row["method"]),
+                "状态": status,
+                "对比收益": format_effectiveness_cell(row),
+                "该策略收益": strategy_benefit,
+                "策略口径": scope_labels.get(row.get("strategy_scope"), row.get("strategy_scope", "")),
+                "防御节点数": "" if timed_out else row.get("selected_defense_count", ""),
+                "防御成本": "" if timed_out else row.get("defense_cost", ""),
+                "防御节点ID": ids,
+                "防御节点标签": labels,
+            })
 
 
 def write_effectiveness_chart(path: Path, rows: list[dict], dpi: int) -> None:
@@ -534,6 +630,8 @@ def main() -> None:
             )
             rows.append(row)
             write_summary(output_root / "benchmark_summary.csv", rows)
+            write_effectiveness_table(output_root / "defense_effectiveness_table.csv", rows)
+            write_strategy_table(output_root / "selected_defense_strategies.csv", rows)
             print(
                 f"[done] {dataset}/{method}: status={row['status']}, "
                 f"wall={row['wall_seconds']:.3f}s, benefit={row['effectiveness_score']}",
@@ -552,6 +650,8 @@ def main() -> None:
             dpi=args.figure_dpi,
         )
     print(f"summary: {output_root / 'benchmark_summary.csv'}")
+    print(f"table: {output_root / 'defense_effectiveness_table.csv'}")
+    print(f"strategies: {output_root / 'selected_defense_strategies.csv'}")
 
 
 if __name__ == "__main__":
