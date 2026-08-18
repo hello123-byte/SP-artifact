@@ -108,8 +108,8 @@ def test_effectiveness_table_formats_scores_and_timeout(tmp_path):
     output = tmp_path / "table.csv"
     MODULE.write_effectiveness_table(output, rows)
     text = output.read_text(encoding="utf-8-sig")
-    assert "数据集,预算,Empty,Random,Path enumeration,Our" in text
-    assert "S1,1,0.000,0.719,timeout,0.999" in text
+    assert "数据集,预算,Empty,Random,Path enumeration,GA,Our" in text
+    assert "S1,1,0.000,0.719,timeout,,0.999" in text
 
 
 def test_strategy_table_lists_ids_labels_and_random_scope(tmp_path):

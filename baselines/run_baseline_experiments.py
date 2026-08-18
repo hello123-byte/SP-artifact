@@ -25,10 +25,11 @@ from baseline_common import (
 )
 from empty_defense_baseline import run_empty_baseline
 from full_path_enumeration_baseline import run_path_enumeration_baseline
+from ga_defense_baseline import run_ga_baseline
 from random_defense_baseline import run_random_baseline
 
 
-DEFAULT_METHODS = ["empty", "random", "path_enum", "stackelberg"]
+DEFAULT_METHODS = ["empty", "random", "path_enum", "ga", "stackelberg"]
 
 
 def parse_methods(raw: str | None) -> list[str]:
@@ -208,6 +209,7 @@ def method_color(method: str) -> str:
         "empty": "#666666",
         "random": "#0072B2",
         "path_enum": "#009E73",
+        "ga": "#E69F00",
         "stackelberg": "#D55E00",
         "stackelberg_reference": "#CC79A7",
     }
@@ -316,7 +318,7 @@ def write_benefit_line_chart(path: Path, rows: list[dict], dpi: int = 300):
 def main():
     parser = argparse.ArgumentParser()
     add_problem_arguments(parser)
-    parser.add_argument("--methods", default=None, help="Comma-separated: empty,random,path_enum,stackelberg")
+    parser.add_argument("--methods", default=None, help="Comma-separated: empty,random,path_enum,ga,stackelberg")
     parser.add_argument("--out-dir", default="baseline_results")
     parser.add_argument("--reference-result", default=None)
     parser.add_argument("--solver-script", default="solve_mulval__stackelberg_main.py")
@@ -333,6 +335,9 @@ def main():
     parser.add_argument("--chart-out", default=None, help="Figure output path. Use .png by default, or pass .pdf for vector output.")
     parser.add_argument("--figure-dpi", type=int, default=300)
     parser.add_argument("--skip-chart", action="store_true")
+    parser.add_argument("--ga-runs", type=int, default=10)
+    parser.add_argument("--ga-population-size", type=int, default=64)
+    parser.add_argument("--ga-generations", type=int, default=50)
     args = parser.parse_args()
 
     methods = parse_methods(args.methods)
@@ -390,6 +395,22 @@ def main():
         write_json(path, result)
         rows.append(summary_row("path_enum", result, path))
         print_defense_strategy("path_enum", result)
+
+    if "ga" in methods:
+        ga_budget = infer_budget(problem, args.budget, reference_result, "GA baseline")
+        result = run_ga_baseline(
+            problem=problem,
+            budget=ga_budget,
+            runs=args.ga_runs,
+            population_size=args.ga_population_size,
+            generations=args.ga_generations,
+            seed=args.seed,
+            empty_objective=empty_objective,
+        )
+        path = out_dir / "ga_defense.json"
+        write_json(path, result)
+        rows.append(summary_row("ga", result, path))
+        print_defense_strategy("ga", result)
 
     if "stackelberg" in methods:
         result, path = run_stackelberg_model(args, out_dir, empty_objective)

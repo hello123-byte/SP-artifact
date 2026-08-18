@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Compare four defense methods on the six git_atack_graph instances.
+"""Compare defense methods on the six git_atack_graph instances.
 
 Every dataset/method pair runs in its own process group.  The outer runner
 enforces a hard wall-clock timeout, including full-path enumeration, and writes
@@ -17,6 +17,7 @@ import os
 import signal
 import subprocess
 import sys
+import threading
 import time
 from collections import Counter
 from pathlib import Path
@@ -38,17 +39,19 @@ from run_git_attack_graph_benchmarks import (
 )
 
 
-METHODS = ("empty", "random", "path_enum", "stackelberg")
+METHODS = ("empty", "random", "path_enum", "ga", "stackelberg")
 RESULT_FILENAMES = {
     "empty": "empty_defense.json",
     "random": "random_defense.json",
     "path_enum": "full_path_enumeration.json",
+    "ga": "ga_defense.json",
     "stackelberg": "stackelberg_model.json",
 }
 DISPLAY_NAMES = {
     "empty": "Empty",
     "random": "Random",
     "path_enum": "Path enumeration",
+    "ga": "GA",
     "stackelberg": "Our",
 }
 SUMMARY_FIELDS = [
@@ -88,6 +91,12 @@ SUMMARY_FIELDS = [
     "blocking_combination_count",
     "blocking_strategy_found",
     "relative_gap",
+    "algorithm_library",
+    "algorithm_library_version",
+    "ga_runs",
+    "ga_population_size",
+    "ga_generations",
+    "function_evaluations",
     "result_json",
     "log_file",
 ]
@@ -140,6 +149,7 @@ def run_with_hard_timeout(
 ) -> tuple[int | None, float, bool]:
     log_path.parent.mkdir(parents=True, exist_ok=True)
     start = time.perf_counter()
+    timed_out_event = threading.Event()
     with log_path.open("w", encoding="utf-8") as log:
         proc = subprocess.Popen(
             cmd,
@@ -147,14 +157,31 @@ def run_with_hard_timeout(
             stderr=subprocess.STDOUT,
             start_new_session=True,
         )
-        try:
-            returncode = proc.wait(timeout=timeout_seconds)
-            timed_out = False
-        except subprocess.TimeoutExpired:
-            timed_out = True
-            terminate_process_group(proc, termination_grace_seconds)
-            returncode = None
-    return returncode, time.perf_counter() - start, timed_out
+
+        def stop_after_limit() -> None:
+            if proc.poll() is not None:
+                return
+            timed_out_event.set()
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                return
+            deadline = time.monotonic() + termination_grace_seconds
+            while proc.poll() is None and time.monotonic() < deadline:
+                time.sleep(0.01)
+            if proc.poll() is None:
+                try:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    return
+
+        timer = threading.Timer(timeout_seconds, stop_after_limit)
+        timer.daemon = True
+        timer.start()
+        returncode = proc.wait()
+        timer.cancel()
+    timed_out = timed_out_event.is_set()
+    return (None if timed_out else returncode), time.perf_counter() - start, timed_out
 
 
 def build_method_command(
@@ -189,6 +216,9 @@ def build_method_command(
         "--seed", str(args.seed),
         "--max-paths", str(args.max_paths),
         "--max-depth", str(args.max_depth),
+        "--ga-runs", str(args.ga_runs),
+        "--ga-population-size", str(args.ga_population_size),
+        "--ga-generations", str(args.ga_generations),
         "--solver", args.solver,
         "--mip-gap", str(args.mip_gap),
         "--time-limit", str(args.method_time_limit),
@@ -253,13 +283,15 @@ def result_row(
     timeout_seconds: float,
 ) -> dict:
     best_benefit = result.get("benefit_score")
-    average_benefit = mean_benefit(result) if method == "random" else best_benefit
+    average_benefit = mean_benefit(result) if method in {"random", "ga"} else best_benefit
     response = result.get("attacker_response") or {}
     selected_defenses = result.get("selected_defenses") or []
     if timed_out:
         strategy_scope = "not_completed"
     elif method == "random":
         strategy_scope = "best_of_random_trials"
+    elif method == "ga":
+        strategy_scope = "best_of_ga_runs"
     else:
         strategy_scope = "deterministic_result"
     return {
@@ -299,6 +331,12 @@ def result_row(
         "blocking_combination_count": result.get("blocking_combination_count"),
         "blocking_strategy_found": result.get("blocking_strategy_found"),
         "relative_gap": result.get("relative_gap"),
+        "algorithm_library": result.get("algorithm_library"),
+        "algorithm_library_version": result.get("algorithm_library_version"),
+        "ga_runs": result.get("ga_runs"),
+        "ga_population_size": result.get("ga_population_size"),
+        "ga_generations": result.get("ga_generations"),
+        "function_evaluations": result.get("function_evaluations"),
         "result_json": str(result_path.resolve()),
         "log_file": str(log_path.resolve()),
     }
@@ -330,7 +368,7 @@ def write_effectiveness_table(path: Path, rows: list[dict]) -> None:
     """Write one dataset per row for quick visual comparison."""
     datasets = sorted({row["dataset"] for row in rows}, key=dataset_sort_key)
     lookup = {(row["dataset"], row["method"]): row for row in rows}
-    fieldnames = ["数据集", "预算", "Empty", "Random", "Path enumeration", "Our"]
+    fieldnames = ["数据集", "预算", "Empty", "Random", "Path enumeration", "GA", "Our"]
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8-sig") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
@@ -346,6 +384,7 @@ def write_effectiveness_table(path: Path, rows: list[dict]) -> None:
                 "Empty": format_effectiveness_cell(lookup.get((dataset, "empty"))),
                 "Random": format_effectiveness_cell(lookup.get((dataset, "random"))),
                 "Path enumeration": format_effectiveness_cell(lookup.get((dataset, "path_enum"))),
+                "GA": format_effectiveness_cell(lookup.get((dataset, "ga"))),
                 "Our": format_effectiveness_cell(lookup.get((dataset, "stackelberg"))),
             })
 
@@ -362,6 +401,7 @@ def write_strategy_table(path: Path, rows: list[dict]) -> None:
     )
     scope_labels = {
         "best_of_random_trials": "50次随机试验中目标值最优的一次；对比收益使用50次均值",
+        "best_of_ga_runs": "多次GA独立运行中目标值最优的一次；对比收益使用多次运行均值",
         "deterministic_result": "确定性结果",
         "not_completed": "未完成",
     }
@@ -411,9 +451,10 @@ def write_effectiveness_chart(path: Path, rows: list[dict], dpi: int) -> None:
         "empty": "#666666",
         "random": "#0072B2",
         "path_enum": "#009E73",
+        "ga": "#E69F00",
         "stackelberg": "#D55E00",
     }
-    width = 0.18
+    width = 0.16
     x = list(range(len(datasets)))
     finite_scores = [
         float(row["effectiveness_score"])
@@ -511,6 +552,9 @@ def prepare_case(args, dataset: str, vertices_path: Path, arcs_path: Path) -> di
         "seed": args.seed,
         "max_paths": args.max_paths,
         "max_depth": args.max_depth,
+        "ga_runs": args.ga_runs,
+        "ga_population_size": args.ga_population_size,
+        "ga_generations": args.ga_generations,
     }
 
 
@@ -519,7 +563,7 @@ def main() -> None:
     parser.add_argument("--data-root", default="git_atack_graph")
     parser.add_argument("--output-root", default="git_attack_graph_baseline_comparison")
     parser.add_argument("--datasets", default="S1,S2,S3,S300,S500,S1000")
-    parser.add_argument("--methods", default=None, help="Comma-separated subset of empty,random,path_enum,stackelberg")
+    parser.add_argument("--methods", default=None, help="Comma-separated subset of empty,random,path_enum,ga,stackelberg")
     parser.add_argument("--goal-policy", choices=["all-terminal", "max-closure"], default="all-terminal")
     parser.add_argument("--budget", type=float, default=None, help="Fixed budget for every dataset; overrides --budget-ratio")
     parser.add_argument("--budget-ratio", type=float, default=0.4)
@@ -536,6 +580,9 @@ def main() -> None:
     parser.add_argument("--max-depth", type=int, default=200)
     parser.add_argument("--solver", choices=["scip", "gurobi"], default="scip")
     parser.add_argument("--mip-gap", type=float, default=0.0)
+    parser.add_argument("--ga-runs", type=int, default=10)
+    parser.add_argument("--ga-population-size", type=int, default=64)
+    parser.add_argument("--ga-generations", type=int, default=50)
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--skip-chart", action="store_true")
     parser.add_argument("--figure-dpi", type=int, default=300)
@@ -553,6 +600,8 @@ def main() -> None:
     data_root = Path(args.data_root)
     if not data_root.is_absolute():
         data_root = REPOSITORY_ROOT / data_root
+    if args.ga_runs < 1 or args.ga_population_size < 2 or args.ga_generations < 1:
+        raise SystemExit("--ga-runs/--ga-generations must be positive and --ga-population-size at least 2")
     output_root = Path(args.output_root)
     if not output_root.is_absolute():
         output_root = REPOSITORY_ROOT / output_root
