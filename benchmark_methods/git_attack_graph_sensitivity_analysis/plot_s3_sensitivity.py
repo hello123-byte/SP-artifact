@@ -10,28 +10,14 @@ from pathlib import Path
 
 FACTOR_STYLE = {
     "budget_ratio": {
-        "title": "(a) Defense budget ratio",
-        "xlabel": r"Budget ratio $\beta$",
+        "xlabel": "Defense budget",
         "baseline": 0.4,
         "color": "#0072B2",
     },
-    "defense_cost": {
-        "title": "(b) Unit defense cost",
-        "xlabel": r"Unit defense cost $c_d$",
-        "baseline": 1.0,
-        "color": "#D55E00",
-    },
     "reward": {
-        "title": "(c) Attacker goal reward",
-        "xlabel": r"Goal reward $R$",
+        "xlabel": "Attacker payoff after a successful attack",
         "baseline": 1000.0,
         "color": "#009E73",
-    },
-    "action_cost_scale": {
-        "title": "(d) Attack action-cost multiplier",
-        "xlabel": r"Action-cost multiplier $\alpha$",
-        "baseline": 1.0,
-        "color": "#CC79A7",
     },
 }
 
@@ -68,39 +54,50 @@ def write_data(path: Path, rows: list[dict]) -> None:
 def draw(rows: list[dict], dataset: str, output: Path, dpi: int) -> None:
     import matplotlib.pyplot as plt
 
-    figure, axes = plt.subplots(2, 2, figsize=(6.8, 4.8), sharey=True, constrained_layout=True)
-    for axis, factor in zip(axes.flat, FACTOR_STYLE):
-        style = FACTOR_STYLE[factor]
+    output.parent.mkdir(parents=True, exist_ok=True)
+    for factor, style in FACTOR_STYLE.items():
         points = sorted(
-            (number(row["factor_value"]), number(row["benefit_score"]), row)
+            (
+                number(row["budget"]) if factor == "budget_ratio" else number(row["factor_value"]),
+                number(row["benefit_score"]),
+                row,
+            )
             for row in rows
             if row["factor"] == factor
         )
+        if not points:
+            continue
         x = [value for value, _, _ in points]
         y = [benefit for _, benefit, _ in points]
-        valid_x = [value for value, benefit in zip(x, y) if benefit is not None]
-        valid_y = [benefit for benefit in y if benefit is not None]
-        axis.plot(valid_x, valid_y, marker="o", markersize=4.5, linewidth=1.55, color=style["color"])
+        valid = [(value, benefit) for value, benefit in zip(x, y) if benefit is not None]
+        figure, axis = plt.subplots(figsize=(3.55, 2.65), constrained_layout=True)
+        axis.plot(*zip(*valid), marker="o", markersize=4.5, linewidth=1.55, color=style["color"])
         for value, benefit, row in points:
             if benefit is None:
                 axis.annotate("T/O" if row["timed_out"] == "True" else "N/A", (value, 0.02),
                               rotation=90, ha="center", va="bottom", fontsize=7)
-        axis.axvline(style["baseline"], color="#555555", linewidth=0.75, linestyle="--", zorder=0)
+        baseline = style["baseline"]
+        if factor == "budget_ratio":
+            baseline = next(
+                value for value, _, row in points
+                if abs(number(row["factor_value"]) - 0.4) < 1e-9
+            )
+        axis.axvline(baseline, color="#555555", linewidth=0.75, linestyle="--", zorder=0)
         axis.axhline(0, color="#333333", linewidth=0.6, zorder=0)
-        axis.set_title(style["title"], fontsize=9.5, pad=5)
         axis.set_xlabel(style["xlabel"], fontsize=9)
+        axis.set_ylabel("Defense benefit", fontsize=9)
         axis.set_xticks(x)
+        if factor == "action_cost_scale":
+            axis.set_xticklabels([f"{value:g}×" for value in x])
         axis.tick_params(axis="both", labelsize=8)
         axis.spines["top"].set_visible(False)
         axis.spines["right"].set_visible(False)
         axis.set_ylim(-0.04, 1.04)
-    axes[0, 0].set_ylabel("Defense benefit", fontsize=9)
-    axes[1, 0].set_ylabel("Defense benefit", fontsize=9)
-    figure.suptitle(f"Parameter sensitivity of defense effectiveness on {dataset}", fontsize=10.5)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    figure.savefig(output.with_suffix(".png"), dpi=dpi, bbox_inches="tight")
-    figure.savefig(output.with_suffix(".pdf"), bbox_inches="tight")
-    plt.close(figure)
+        path = output.parent / f"{dataset}_{factor}_sensitivity"
+        figure.savefig(path.with_suffix(".png"), dpi=dpi, bbox_inches="tight")
+        figure.savefig(path.with_suffix(".pdf"), bbox_inches="tight")
+        plt.close(figure)
+        print(f'figure: {path.with_suffix(".png")}')
 
 
 def main() -> None:
@@ -114,7 +111,6 @@ def main() -> None:
     rows = parse_rows(Path(args.input), args.dataset)
     draw(rows, args.dataset, Path(args.output), args.dpi)
     write_data(Path(args.data_output), rows)
-    print(f"figure: {Path(args.output).with_suffix('.png')}")
     print(f"data: {args.data_output}")
 
 

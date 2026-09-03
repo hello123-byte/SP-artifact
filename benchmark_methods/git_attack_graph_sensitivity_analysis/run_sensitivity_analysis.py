@@ -59,6 +59,7 @@ FACTOR_VALUES = {
     "defense_cost": (0.5, 1.0, 2.0, 3.0),
     "reward": (250.0, 500.0, 1000.0, 2000.0),
     "action_cost_scale": (0.5, 1.0, 2.0, 4.0),
+    "defense_cost_fixed_budget": (0.5, 1.0, 1.5, 2.0, 3.0, 4.0),
 }
 
 SUMMARY_FIELDS = [
@@ -148,7 +149,10 @@ def parameters(factor: str, value: float) -> dict[str, float]:
         "loss": BASE_LOSS,
         "action_cost_scale": BASE_ACTION_COST_SCALE,
     }
-    result[factor] = value
+    if factor == "defense_cost_fixed_budget":
+        result["defense_cost"] = value
+    else:
+        result[factor] = value
     return result
 
 
@@ -295,6 +299,8 @@ def main() -> None:
     parser.add_argument("--factors", default="budget_ratio,defense_cost,reward,action_cost_scale")
     parser.add_argument("--budget-ratios", default="0.1,0.2,0.3,0.4,0.5,0.6")
     parser.add_argument("--defense-costs", default="0.5,1,2,3")
+    parser.add_argument("--fixed-budget-defense-costs", default="0.5,1,1.5,2,3,4")
+    parser.add_argument("--fixed-budget", type=float, default=8.0, help="Fixed monetary budget for defense_cost_fixed_budget.")
     parser.add_argument("--rewards", default="250,500,1000,2000")
     parser.add_argument("--action-cost-scales", default="0.5,1,2,4")
     parser.add_argument("--loss", type=float, default=BASE_LOSS)
@@ -307,12 +313,13 @@ def main() -> None:
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--resume", action="store_true", help="Preserve completed factor/value/dataset rows and run only missing cases.")
     args = parser.parse_args()
-    if args.loss <= 0 or args.time_limit <= 0 or args.termination_grace <= 0 or args.default_action_cost < 0:
+    if args.loss <= 0 or args.time_limit <= 0 or args.termination_grace <= 0 or args.default_action_cost < 0 or args.fixed_budget < 0:
         raise SystemExit("loss/time limits must be positive; action cost must be non-negative")
     factors = parse_factors(args.factors)
     configured = {
         "budget_ratio": parse_floats(args.budget_ratios, "budget-ratios"),
         "defense_cost": parse_floats(args.defense_costs, "defense-costs"),
+        "defense_cost_fixed_budget": parse_floats(args.fixed_budget_defense_costs, "fixed-budget-defense-costs"),
         "reward": parse_floats(args.rewards, "rewards"),
         "action_cost_scale": parse_floats(args.action_cost_scales, "action-cost-scales"),
     }
@@ -336,7 +343,7 @@ def main() -> None:
         "graph_direction": {"csv": "conclusion -> prerequisite", "paper": "prerequisite -> conclusion"},
         "base_parameters": {"budget_ratio": BASE_BUDGET_RATIO, "defense_cost": BASE_DEFENSE_COST, "reward": BASE_REWARD, "loss": args.loss, "action_cost_scale": BASE_ACTION_COST_SCALE},
         "one_factor_values": {factor: configured[factor] for factor in factors},
-        "fixed_parameters": {"attack_cost_source": args.attack_cost_source, "default_action_cost": args.default_action_cost, "mip_gap": args.mip_gap, "time_limit": args.time_limit},
+        "fixed_parameters": {"attack_cost_source": args.attack_cost_source, "default_action_cost": args.default_action_cost, "fixed_budget_for_fixed_cost_sweep": args.fixed_budget, "mip_gap": args.mip_gap, "time_limit": args.time_limit},
         "cases": {name: {key: value for key, value in case.items() if key not in {"vertices", "arcs"}} for name, case in cases.items()},
     }
     (output_root / "protocol.json").write_text(json.dumps(protocol, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -362,7 +369,11 @@ def main() -> None:
                 case = cases[dataset]
                 # Scale monetary budget with c_d only in the c_d sweep, keeping beta's
                 # cardinality interpretation unchanged across that sweep.
-                budget = max(1.0, math.floor(case["defendable_count"] * params["budget_ratio"])) * params["defense_cost"]
+                budget = (
+                    args.fixed_budget
+                    if factor == "defense_cost_fixed_budget"
+                    else max(1.0, math.floor(case["defendable_count"] * params["budget_ratio"])) * params["defense_cost"]
+                )
                 case_dir = output_root / "results" / factor / f"{value:g}" / dataset
                 case_dir.mkdir(parents=True, exist_ok=True)
                 result_path, log_path = case_dir / "result.json", case_dir / "run.log"
