@@ -1,0 +1,25 @@
+scenario,evidence,service,cve,attack_cost,defense_cost,cvss
+S1,effort_based,Apache HTTP,CVE-2021-42013,4.0,5.0,9.8
+S1,effort_based,FortiOS VPN,CVE-2022-42475,16.0,13.0,9.8
+S1,effort_based,Tomcat,CVE-2017-12617,8.0,11.0,8.1
+S1,effort_based,Debian Redis,CVE-2022-0543,4.0,11.0,10.0
+S1,effort_based,Windows RDP,CVE-2019-0708,16.0,13.0,9.8
+S1,effort_based,Modicon M221,CVE-2018-7798,8.0,,8.2
+S2,illustrative,Apache HTTP,CVE-2021-42013,4.0,20,9.8
+S2,illustrative,FortiOS VPN,CVE-2022-42475,16.0,24,9.8
+S2,illustrative,Tomcat,CVE-2017-12617,8.0,30,8.1
+S2,illustrative,Debian Redis,CVE-2022-0543,4.0,12,10.0
+S2,illustrative,Windows RDP,CVE-2019-0708,16.0,5,9.8
+S2,illustrative,Modicon M221,CVE-2018-7798,8.0,,8.2
+S3,illustrative,Apache HTTP,CVE-2021-42013,4.0,20,9.8
+S3,illustrative,FortiOS VPN,CVE-2022-42475,16.0,24,9.8
+S3,illustrative,Tomcat,CVE-2017-12617,8.0,30,8.1
+S3,illustrative,Debian Redis,CVE-2022-0543,4.0,5,10.0
+S3,illustrative,Windows RDP,CVE-2019-0708,50.0,12,9.8
+S3,illustrative,Modicon M221,CVE-2018-7798,30.0,,8.2
+S4,illustrative,Apache HTTP,CVE-2021-42013,2.0,4,9.8
+S4,illustrative,FortiOS VPN,CVE-2022-42475,120.0,25,9.8
+S4,illustrative,Tomcat,CVE-2017-12617,4.0,30,8.1
+S4,illustrative,Debian Redis,CVE-2022-0543,2.0,18,10.0
+S4,illustrative,Windows RDP,CVE-2019-0708,5.0,20,9.8
+S4,illustrative,Modicon M221,CVE-2018-7798,5.0,,8.2

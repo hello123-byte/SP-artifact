@@ -1,0 +1,67 @@
+{
+  "method": "full_path_enumeration",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 11.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.989,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2022-43592',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h2,'CVE-2012-0256',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 11.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 2,
+  "defendable_leaf_count": 9,
+  "budget": 300.0,
+  "budget_used": 11.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 64,
+    "original_arcs": 72,
+    "reduced_vertices": 64,
+    "reduced_arcs": 72,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 2
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 0.0008709460962563753
+  },
+  "enumerated_path_count": 15,
+  "path_cover_selected_count": 2,
+  "max_paths": 100000,
+  "max_depth": 200,
+  "limit_hit": false,
+  "selection_algorithm": "exhaustive_defense_combination_enumeration",
+  "exact_cover": true,
+  "attackable_path_count": 15,
+  "relevant_defendable_count": 9,
+  "unblockable_path_count": 0,
+  "defense_combination_count_evaluated": 511,
+  "blocking_combination_count": 225,
+  "blocking_strategy_found": true,
+  "reported_budget": 300.0,
+  "independent_strategy_check": true,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 0.0149458940140903
+}

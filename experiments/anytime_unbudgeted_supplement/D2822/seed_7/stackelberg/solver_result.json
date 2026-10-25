@@ -1,0 +1,538 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 1,
+      "label": "execCode(h120,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 368,
+      "label": "execCode(h121,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 642,
+      "label": "execCode(h122,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 677,
+      "label": "execCode(h123,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 799,
+      "label": "execCode(h124,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 976,
+      "label": "execCode(h125,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1123,
+      "label": "execCode(h126,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1149,
+      "label": "execCode(h127,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1179,
+      "label": "execCode(h128,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1264,
+      "label": "execCode(h129,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1336,
+      "label": "execCode(h130,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1404,
+      "label": "execCode(h131,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1517,
+      "label": "execCode(h132,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1541,
+      "label": "execCode(h133,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1613,
+      "label": "execCode(h134,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1632,
+      "label": "execCode(h135,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1685,
+      "label": "execCode(h136,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1706,
+      "label": "execCode(h137,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1756,
+      "label": "execCode(h138,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1794,
+      "label": "execCode(h139,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1859,
+      "label": "execCode(h140,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1872,
+      "label": "execCode(h141,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1895,
+      "label": "execCode(h142,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1910,
+      "label": "execCode(h143,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1929,
+      "label": "execCode(h144,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1950,
+      "label": "execCode(h145,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1971,
+      "label": "execCode(h146,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1990,
+      "label": "execCode(h147,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2022,
+      "label": "execCode(h148,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2060,
+      "label": "execCode(h149,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2121,
+      "label": "execCode(h150,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2174,
+      "label": "execCode(h151,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2199,
+      "label": "execCode(h152,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2214,
+      "label": "execCode(h153,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2240,
+      "label": "execCode(h154,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2263,
+      "label": "execCode(h155,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2280,
+      "label": "execCode(h156,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2295,
+      "label": "execCode(h157,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2312,
+      "label": "execCode(h158,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2333,
+      "label": "execCode(h159,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2350,
+      "label": "execCode(h160,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2359,
+      "label": "execCode(h161,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2397,
+      "label": "execCode(h162,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2431,
+      "label": "execCode(h163,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2457,
+      "label": "execCode(h164,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2499,
+      "label": "execCode(h165,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2516,
+      "label": "execCode(h166,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2531,
+      "label": "execCode(h167,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2546,
+      "label": "execCode(h168,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2565,
+      "label": "execCode(h169,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2609,
+      "label": "execCode(h170,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2624,
+      "label": "execCode(h171,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2643,
+      "label": "execCode(h172,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2656,
+      "label": "execCode(h173,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2673,
+      "label": "execCode(h174,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2692,
+      "label": "execCode(h175,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2728,
+      "label": "execCode(h176,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2753,
+      "label": "execCode(h177,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2768,
+      "label": "execCode(h178,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2787,
+      "label": "execCode(h179,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    }
+  ],
+  "defendable_leaf_count": 615,
+  "defendable_mode": "vul",
+  "default_defense_cost": 1.0,
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "constant",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 92.0,
+  "legacy_global_cost_big_m": 28231.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 28231.0,
+    "min": 0.0,
+    "max": 92.0,
+    "avg": 22.831679659815734
+  },
+  "utility_big_m": 1000.0,
+  "utility_upper_bound": 1000.0,
+  "budget": null,
+  "mip_gap_limit": 0.0,
+  "relative_gap": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 2822,
+    "original_arcs": 4041,
+    "reduced_vertices": 2822,
+    "reduced_arcs": 4041,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 60
+  },
+  "warm_start": {
+    "enabled": false,
+    "strategy": null,
+    "submitted": false,
+    "accepted": null,
+    "defense_count": 0,
+    "defense_total": 0.0,
+    "heuristic_objective": null,
+    "attacker_goal": null,
+    "iterations": 0,
+    "explored_iterations": 0,
+    "max_nonimproving_steps": 64,
+    "stopped_after_nonimproving_steps": 0
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 0.00451998901553452,
+    "resolve_game_defaults": 3.1630974262952805e-05,
+    "target_closure": 0.006573395105078816,
+    "build_parameters": 0.022487175068818033,
+    "build_mip": 0.22305688203778118,
+    "optimize": 1.04163036798127,
+    "extract_solution": 0.0003459060098975897,
+    "total_solve_game": 1.298645346192643
+  },
+  "selected_defenses": [
+    {
+      "id": 23,
+      "label": "vulExists(h10,'CVE-2017-5660',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 37,
+      "label": "vulExists(h18,'CVE-2021-46142',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 46,
+      "label": "vulExists(h20,'CVE-2025-21406',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 55,
+      "label": "vulExists(h8,'CVE-2013-6288',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 77,
+      "label": "vulExists(h13,'CVE-2014-9057',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 86,
+      "label": "vulExists(h16,'CVE-2019-8835',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 120,
+      "label": "vulExists(h17,'CVE-2022-23833',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 129,
+      "label": "vulExists(h6,'CVE-2016-4432',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 138,
+      "label": "vulExists(h9,'CVE-2021-33788',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 170,
+      "label": "vulExists(h1,'CVE-2019-17559',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 202,
+      "label": "vulExists(h11,'CVE-2007-4723',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 226,
+      "label": "vulExists(h3,'CVE-2015-0224',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 235,
+      "label": "vulExists(h7,'CVE-2022-0529',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 280,
+      "label": "vulExists(h15,'CVE-2003-0132',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 330,
+      "label": "vulExists(h2,'CVE-2023-6209',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 341,
+      "label": "vulExists(h4,'CVE-2015-8823',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 384,
+      "label": "vulExists(h12,'CVE-2018-1335',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 393,
+      "label": "vulExists(h14,'CVE-2023-6208',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 539,
+      "label": "vulExists(h5,'CVE-2021-2390',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 824,
+      "label": "vulExists(h19,'CVE-2022-45402',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    }
+  ],
+  "reachable_goals": [],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "attacker_utility": 0.0,
+  "defender_utility": -114.0,
+  "objective_cost_form": 114.0
+}

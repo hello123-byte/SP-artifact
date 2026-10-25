@@ -1,0 +1,719 @@
+{
+  "cost_display": "numbers_only",
+  "scenarios": [
+    {
+      "reference_scale": 100.0,
+      "labor_cny_per_hour": 200.0,
+      "main_budget": 15,
+      "evidence_class": "documented vulnerabilities; scenario-estimated economic parameters",
+      "attack_breakdown": [
+        "prepare",
+        "adapt",
+        "execute_validate"
+      ],
+      "patch_breakdown": [
+        "assess",
+        "backup",
+        "install",
+        "validate"
+      ],
+      "vulnerabilities": [
+        {
+          "host": "h1",
+          "service": "Apache HTTP",
+          "software": "apache_http",
+          "cve": "CVE-2021-42013",
+          "version": "Apache HTTP Server 2.4.50",
+          "fix": "2.4.51（修复本 CVE 的历史版本）",
+          "precondition": "启用 CGI；Alias 对应路径之外的目录未由 require all denied 保护。",
+          "remediation": "升级 HTTP Server，备份配置，回归 CGI、TLS 与站点访问。",
+          "source": "https://httpd.apache.org/security/vulnerabilities_24.html",
+          "attack_hours": [
+            0.5,
+            1,
+            0.5
+          ],
+          "patch_hours": [
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "downtime": 0.1,
+          "outage_rate": 1000,
+          "rationale": "请求型漏洞；假定已有工具，仍需核查 CGI 与目录条件。维护采用短时服务重启。",
+          "attack_cost": 4.0,
+          "defense_cost": 5.0
+        },
+        {
+          "host": "h2",
+          "service": "FortiOS VPN",
+          "software": "fortios_ssl_vpn",
+          "cve": "CVE-2022-42475",
+          "version": "FortiOS 7.2.2",
+          "fix": "FortiOS 7.2.3（修复本 CVE 的历史版本）",
+          "precondition": "受影响的 SSL-VPN 服务启用且向 Internet 开放。",
+          "remediation": "按对应固件分支升级，备份配置，安排重启并验证 VPN、路由和认证。",
+          "source": "https://fortiguard.fortinet.com/psirt/FG-IR-22-398",
+          "attack_hours": [
+            2,
+            4,
+            2
+          ],
+          "patch_hours": [
+            1,
+            0.5,
+            1,
+            1.5
+          ],
+          "downtime": 0.25,
+          "outage_rate": 2000,
+          "rationale": "堆内存破坏利用的版本适配和稳定性检查工时高于请求型漏洞；此差异不是 CVSS 自动推导。",
+          "attack_cost": 16.0,
+          "defense_cost": 13.0
+        },
+        {
+          "host": "h3",
+          "service": "Tomcat",
+          "software": "tomcat",
+          "cve": "CVE-2017-12617",
+          "version": "Tomcat 8.5.22",
+          "fix": "Tomcat 8.5.23（修复本 CVE 的历史版本）",
+          "precondition": "HTTP PUT 启用，例如 DefaultServlet 的 readonly=false；应用可执行上传的 JSP。",
+          "remediation": "升级 Tomcat，备份应用配置，重启并回归应用；主实验不以关闭 PUT 替代补丁。",
+          "source": "https://tomcat.apache.org/security-8.html",
+          "attack_hours": [
+            1,
+            2,
+            1
+          ],
+          "patch_hours": [
+            0.5,
+            0.5,
+            0.5,
+            1.5
+          ],
+          "downtime": 0.25,
+          "outage_rate": 2000,
+          "rationale": "需确认 PUT 配置并适配上传、执行流程；修复后应用兼容性验证占主要工时。",
+          "attack_cost": 8.0,
+          "defense_cost": 11.0
+        },
+        {
+          "host": "h4",
+          "service": "Debian Redis",
+          "software": "redis_debian",
+          "cve": "CVE-2022-0543",
+          "version": "Debian 11 bullseye，redis 5:6.0.16-1+deb11u1",
+          "fix": "5:6.0.16-1+deb11u2",
+          "precondition": "存在 Debian 特定 Lua 打包问题；从应用主机可调用脚本，不额外要求未建模的凭证。",
+          "remediation": "更新 Debian redis 软件包，备份数据和配置，重启并验证持久化与应用读写。",
+          "source": "https://security-tracker.debian.org/tracker/CVE-2022-0543",
+          "attack_hours": [
+            0.5,
+            1,
+            0.5
+          ],
+          "patch_hours": [
+            0.5,
+            1,
+            0.5,
+            1
+          ],
+          "downtime": 0.25,
+          "outage_rate": 2000,
+          "rationale": "有现成利用思路，仍需确认 Debian 包和脚本权限；修补需数据与持久化回归。",
+          "attack_cost": 4.0,
+          "defense_cost": 11.0
+        },
+        {
+          "host": "h5",
+          "service": "Windows RDP",
+          "software": "remote_desktop_services",
+          "cve": "CVE-2019-0708",
+          "version": "Windows Server 2008 R2 SP1，未安装相应更新",
+          "fix": "适用的 Microsoft 2019-05 安全更新（如 KB4499175）",
+          "precondition": "RDP 可从应用主机访问，相关安全更新缺失，NLA 关闭。",
+          "remediation": "安装适用的安全更新并重启，验证 RDP、应用及工业管理通路。",
+          "source": "https://www.microsoft.com/en-us/msrc/blog/2019/05/prevent-a-worm-by-updating-remote-desktop-services-cve-2019-0708",
+          "attack_hours": [
+            2,
+            4,
+            2
+          ],
+          "patch_hours": [
+            1,
+            0.5,
+            1,
+            1.5
+          ],
+          "downtime": 0.5,
+          "outage_rate": 1000,
+          "rationale": "假定需要内核内存破坏利用的版本与稳定性适配；Windows 重启和管理通路验证增加维护耗时。",
+          "attack_cost": 16.0,
+          "defense_cost": 13.0
+        },
+        {
+          "host": "h6",
+          "service": "Modicon M221",
+          "software": "m221_management",
+          "cve": "CVE-2018-7798",
+          "version": "Modicon M221（公告列为所有版本）",
+          "fix": null,
+          "precondition": "工业控制器管理服务仅从 Windows 管理主机可达；本案例将 TCP/502 作为受控管理通路。",
+          "remediation": "公告建议限制 Port 502 的远程访问、关闭不用的协议；本案例不将缓解写成补丁。",
+          "source": "https://www.cisa.gov/news-events/ics-advisories/icsa-18-324-02",
+          "attack_hours": [
+            1,
+            2,
+            1
+          ],
+          "patch_hours": null,
+          "downtime": null,
+          "outage_rate": null,
+          "rationale": "需确认设备与管理协议并准备配置变更；后果仅为 IPv4 配置修改。",
+          "attack_cost": 8.0,
+          "defense_cost": null
+        }
+      ],
+      "goals": {
+        "execCode(h4,redis)": {
+          "name": "Redis",
+          "reward": 60.0,
+          "loss": 200.0,
+          "loss_components_cny": {
+            "业务中断：4小时×2000元": 8000,
+            "恢复验证与应急处置：60工时×200元": 12000
+          },
+          "reward_note": "攻击者对该次资产控制的主观收益估值 6000 元；非黑市价格调查。"
+        },
+        "modifyNetworkConfig(h6)": {
+          "name": "Modicon M221",
+          "reward": 120.0,
+          "loss": 1000.0,
+          "loss_components_cny": {
+            "业务中断：8小时×10000元": 80000,
+            "恢复验证与应急处置：100工时×200元": 20000
+          },
+          "reward_note": "攻击者对该次工业配置破坏的主观收益估值 12000 元；不等于防御者损失。"
+        }
+      },
+      "id": "S1",
+      "title": "合理成本基准",
+      "title_en": "Effort-based reference",
+      "evidence": "effort_based",
+      "focus_budgets": [
+        0,
+        5,
+        10,
+        11,
+        15
+      ],
+      "attack_costs": null,
+      "defense_costs": null,
+      "intent": "按公开修复操作拆分工时与停机需求，展示共同中间节点修补的价值。",
+      "budget_max": 53
+    },
+    {
+      "reference_scale": 100.0,
+      "labor_cny_per_hour": 200.0,
+      "main_budget": 5,
+      "evidence_class": "documented vulnerabilities; scenario-estimated economic parameters",
+      "attack_breakdown": [
+        "prepare",
+        "adapt",
+        "execute_validate"
+      ],
+      "patch_breakdown": [
+        "assess",
+        "backup",
+        "install",
+        "validate"
+      ],
+      "vulnerabilities": [
+        {
+          "host": "h1",
+          "service": "Apache HTTP",
+          "software": "apache_http",
+          "cve": "CVE-2021-42013",
+          "version": "Apache HTTP Server 2.4.50",
+          "fix": "2.4.51（修复本 CVE 的历史版本）",
+          "precondition": "启用 CGI；Alias 对应路径之外的目录未由 require all denied 保护。",
+          "remediation": "升级 HTTP Server，备份配置，回归 CGI、TLS 与站点访问。",
+          "source": "https://httpd.apache.org/security/vulnerabilities_24.html",
+          "attack_cost": 4.0,
+          "defense_cost": 20
+        },
+        {
+          "host": "h2",
+          "service": "FortiOS VPN",
+          "software": "fortios_ssl_vpn",
+          "cve": "CVE-2022-42475",
+          "version": "FortiOS 7.2.2",
+          "fix": "FortiOS 7.2.3（修复本 CVE 的历史版本）",
+          "precondition": "受影响的 SSL-VPN 服务启用且向 Internet 开放。",
+          "remediation": "按对应固件分支升级，备份配置，安排重启并验证 VPN、路由和认证。",
+          "source": "https://fortiguard.fortinet.com/psirt/FG-IR-22-398",
+          "attack_cost": 16.0,
+          "defense_cost": 24
+        },
+        {
+          "host": "h3",
+          "service": "Tomcat",
+          "software": "tomcat",
+          "cve": "CVE-2017-12617",
+          "version": "Tomcat 8.5.22",
+          "fix": "Tomcat 8.5.23（修复本 CVE 的历史版本）",
+          "precondition": "HTTP PUT 启用，例如 DefaultServlet 的 readonly=false；应用可执行上传的 JSP。",
+          "remediation": "升级 Tomcat，备份应用配置，重启并回归应用；主实验不以关闭 PUT 替代补丁。",
+          "source": "https://tomcat.apache.org/security-8.html",
+          "attack_cost": 8.0,
+          "defense_cost": 30
+        },
+        {
+          "host": "h4",
+          "service": "Debian Redis",
+          "software": "redis_debian",
+          "cve": "CVE-2022-0543",
+          "version": "Debian 11 bullseye，redis 5:6.0.16-1+deb11u1",
+          "fix": "5:6.0.16-1+deb11u2",
+          "precondition": "存在 Debian 特定 Lua 打包问题；从应用主机可调用脚本，不额外要求未建模的凭证。",
+          "remediation": "更新 Debian redis 软件包，备份数据和配置，重启并验证持久化与应用读写。",
+          "source": "https://security-tracker.debian.org/tracker/CVE-2022-0543",
+          "attack_cost": 4.0,
+          "defense_cost": 12
+        },
+        {
+          "host": "h5",
+          "service": "Windows RDP",
+          "software": "remote_desktop_services",
+          "cve": "CVE-2019-0708",
+          "version": "Windows Server 2008 R2 SP1，未安装相应更新",
+          "fix": "适用的 Microsoft 2019-05 安全更新（如 KB4499175）",
+          "precondition": "RDP 可从应用主机访问，相关安全更新缺失，NLA 关闭。",
+          "remediation": "安装适用的安全更新并重启，验证 RDP、应用及工业管理通路。",
+          "source": "https://www.microsoft.com/en-us/msrc/blog/2019/05/prevent-a-worm-by-updating-remote-desktop-services-cve-2019-0708",
+          "attack_cost": 16.0,
+          "defense_cost": 5
+        },
+        {
+          "host": "h6",
+          "service": "Modicon M221",
+          "software": "m221_management",
+          "cve": "CVE-2018-7798",
+          "version": "Modicon M221（公告列为所有版本）",
+          "fix": null,
+          "precondition": "工业控制器管理服务仅从 Windows 管理主机可达；本案例将 TCP/502 作为受控管理通路。",
+          "remediation": "公告建议限制 Port 502 的远程访问、关闭不用的协议；本案例不将缓解写成补丁。",
+          "source": "https://www.cisa.gov/news-events/ics-advisories/icsa-18-324-02",
+          "attack_cost": 8.0,
+          "defense_cost": null
+        }
+      ],
+      "goals": {
+        "execCode(h4,redis)": {
+          "name": "Redis",
+          "reward": 60.0,
+          "loss": 200.0,
+          "loss_components_cny": {
+            "业务中断：4小时×2000元": 8000,
+            "恢复验证与应急处置：60工时×200元": 12000
+          },
+          "reward_note": "攻击者对该次资产控制的主观收益估值 6000 元；非黑市价格调查。"
+        },
+        "modifyNetworkConfig(h6)": {
+          "name": "Modicon M221",
+          "reward": 120.0,
+          "loss": 1000.0,
+          "loss_components_cny": {
+            "业务中断：8小时×10000元": 80000,
+            "恢复验证与应急处置：100工时×200元": 20000
+          },
+          "reward_note": "攻击者对该次工业配置破坏的主观收益估值 12000 元；不等于防御者损失。"
+        }
+      },
+      "id": "S2",
+      "title": "预算不足时转移攻击目标",
+      "title_en": "Redirect under limited budget",
+      "evidence": "illustrative",
+      "focus_budgets": [
+        0,
+        4,
+        5,
+        16,
+        17
+      ],
+      "attack_costs": [
+        4,
+        16,
+        8,
+        4,
+        16,
+        8
+      ],
+      "defense_costs": [
+        20,
+        24,
+        30,
+        12,
+        5,
+        null
+      ],
+      "intent": "使 RDP 补丁先于完全阻断方案可负担，观察攻击目标从控制器转向 Redis。",
+      "budget_max": 91
+    },
+    {
+      "reference_scale": 100.0,
+      "labor_cny_per_hour": 200.0,
+      "main_budget": 5,
+      "evidence_class": "documented vulnerabilities; scenario-estimated economic parameters",
+      "attack_breakdown": [
+        "prepare",
+        "adapt",
+        "execute_validate"
+      ],
+      "patch_breakdown": [
+        "assess",
+        "backup",
+        "install",
+        "validate"
+      ],
+      "vulnerabilities": [
+        {
+          "host": "h1",
+          "service": "Apache HTTP",
+          "software": "apache_http",
+          "cve": "CVE-2021-42013",
+          "version": "Apache HTTP Server 2.4.50",
+          "fix": "2.4.51（修复本 CVE 的历史版本）",
+          "precondition": "启用 CGI；Alias 对应路径之外的目录未由 require all denied 保护。",
+          "remediation": "升级 HTTP Server，备份配置，回归 CGI、TLS 与站点访问。",
+          "source": "https://httpd.apache.org/security/vulnerabilities_24.html",
+          "attack_cost": 4.0,
+          "defense_cost": 20
+        },
+        {
+          "host": "h2",
+          "service": "FortiOS VPN",
+          "software": "fortios_ssl_vpn",
+          "cve": "CVE-2022-42475",
+          "version": "FortiOS 7.2.2",
+          "fix": "FortiOS 7.2.3（修复本 CVE 的历史版本）",
+          "precondition": "受影响的 SSL-VPN 服务启用且向 Internet 开放。",
+          "remediation": "按对应固件分支升级，备份配置，安排重启并验证 VPN、路由和认证。",
+          "source": "https://fortiguard.fortinet.com/psirt/FG-IR-22-398",
+          "attack_cost": 16.0,
+          "defense_cost": 24
+        },
+        {
+          "host": "h3",
+          "service": "Tomcat",
+          "software": "tomcat",
+          "cve": "CVE-2017-12617",
+          "version": "Tomcat 8.5.22",
+          "fix": "Tomcat 8.5.23（修复本 CVE 的历史版本）",
+          "precondition": "HTTP PUT 启用，例如 DefaultServlet 的 readonly=false；应用可执行上传的 JSP。",
+          "remediation": "升级 Tomcat，备份应用配置，重启并回归应用；主实验不以关闭 PUT 替代补丁。",
+          "source": "https://tomcat.apache.org/security-8.html",
+          "attack_cost": 8.0,
+          "defense_cost": 30
+        },
+        {
+          "host": "h4",
+          "service": "Debian Redis",
+          "software": "redis_debian",
+          "cve": "CVE-2022-0543",
+          "version": "Debian 11 bullseye，redis 5:6.0.16-1+deb11u1",
+          "fix": "5:6.0.16-1+deb11u2",
+          "precondition": "存在 Debian 特定 Lua 打包问题；从应用主机可调用脚本，不额外要求未建模的凭证。",
+          "remediation": "更新 Debian redis 软件包，备份数据和配置，重启并验证持久化与应用读写。",
+          "source": "https://security-tracker.debian.org/tracker/CVE-2022-0543",
+          "attack_cost": 4.0,
+          "defense_cost": 5
+        },
+        {
+          "host": "h5",
+          "service": "Windows RDP",
+          "software": "remote_desktop_services",
+          "cve": "CVE-2019-0708",
+          "version": "Windows Server 2008 R2 SP1，未安装相应更新",
+          "fix": "适用的 Microsoft 2019-05 安全更新（如 KB4499175）",
+          "precondition": "RDP 可从应用主机访问，相关安全更新缺失，NLA 关闭。",
+          "remediation": "安装适用的安全更新并重启，验证 RDP、应用及工业管理通路。",
+          "source": "https://www.microsoft.com/en-us/msrc/blog/2019/05/prevent-a-worm-by-updating-remote-desktop-services-cve-2019-0708",
+          "attack_cost": 50.0,
+          "defense_cost": 12
+        },
+        {
+          "host": "h6",
+          "service": "Modicon M221",
+          "software": "m221_management",
+          "cve": "CVE-2018-7798",
+          "version": "Modicon M221（公告列为所有版本）",
+          "fix": null,
+          "precondition": "工业控制器管理服务仅从 Windows 管理主机可达；本案例将 TCP/502 作为受控管理通路。",
+          "remediation": "公告建议限制 Port 502 的远程访问、关闭不用的协议；本案例不将缓解写成补丁。",
+          "source": "https://www.cisa.gov/news-events/ics-advisories/icsa-18-324-02",
+          "attack_cost": 30.0,
+          "defense_cost": null
+        }
+      ],
+      "goals": {
+        "execCode(h4,redis)": {
+          "name": "Redis",
+          "reward": 60.0,
+          "loss": 200.0,
+          "loss_components_cny": {
+            "业务中断：4小时×2000元": 8000,
+            "恢复验证与应急处置：60工时×200元": 12000
+          },
+          "reward_note": "攻击者对该次资产控制的主观收益估值 6000 元；非黑市价格调查。"
+        },
+        "modifyNetworkConfig(h6)": {
+          "name": "Modicon M221",
+          "reward": 120.0,
+          "loss": 1000.0,
+          "loss_components_cny": {
+            "业务中断：8小时×10000元": 80000,
+            "恢复验证与应急处置：100工时×200元": 20000
+          },
+          "reward_note": "攻击者对该次工业配置破坏的主观收益估值 12000 元；不等于防御者损失。"
+        }
+      },
+      "id": "S3",
+      "title": "攻击成本权衡与防御反效果",
+      "title_en": "Attack cost and adverse redirection",
+      "evidence": "illustrative",
+      "focus_budgets": [
+        0,
+        5,
+        12,
+        16,
+        17
+      ],
+      "attack_costs": [
+        4,
+        16,
+        8,
+        4,
+        50,
+        30
+      ],
+      "defense_costs": [
+        20,
+        24,
+        30,
+        5,
+        12,
+        null
+      ],
+      "intent": "两个目标都可达时，较低收益的 Redis 可能有更高净收益；只修 Redis 可能将攻击转向损失更大的控制器。",
+      "budget_max": 91
+    },
+    {
+      "reference_scale": 100.0,
+      "labor_cny_per_hour": 200.0,
+      "main_budget": 4,
+      "evidence_class": "documented vulnerabilities; scenario-estimated economic parameters",
+      "attack_breakdown": [
+        "prepare",
+        "adapt",
+        "execute_validate"
+      ],
+      "patch_breakdown": [
+        "assess",
+        "backup",
+        "install",
+        "validate"
+      ],
+      "vulnerabilities": [
+        {
+          "host": "h1",
+          "service": "Apache HTTP",
+          "software": "apache_http",
+          "cve": "CVE-2021-42013",
+          "version": "Apache HTTP Server 2.4.50",
+          "fix": "2.4.51（修复本 CVE 的历史版本）",
+          "precondition": "启用 CGI；Alias 对应路径之外的目录未由 require all denied 保护。",
+          "remediation": "升级 HTTP Server，备份配置，回归 CGI、TLS 与站点访问。",
+          "source": "https://httpd.apache.org/security/vulnerabilities_24.html",
+          "attack_cost": 2.0,
+          "defense_cost": 4
+        },
+        {
+          "host": "h2",
+          "service": "FortiOS VPN",
+          "software": "fortios_ssl_vpn",
+          "cve": "CVE-2022-42475",
+          "version": "FortiOS 7.2.2",
+          "fix": "FortiOS 7.2.3（修复本 CVE 的历史版本）",
+          "precondition": "受影响的 SSL-VPN 服务启用且向 Internet 开放。",
+          "remediation": "按对应固件分支升级，备份配置，安排重启并验证 VPN、路由和认证。",
+          "source": "https://fortiguard.fortinet.com/psirt/FG-IR-22-398",
+          "attack_cost": 120.0,
+          "defense_cost": 25
+        },
+        {
+          "host": "h3",
+          "service": "Tomcat",
+          "software": "tomcat",
+          "cve": "CVE-2017-12617",
+          "version": "Tomcat 8.5.22",
+          "fix": "Tomcat 8.5.23（修复本 CVE 的历史版本）",
+          "precondition": "HTTP PUT 启用，例如 DefaultServlet 的 readonly=false；应用可执行上传的 JSP。",
+          "remediation": "升级 Tomcat，备份应用配置，重启并回归应用；主实验不以关闭 PUT 替代补丁。",
+          "source": "https://tomcat.apache.org/security-8.html",
+          "attack_cost": 4.0,
+          "defense_cost": 30
+        },
+        {
+          "host": "h4",
+          "service": "Debian Redis",
+          "software": "redis_debian",
+          "cve": "CVE-2022-0543",
+          "version": "Debian 11 bullseye，redis 5:6.0.16-1+deb11u1",
+          "fix": "5:6.0.16-1+deb11u2",
+          "precondition": "存在 Debian 特定 Lua 打包问题；从应用主机可调用脚本，不额外要求未建模的凭证。",
+          "remediation": "更新 Debian redis 软件包，备份数据和配置，重启并验证持久化与应用读写。",
+          "source": "https://security-tracker.debian.org/tracker/CVE-2022-0543",
+          "attack_cost": 2.0,
+          "defense_cost": 18
+        },
+        {
+          "host": "h5",
+          "service": "Windows RDP",
+          "software": "remote_desktop_services",
+          "cve": "CVE-2019-0708",
+          "version": "Windows Server 2008 R2 SP1，未安装相应更新",
+          "fix": "适用的 Microsoft 2019-05 安全更新（如 KB4499175）",
+          "precondition": "RDP 可从应用主机访问，相关安全更新缺失，NLA 关闭。",
+          "remediation": "安装适用的安全更新并重启，验证 RDP、应用及工业管理通路。",
+          "source": "https://www.microsoft.com/en-us/msrc/blog/2019/05/prevent-a-worm-by-updating-remote-desktop-services-cve-2019-0708",
+          "attack_cost": 5.0,
+          "defense_cost": 20
+        },
+        {
+          "host": "h6",
+          "service": "Modicon M221",
+          "software": "m221_management",
+          "cve": "CVE-2018-7798",
+          "version": "Modicon M221（公告列为所有版本）",
+          "fix": null,
+          "precondition": "工业控制器管理服务仅从 Windows 管理主机可达；本案例将 TCP/502 作为受控管理通路。",
+          "remediation": "公告建议限制 Port 502 的远程访问、关闭不用的协议；本案例不将缓解写成补丁。",
+          "source": "https://www.cisa.gov/news-events/ics-advisories/icsa-18-324-02",
+          "attack_cost": 5.0,
+          "defense_cost": null
+        }
+      ],
+      "goals": {
+        "execCode(h4,redis)": {
+          "name": "Redis",
+          "reward": 60.0,
+          "loss": 200.0,
+          "loss_components_cny": {
+            "业务中断：4小时×2000元": 8000,
+            "恢复验证与应急处置：60工时×200元": 12000
+          },
+          "reward_note": "攻击者对该次资产控制的主观收益估值 6000 元；非黑市价格调查。"
+        },
+        "modifyNetworkConfig(h6)": {
+          "name": "Modicon M221",
+          "reward": 120.0,
+          "loss": 1000.0,
+          "loss_components_cny": {
+            "业务中断：8小时×10000元": 80000,
+            "恢复验证与应急处置：100工时×200元": 20000
+          },
+          "reward_note": "攻击者对该次工业配置破坏的主观收益估值 12000 元；不等于防御者损失。"
+        }
+      },
+      "id": "S4",
+      "title": "路径仍可达时的经济威慑",
+      "title_en": "Deterrence without disconnection",
+      "evidence": "illustrative",
+      "focus_budgets": [
+        0,
+        3,
+        4,
+        28,
+        29
+      ],
+      "attack_costs": [
+        2,
+        120,
+        4,
+        2,
+        5,
+        5
+      ],
+      "defense_costs": [
+        4,
+        25,
+        30,
+        18,
+        20,
+        null
+      ],
+      "intent": "修补低成本入口后仍保留另一入口，但剩余攻击成本超过两个目标收益，攻击者主动放弃。",
+      "budget_max": 97
+    }
+  ],
+  "cvss": {
+    "CVE-2021-42013": {
+      "score": 9.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "version": "3.1",
+      "source": "NVD",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-42013",
+      "snapshot": "sources/CVE-2021-42013_nvd.json",
+      "retrieved_at": "2026-09-29T07:22:52.225617+00:00"
+    },
+    "CVE-2022-42475": {
+      "score": 9.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "version": "3.1",
+      "source": "NVD",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-42475",
+      "snapshot": "sources/CVE-2022-42475_nvd.json",
+      "retrieved_at": "2026-09-29T07:22:52.178375+00:00"
+    },
+    "CVE-2017-12617": {
+      "score": 8.1,
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "version": "3.1",
+      "source": "NVD",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12617",
+      "snapshot": "sources/CVE-2017-12617_nvd.json",
+      "retrieved_at": "2026-09-29T07:22:53.758536+00:00"
+    },
+    "CVE-2022-0543": {
+      "score": 10.0,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "version": "3.1",
+      "source": "NVD",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0543",
+      "snapshot": "sources/CVE-2022-0543_nvd.json",
+      "retrieved_at": "2026-09-29T07:22:53.374011+00:00"
+    },
+    "CVE-2019-0708": {
+      "score": 9.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "version": "3.1",
+      "source": "NVD",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-0708",
+      "snapshot": "sources/CVE-2019-0708_nvd.json",
+      "retrieved_at": "2026-09-29T07:22:54.699882+00:00"
+    },
+    "CVE-2018-7798": {
+      "score": 8.2,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L",
+      "version": "3.1",
+      "source": "NVD",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-7798",
+      "snapshot": "sources/CVE-2018-7798_nvd.json",
+      "retrieved_at": "2026-09-29T07:22:54.871563+00:00"
+    }
+  },
+  "design_note": "Only attack and defense costs vary; graph, rewards, losses and eligible patches are fixed."
+}

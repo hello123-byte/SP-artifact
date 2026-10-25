@@ -1,0 +1,12 @@
+{
+  "status": "finished",
+  "objective": 11.0,
+  "benefit": 0.989,
+  "selected_ids": [
+    18,
+    34
+  ],
+  "evaluations": 2,
+  "wall_seconds": 0.03593373403418809,
+  "empty_objective": 1000.0
+}

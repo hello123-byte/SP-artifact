@@ -1,0 +1,9 @@
+{
+  "status": "time_limit",
+  "objective": 1000.0,
+  "benefit": 0.0,
+  "selected_ids": [],
+  "evaluations": 27419,
+  "wall_seconds": 100.00449538603425,
+  "empty_objective": 1000.0
+}

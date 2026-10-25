@@ -1,0 +1,5 @@
+Scenario,Budget,Patches,Defense cost,Redis utility,M221 utility,Attacker choice,Remaining loss,J
+S1,15,Tomcat,11.0,Blocked,Blocked,No attack,0.0,11.0
+S2,5,Windows RDP,5,44.0,Blocked,Redis,200.0,205.0
+S3,5,None,0,44.0,28.0,Redis,200.0,200.0
+S4,4,Apache HTTP,4,-66.0,-14.0,No attack,0.0,4.0

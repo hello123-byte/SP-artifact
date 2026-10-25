@@ -1,0 +1,9 @@
+{
+  "status": "skipped_limit",
+  "objective": 1000.0,
+  "benefit": 0.0,
+  "selected_ids": [],
+  "evaluations": 0,
+  "wall_seconds": 1.0076777139911428,
+  "empty_objective": 1000.0
+}

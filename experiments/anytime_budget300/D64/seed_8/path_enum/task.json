@@ -1,0 +1,22 @@
+{
+  "dataset": "D64",
+  "nodes": 64,
+  "edges": 72,
+  "goals": [
+    1,
+    52
+  ],
+  "vertices": "data/D64/VERTICES.CSV",
+  "arcs": "data/D64/ARCS.CSV",
+  "cost_file": "data/D64/costs.json",
+  "cost_sha256": "646e3b7cb3a31693cd0c9e096a2ce7f2fc5807037ebcb60d1cf134ccaf42537b",
+  "vertices_sha256": "9f330aaa4768644d9bded1baa86adc83c103c30ef5d7bb5dbb6a5900d8b4988f",
+  "arcs_sha256": "9b5c9eeb4a31a1e14afe27e63ef31ed33277795ea6f5e5ec886d906d33dd8e64",
+  "minimum_attack_cost": 26.0,
+  "maximum_attack_cost": 27.0,
+  "method": "path_enum",
+  "seed": 8,
+  "budget": 300.0,
+  "seconds": 100.0,
+  "key": "D64/seed_8/path_enum"
+}

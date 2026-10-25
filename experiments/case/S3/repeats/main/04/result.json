@@ -1,0 +1,126 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 1,
+      "label": "execCode(h4,redis)",
+      "reward": 60.0,
+      "loss": 200.0
+    },
+    {
+      "id": 32,
+      "label": "modifyNetworkConfig(h6)",
+      "reward": 120.0,
+      "loss": 1000.0
+    }
+  ],
+  "defendable_leaf_count": 5,
+  "defendable_mode": "vul",
+  "default_defense_cost": 0.0,
+  "default_action_cost": 0.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "constant",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 104.0,
+  "legacy_global_cost_big_m": 2301.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 2301.0,
+    "min": 0.0,
+    "max": 104.0,
+    "avg": 17.333333333333332
+  },
+  "utility_big_m": 120.0,
+  "utility_upper_bound": 120.0,
+  "budget": 5,
+  "mip_gap_limit": 0.0,
+  "relative_gap": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 45,
+    "original_arcs": 45,
+    "reduced_vertices": 45,
+    "reduced_arcs": 45,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 2
+  },
+  "warm_start": {
+    "enabled": false,
+    "strategy": null,
+    "submitted": false,
+    "accepted": null,
+    "defense_count": 0,
+    "defense_total": 0.0,
+    "heuristic_objective": null,
+    "attacker_goal": null,
+    "iterations": 0,
+    "explored_iterations": 0,
+    "max_nonimproving_steps": 64,
+    "stopped_after_nonimproving_steps": 0
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 3.364100120961666e-05,
+    "resolve_game_defaults": 7.370021194219589e-06,
+    "target_closure": 3.3949967473745346e-05,
+    "build_parameters": 0.00019532185979187489,
+    "build_mip": 0.0026181829161942005,
+    "optimize": 0.0011959250550717115,
+    "extract_solution": 2.0930077880620956e-05,
+    "total_solve_game": 0.0041053208988159895
+  },
+  "selected_defenses": [],
+  "reachable_goals": [
+    {
+      "id": 1,
+      "label": "execCode(h4,redis)",
+      "reward": 60.0,
+      "loss": 200.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 44.0
+    },
+    {
+      "id": 32,
+      "label": "modifyNetworkConfig(h6)",
+      "reward": 120.0,
+      "loss": 1000.0,
+      "min_attack_cost": 92.0,
+      "attacker_net_utility": 28.0
+    }
+  ],
+  "attacker_response": {
+    "type": "attack_goal",
+    "goal": {
+      "id": 1,
+      "label": "execCode(h4,redis)",
+      "reward": 60.0,
+      "loss": 200.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 44.0
+    }
+  },
+  "attacker_utility": 44.0,
+  "defender_utility": -200.00000000000003,
+  "objective_cost_form": 200.00000000000003,
+  "certificate": {
+    "primal_bound": 200.00000000000003,
+    "dual_bound": 200.00000000000003,
+    "search_nodes": 1,
+    "threads": 1,
+    "pyscipopt": "6.2.1"
+  },
+  "worker_wall_seconds": 0.04058375395834446,
+  "process_wall_seconds": 0.07870113803073764,
+  "independent_validation": true,
+  "enumerated_optimum": 200.0,
+  "objective_error": 0.0
+}

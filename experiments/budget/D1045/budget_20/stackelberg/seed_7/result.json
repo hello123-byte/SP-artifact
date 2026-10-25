@@ -1,0 +1,378 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 1,
+      "label": "execCode(h55,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 185,
+      "label": "execCode(h56,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 410,
+      "label": "execCode(h57,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 434,
+      "label": "execCode(h58,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 584,
+      "label": "execCode(h59,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 657,
+      "label": "execCode(h60,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 674,
+      "label": "execCode(h61,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 704,
+      "label": "execCode(h62,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 719,
+      "label": "execCode(h63,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 793,
+      "label": "execCode(h64,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 827,
+      "label": "execCode(h65,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 850,
+      "label": "execCode(h66,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 877,
+      "label": "execCode(h67,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 916,
+      "label": "execCode(h68,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 950,
+      "label": "execCode(h69,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 971,
+      "label": "execCode(h70,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 986,
+      "label": "execCode(h71,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1001,
+      "label": "execCode(h72,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1010,
+      "label": "execCode(h73,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1033,
+      "label": "execCode(h74,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    }
+  ],
+  "defendable_leaf_count": 204,
+  "defendable_mode": "vul",
+  "default_defense_cost": 1.0,
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "constant",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 82.0,
+  "legacy_global_cost_big_m": 10461.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 10461.0,
+    "min": 0.0,
+    "max": 82.0,
+    "avg": 19.248803827751196
+  },
+  "utility_big_m": 1000.0,
+  "utility_upper_bound": 1000.0,
+  "budget": 20.0,
+  "mip_gap_limit": 0.0,
+  "relative_gap": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1045,
+    "original_arcs": 1437,
+    "reduced_vertices": 1045,
+    "reduced_arcs": 1437,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 20
+  },
+  "warm_start": {
+    "enabled": false,
+    "strategy": null,
+    "submitted": false,
+    "accepted": null,
+    "defense_count": 0,
+    "defense_total": 0.0,
+    "heuristic_objective": null,
+    "attacker_goal": null,
+    "iterations": 0,
+    "explored_iterations": 0,
+    "max_nonimproving_steps": 64,
+    "stopped_after_nonimproving_steps": 0
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 0.00043202610686421394,
+    "resolve_game_defaults": 1.1630007065832615e-05,
+    "target_closure": 0.0011703870259225368,
+    "build_parameters": 0.0022093820152804255,
+    "build_mip": 0.09766107692848891,
+    "optimize": 3.184638328035362,
+    "extract_solution": 0.00016786297783255577,
+    "total_solve_game": 3.2862906930968165
+  },
+  "selected_defenses": [],
+  "reachable_goals": [
+    {
+      "id": 1,
+      "label": "execCode(h55,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 185,
+      "label": "execCode(h56,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 410,
+      "label": "execCode(h57,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 434,
+      "label": "execCode(h58,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 584,
+      "label": "execCode(h59,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 657,
+      "label": "execCode(h60,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 674,
+      "label": "execCode(h61,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 704,
+      "label": "execCode(h62,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 719,
+      "label": "execCode(h63,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 793,
+      "label": "execCode(h64,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 827,
+      "label": "execCode(h65,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 850,
+      "label": "execCode(h66,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 877,
+      "label": "execCode(h67,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 916,
+      "label": "execCode(h68,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 950,
+      "label": "execCode(h69,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 971,
+      "label": "execCode(h70,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 986,
+      "label": "execCode(h71,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 1001,
+      "label": "execCode(h72,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 1010,
+      "label": "execCode(h73,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 1033,
+      "label": "execCode(h74,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.000000000000007,
+      "attacker_net_utility": 972.0
+    }
+  ],
+  "attacker_response": {
+    "type": "attack_goal",
+    "goal": {
+      "id": 1010,
+      "label": "execCode(h73,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    }
+  },
+  "attacker_utility": 982.0,
+  "defender_utility": -1000.0,
+  "objective_cost_form": 1000.0,
+  "model_stats": {
+    "variables": 2727,
+    "constraints": 6690,
+    "dual_bound": 1000.0,
+    "primal_bound": 1000.0,
+    "search_nodes": 59,
+    "threads": 1
+  },
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.0,
+  "independent_strategy_check": true,
+  "worker_wall_seconds": 3.308786900015548
+}

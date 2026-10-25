@@ -1,0 +1,46 @@
+id,label,type,score
+1,"execCode(h4,redis)",OR,0
+2,RULE 2 (remote exploit of a server program),AND,0
+3,"netAccess(h4,tcp,6379)",OR,0
+4,RULE 5 (multi-hop access),AND,0
+5,"hacl(h3,h4,tcp,6379)",LEAF,1
+6,"execCode(h3,tomcat)",OR,0
+7,RULE 2 (remote exploit of a server program),AND,0
+8,"netAccess(h3,tcp,8443)",OR,0
+9,RULE 5 (multi-hop access),AND,0
+10,"hacl(h1,h3,tcp,8443)",LEAF,1
+11,"execCode(h1,www_data)",OR,0
+12,RULE 2 (remote exploit of a server program),AND,0
+13,"netAccess(h1,tcp,443)",OR,0
+14,RULE 6 (direct network access),AND,0
+15,"hacl(internet,h1,tcp,443)",LEAF,1
+16,attackerLocated(internet),LEAF,1
+17,"networkServiceInfo(h1,apache_http,tcp,443,www_data)",LEAF,1
+18,"vulExists(h1,'CVE-2021-42013',apache_http,remoteExploit,privEscalation)",LEAF,1
+19,RULE 5 (multi-hop access),AND,0
+20,"hacl(h2,h3,tcp,8443)",LEAF,1
+21,"execCode(h2,system)",OR,0
+22,RULE 2 (remote exploit of a server program),AND,0
+23,"netAccess(h2,tcp,443)",OR,0
+24,RULE 6 (direct network access),AND,0
+25,"hacl(internet,h2,tcp,443)",LEAF,1
+26,"networkServiceInfo(h2,fortios_ssl_vpn,tcp,443,system)",LEAF,1
+27,"vulExists(h2,'CVE-2022-42475',fortios_ssl_vpn,remoteExploit,privEscalation)",LEAF,1
+28,"networkServiceInfo(h3,tomcat,tcp,8443,tomcat)",LEAF,1
+29,"vulExists(h3,'CVE-2017-12617',tomcat,remoteExploit,privEscalation)",LEAF,1
+30,"networkServiceInfo(h4,redis_debian,tcp,6379,redis)",LEAF,1
+31,"vulExists(h4,'CVE-2022-0543',redis_debian,remoteExploit,privEscalation)",LEAF,1
+32,modifyNetworkConfig(h6),OR,0
+33,RULE 25 (remote unauthorized IPv4 configuration change),AND,0
+34,"netAccess(h6,tcp,502)",OR,0
+35,RULE 5 (multi-hop access),AND,0
+36,"hacl(h5,h6,tcp,502)",LEAF,1
+37,"execCode(h5,system)",OR,0
+38,RULE 2 (remote exploit of a server program),AND,0
+39,"netAccess(h5,tcp,3389)",OR,0
+40,RULE 5 (multi-hop access),AND,0
+41,"hacl(h3,h5,tcp,3389)",LEAF,1
+42,"networkServiceInfo(h5,remote_desktop_services,tcp,3389,system)",LEAF,1
+43,"vulExists(h5,'CVE-2019-0708',remote_desktop_services,remoteExploit,privEscalation)",LEAF,1
+44,"networkServiceInfo(h6,m221_management,tcp,502,management)",LEAF,1
+45,"vulExists(h6,'CVE-2018-7798',m221_management,remoteExploit,modifyNetworkConfig)",LEAF,1

@@ -1,0 +1,7 @@
+Host,Service,CVE,S1 attack,S1 defense,S2 attack,S2 defense,S3 attack,S3 defense,S4 attack,S4 defense
+h1,Apache HTTP,CVE-2021-42013,4.0,5.0,4.0,20,4.0,20,2.0,4
+h2,FortiOS VPN,CVE-2022-42475,16.0,13.0,16.0,24,16.0,24,120.0,25
+h3,Tomcat,CVE-2017-12617,8.0,11.0,8.0,30,8.0,30,4.0,30
+h4,Debian Redis,CVE-2022-0543,4.0,11.0,4.0,12,4.0,5,2.0,18
+h5,Windows RDP,CVE-2019-0708,16.0,13.0,16.0,5,50.0,12,5.0,20
+h6,Modicon M221,CVE-2018-7798,8.0,N/A,8.0,N/A,30.0,N/A,5.0,N/A

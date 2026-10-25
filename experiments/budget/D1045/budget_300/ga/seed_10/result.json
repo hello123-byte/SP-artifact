@@ -1,0 +1,176 @@
+{
+  "method": "ga",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 85.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.915,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2024-38131',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h4,'CVE-2024-43574',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 55,
+      "label": "vulExists(h7,'CVE-2015-1830',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 77,
+      "label": "vulExists(h2,'CVE-2022-23124',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 86,
+      "label": "vulExists(h6,'CVE-2019-8666',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 95,
+      "label": "vulExists(h8,'CVE-2020-17527',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 128,
+      "label": "vulExists(h5,'CVE-2021-28706',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 139,
+      "label": "vulExists(h9,'CVE-2024-38204',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 160,
+      "label": "vulExists(h10,'CVE-2020-1955',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 166,
+      "label": "vulExists(h50,'CVE-2021-21707',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 180,
+      "label": "vulExists(h55,'CVE-2015-5206',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 228,
+      "label": "vulExists(h28,'CVE-2022-29130',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 251,
+      "label": "vulExists(h3,'CVE-2020-28052',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 395,
+      "label": "vulExists(h47,'CVE-2022-24528',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 520,
+      "label": "vulExists(h46,'CVE-2009-3302',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 579,
+      "label": "vulExists(h58,'CVE-2021-36960',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 644,
+      "label": "vulExists(h48,'CVE-2020-3885',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 826,
+      "label": "vulExists(h64,'CVE-2021-43534',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 841,
+      "label": "vulExists(h65,'CVE-2019-0192',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 849,
+      "label": "vulExists(h65,'CVE-2024-49127',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 890,
+      "label": "vulExists(h24,'CVE-2021-20578',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 949,
+      "label": "vulExists(h68,'CVE-2021-42717',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 998,
+      "label": "vulExists(h71,'CVE-2021-20578',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1000,
+      "label": "vulExists(h71,'CVE-2023-5855',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 85.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 20,
+  "defendable_leaf_count": 204,
+  "budget": 300.0,
+  "budget_used": 85.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1045,
+    "original_arcs": 1437,
+    "reduced_vertices": 1045,
+    "reduced_arcs": 1437,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 20
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 3.4544159350916743
+  },
+  "objective_mean": 85.0,
+  "objective_std": 0.0,
+  "ga_runs": 1,
+  "ga_population_size": 64,
+  "ga_generations": 50,
+  "function_evaluations": 3199,
+  "algorithm_library": "pymoo",
+  "algorithm_library_version": "0.6.1.5",
+  "algorithm_class": "pymoo.algorithms.soo.nonconvex.ga.GA",
+  "search_fitness": "loss_then_attacker_utility_then_defense_cost",
+  "reported_solution_selection": "minimum_exact_objective_over_all_evaluated_feasible_candidates",
+  "ga_run_objectives": [
+    85.0
+  ],
+  "independent_strategy_check": true,
+  "worker_wall_seconds": 3.5345895580248907
+}

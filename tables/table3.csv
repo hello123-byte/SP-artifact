@@ -1,0 +1,13 @@
+Instance,Budget,Build (s),Solve (s),Total (s),Gap,Status
+AG1,300,0.071,0.009,0.080,0.000,Optimal
+AG1,No limit,0.072,0.008,0.080,0.000,Optimal
+AG2,300,0.079,0.059,0.138,0.000,Optimal
+AG2,No limit,0.082,0.060,0.143,0.000,Optimal
+AG3,300,0.116,0.221,0.341,0.000,Optimal
+AG3,No limit,0.114,0.232,0.349,0.000,Optimal
+AG4,300,0.195,1.015,1.223,0.000,Optimal
+AG4,No limit,0.192,0.957,1.160,0.000,Optimal
+AG5,300,0.356,2.291,2.685,0.000,Optimal
+AG5,No limit,0.350,2.552,2.937,0.000,Optimal
+AG6,300,0.330,5.237,5.628,0.000,Optimal
+AG6,No limit,0.334,5.539,5.931,0.000,Optimal

@@ -1,0 +1,172 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 1,
+      "label": "execCode(h16,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 109,
+      "label": "execCode(h17,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 150,
+      "label": "execCode(h18,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 204,
+      "label": "execCode(h19,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 217,
+      "label": "execCode(h20,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 230,
+      "label": "execCode(h21,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    }
+  ],
+  "defendable_leaf_count": 37,
+  "defendable_mode": "vul",
+  "default_defense_cost": 1.0,
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "constant",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 65.0,
+  "legacy_global_cost_big_m": 2451.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 2451.0,
+    "min": 0.0,
+    "max": 65.0,
+    "avg": 17.139344262295083
+  },
+  "utility_big_m": 1000.0,
+  "utility_upper_bound": 1000.0,
+  "budget": null,
+  "mip_gap_limit": 0.0,
+  "relative_gap": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 244,
+    "original_arcs": 307,
+    "reduced_vertices": 244,
+    "reduced_arcs": 307,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 6
+  },
+  "warm_start": {
+    "enabled": false,
+    "strategy": null,
+    "submitted": false,
+    "accepted": null,
+    "defense_count": 0,
+    "defense_total": 0.0,
+    "heuristic_objective": null,
+    "attacker_goal": null,
+    "iterations": 0,
+    "explored_iterations": 0,
+    "max_nonimproving_steps": 64,
+    "stopped_after_nonimproving_steps": 0
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 8.582195732742548e-05,
+    "resolve_game_defaults": 8.21996945887804e-06,
+    "target_closure": 0.00020658306311815977,
+    "build_parameters": 0.000371897011063993,
+    "build_mip": 0.07863625604659319,
+    "optimize": 0.051691871020011604,
+    "extract_solution": 8.991104550659657e-05,
+    "total_solve_game": 0.13109056011307985
+  },
+  "selected_defenses": [
+    {
+      "id": 108,
+      "label": "vulExists(h16,'CVE-2016-3087',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 145,
+      "label": "vulExists(h17,'CVE-2009-0580',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 147,
+      "label": "vulExists(h17,'CVE-2023-24997',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 149,
+      "label": "vulExists(h17,'CVE-2023-45802',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 201,
+      "label": "vulExists(h18,'CVE-2020-1946',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 203,
+      "label": "vulExists(h18,'CVE-2021-4059',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 216,
+      "label": "vulExists(h19,'CVE-2011-4343',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 229,
+      "label": "vulExists(h20,'CVE-2024-49082',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 244,
+      "label": "vulExists(h21,'CVE-2012-6612',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    }
+  ],
+  "reachable_goals": [],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "attacker_utility": 0.0,
+  "defender_utility": -35.0,
+  "objective_cost_form": 35.0,
+  "model_stats": {
+    "variables": 623,
+    "constraints": 1509,
+    "dual_bound": 35.0,
+    "primal_bound": 35.0,
+    "search_nodes": 1,
+    "threads": 1
+  },
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.965,
+  "independent_strategy_check": true,
+  "budget_mode": "unbudgeted",
+  "worker_wall_seconds": 0.1448303279466927
+}

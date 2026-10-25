@@ -1,0 +1,99 @@
+{
+  "method": "empty",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 1000.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": null,
+  "selected_defenses": [],
+  "attacker_response": {
+    "type": "attack_goal",
+    "goal": {
+      "id": 109,
+      "label": "execCode(h17,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    }
+  },
+  "reachable_goals": [
+    {
+      "id": 1,
+      "label": "execCode(h16,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 31.0,
+      "attacker_net_utility": 969.0
+    },
+    {
+      "id": 109,
+      "label": "execCode(h17,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 150,
+      "label": "execCode(h18,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 204,
+      "label": "execCode(h19,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 217,
+      "label": "execCode(h20,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 230,
+      "label": "execCode(h21,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    }
+  ],
+  "defense_cost": 0,
+  "attack_loss": 1000.0,
+  "attacker_utility": 982.0,
+  "goal_count": 6,
+  "defendable_leaf_count": 37,
+  "budget": null,
+  "budget_used": 0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 244,
+    "original_arcs": 307,
+    "reduced_vertices": 244,
+    "reduced_arcs": 307,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 6
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 0.00025021506007760763
+  },
+  "independent_strategy_check": true,
+  "budget_mode": "unbudgeted",
+  "worker_wall_seconds": 0.013820240972563624
+}

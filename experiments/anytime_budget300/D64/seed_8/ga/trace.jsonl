@@ -1,0 +1,10 @@
+{"time": 0.04785779898520559, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 52], "defendable_count": 9}
+{"time": 0.3592462569940835, "kind": "improvement", "objective": 61.0, "benefit": 0.939, "selected_ids": [18, 20, 34, 36, 38, 49, 51, 62, 64]}
+{"time": 0.4759944040561095, "kind": "improvement", "objective": 47.0, "benefit": 0.953, "selected_ids": [18, 36, 38, 49, 51, 62, 64]}
+{"time": 0.47981787205208093, "kind": "improvement", "objective": 41.0, "benefit": 0.959, "selected_ids": [18, 20, 34, 36, 49, 51, 64]}
+{"time": 0.4804436609847471, "kind": "improvement", "objective": 24.0, "benefit": 0.976, "selected_ids": [20, 34, 36, 49, 51]}
+{"time": 0.49015428905840963, "kind": "improvement", "objective": 23.0, "benefit": 0.977, "selected_ids": [20, 34, 36, 49]}
+{"time": 0.4906521770171821, "kind": "improvement", "objective": 14.0, "benefit": 0.986, "selected_ids": [18, 34, 49, 51]}
+{"time": 0.5007106000557542, "kind": "improvement", "objective": 13.0, "benefit": 0.987, "selected_ids": [18, 34, 49]}
+{"time": 0.5084189269691706, "kind": "improvement", "objective": 12.0, "benefit": 0.988, "selected_ids": [18, 34, 51]}
+{"time": 0.5133671320509166, "kind": "improvement", "objective": 11.0, "benefit": 0.989, "selected_ids": [18, 34]}

@@ -1,0 +1,19 @@
+{
+  "status": "optimal",
+  "objective": 35.0,
+  "benefit": 0.965,
+  "selected_ids": [
+    108,
+    145,
+    147,
+    149,
+    201,
+    203,
+    216,
+    229,
+    244
+  ],
+  "evaluations": 5,
+  "wall_seconds": 0.18755090702325106,
+  "empty_objective": 1000.0
+}

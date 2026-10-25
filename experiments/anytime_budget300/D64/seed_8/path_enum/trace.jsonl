@@ -1,0 +1,4 @@
+{"time": 0.03796781902201474, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 52], "defendable_count": 9}
+{"time": 0.03974187606945634, "kind": "improvement", "objective": 11.0, "benefit": 0.989, "selected_ids": [18, 34]}
+{"time": 0.04050514800474048, "kind": "enumeration_complete", "selection_algorithm": "exhaustive_defense_combination_enumeration", "exact_cover": true, "attackable_path_count": 15, "relevant_defendable_count": 9, "unblockable_path_count": 0, "defense_combination_count_evaluated": 511, "blocking_combination_count": 225, "blocking_strategy_found": true}
+{"time": 0.0405336880357936, "kind": "finish", "status": "finished", "objective": 11.0, "benefit": 0.989, "evaluations": 2}

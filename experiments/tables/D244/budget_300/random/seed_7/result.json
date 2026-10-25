@@ -1,0 +1,640 @@
+{
+  "method": "random_defense",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 218.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.782,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2025-21339',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 27,
+      "label": "vulExists(h4,'CVE-2011-4367',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 29,
+      "label": "vulExists(h11,'CVE-2019-8623',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 31,
+      "label": "vulExists(h11,'CVE-2022-31778',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 33,
+      "label": "vulExists(h11,'CVE-2023-36912',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 54,
+      "label": "vulExists(h2,'CVE-2024-21090',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 58,
+      "label": "vulExists(h14,'CVE-2019-8623',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 60,
+      "label": "vulExists(h14,'CVE-2023-4900',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 69,
+      "label": "vulExists(h5,'CVE-2007-2863',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 71,
+      "label": "vulExists(h13,'CVE-2017-1520',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 73,
+      "label": "vulExists(h13,'CVE-2019-8623',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 75,
+      "label": "vulExists(h13,'CVE-2021-37976',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 91,
+      "label": "vulExists(h12,'CVE-2021-28116',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 100,
+      "label": "vulExists(h3,'CVE-2016-4463',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 102,
+      "label": "vulExists(h6,'CVE-2010-2068',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 104,
+      "label": "vulExists(h6,'CVE-2021-22925',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 106,
+      "label": "vulExists(h6,'CVE-2023-41358',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 108,
+      "label": "vulExists(h16,'CVE-2016-3087',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 128,
+      "label": "vulExists(h7,'CVE-2012-6612',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 130,
+      "label": "vulExists(h7,'CVE-2023-4356',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 143,
+      "label": "vulExists(h9,'CVE-2020-11988',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 145,
+      "label": "vulExists(h17,'CVE-2009-0580',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 147,
+      "label": "vulExists(h17,'CVE-2023-24997',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 149,
+      "label": "vulExists(h17,'CVE-2023-45802',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 163,
+      "label": "vulExists(h10,'CVE-2021-28116',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 165,
+      "label": "vulExists(h10,'CVE-2021-4059',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 167,
+      "label": "vulExists(h10,'CVE-2023-23405',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 180,
+      "label": "vulExists(h15,'CVE-2016-6497',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 182,
+      "label": "vulExists(h15,'CVE-2021-37973',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 184,
+      "label": "vulExists(h15,'CVE-2022-21724',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 197,
+      "label": "vulExists(h8,'CVE-2009-0580',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 199,
+      "label": "vulExists(h8,'CVE-2012-1149',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 201,
+      "label": "vulExists(h18,'CVE-2020-1946',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 203,
+      "label": "vulExists(h18,'CVE-2021-4059',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 216,
+      "label": "vulExists(h19,'CVE-2011-4343',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 229,
+      "label": "vulExists(h20,'CVE-2024-49082',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 244,
+      "label": "vulExists(h21,'CVE-2012-6612',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 218.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 6,
+  "defendable_leaf_count": 37,
+  "budget": 300.0,
+  "budget_used": 218.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 244,
+    "original_arcs": 307,
+    "reduced_vertices": 244,
+    "reduced_arcs": 307,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 6
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 0.009832640993408859
+  },
+  "random_budget": 300.0,
+  "random_trials": 50,
+  "seed": 7,
+  "trial_summaries": [
+    {
+      "trial": 0,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 1,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 2,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 3,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 4,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 5,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 6,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 7,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 8,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 9,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 10,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 11,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 12,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 13,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 14,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 15,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 16,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 17,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 18,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 19,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 20,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 21,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 22,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 23,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 24,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 25,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 26,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 27,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 28,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 29,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 30,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 31,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 32,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 33,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 34,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 35,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 36,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 37,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 38,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 39,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 40,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 41,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 42,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 43,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 44,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 45,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 46,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 47,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 48,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    },
+    {
+      "trial": 49,
+      "objective_cost_form": 218.0,
+      "defense_cost": 218.0,
+      "attack_loss": 0.0,
+      "selected_defense_count": 37,
+      "attacker_response_type": "empty"
+    }
+  ],
+  "objective_mean": 218.0,
+  "objective_std": 0.0,
+  "objective_min": 218.0,
+  "objective_max": 218.0,
+  "sampling_rule": "budget-filling random permutation",
+  "comparison_objective": 218.0,
+  "comparison_benefit": 0.782,
+  "independent_strategy_check": true,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 0.02396831999067217
+}

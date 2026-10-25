@@ -1,0 +1,608 @@
+{
+  "method": "ga",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 489.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.511,
+  "selected_defenses": [
+    {
+      "id": 20,
+      "label": "vulExists(h11,'CVE-2024-43573',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h4,'CVE-2024-43574',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 55,
+      "label": "vulExists(h7,'CVE-2015-1830',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 57,
+      "label": "vulExists(h25,'CVE-2015-5348',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 59,
+      "label": "vulExists(h25,'CVE-2019-12512',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 63,
+      "label": "vulExists(h25,'CVE-2023-35339',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 77,
+      "label": "vulExists(h2,'CVE-2022-23124',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 86,
+      "label": "vulExists(h6,'CVE-2019-8666',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 95,
+      "label": "vulExists(h8,'CVE-2020-17527',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 97,
+      "label": "vulExists(h29,'CVE-2022-24528',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 103,
+      "label": "vulExists(h21,'CVE-2012-3506',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 105,
+      "label": "vulExists(h21,'CVE-2014-9635',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 109,
+      "label": "vulExists(h21,'CVE-2024-39676',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 128,
+      "label": "vulExists(h5,'CVE-2021-28706',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 139,
+      "label": "vulExists(h9,'CVE-2024-38204',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 160,
+      "label": "vulExists(h10,'CVE-2020-1955',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 164,
+      "label": "vulExists(h53,'CVE-2021-27737',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 166,
+      "label": "vulExists(h50,'CVE-2021-21707',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 168,
+      "label": "vulExists(h50,'CVE-2022-33682',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 172,
+      "label": "vulExists(h50,'CVE-2023-38149',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 174,
+      "label": "vulExists(h50,'CVE-2025-21269',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 178,
+      "label": "vulExists(h55,'CVE-2007-5342',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 180,
+      "label": "vulExists(h55,'CVE-2015-5206',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 184,
+      "label": "vulExists(h55,'CVE-2023-5855',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 209,
+      "label": "vulExists(h26,'CVE-2014-3623',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 211,
+      "label": "vulExists(h26,'CVE-2019-0192',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 213,
+      "label": "vulExists(h26,'CVE-2020-11971',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 215,
+      "label": "vulExists(h26,'CVE-2024-38145',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 228,
+      "label": "vulExists(h28,'CVE-2022-29130',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 230,
+      "label": "vulExists(h28,'CVE-2024-37371',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 251,
+      "label": "vulExists(h3,'CVE-2020-28052',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 270,
+      "label": "vulExists(h27,'CVE-2015-5064',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 289,
+      "label": "vulExists(h35,'CVE-2021-46671',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 291,
+      "label": "vulExists(h35,'CVE-2022-23223',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 302,
+      "label": "vulExists(h52,'CVE-2004-0786',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 310,
+      "label": "vulExists(h41,'CVE-2012-3506',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 312,
+      "label": "vulExists(h41,'CVE-2014-9635',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 314,
+      "label": "vulExists(h41,'CVE-2021-23215',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 316,
+      "label": "vulExists(h41,'CVE-2022-40145',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 336,
+      "label": "vulExists(h16,'CVE-2024-49102',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 360,
+      "label": "vulExists(h32,'CVE-2022-43982',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 377,
+      "label": "vulExists(h51,'CVE-2019-12399',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 383,
+      "label": "vulExists(h43,'CVE-2021-20809',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 385,
+      "label": "vulExists(h43,'CVE-2022-24903',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 387,
+      "label": "vulExists(h43,'CVE-2022-3201',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 403,
+      "label": "vulExists(h56,'CVE-2016-8741',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 405,
+      "label": "vulExists(h56,'CVE-2021-27737',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 407,
+      "label": "vulExists(h56,'CVE-2023-28226',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 429,
+      "label": "vulExists(h57,'CVE-2017-7486',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 431,
+      "label": "vulExists(h57,'CVE-2018-8035',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 433,
+      "label": "vulExists(h57,'CVE-2021-37981',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 454,
+      "label": "vulExists(h18,'CVE-2021-43537',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 463,
+      "label": "vulExists(h40,'CVE-2019-12512',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 467,
+      "label": "vulExists(h40,'CVE-2021-43534',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 469,
+      "label": "vulExists(h40,'CVE-2022-24793',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 501,
+      "label": "vulExists(h38,'CVE-2022-23223',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 505,
+      "label": "vulExists(h38,'CVE-2024-45384',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 518,
+      "label": "vulExists(h46,'CVE-2006-0025',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 520,
+      "label": "vulExists(h46,'CVE-2009-3302',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 522,
+      "label": "vulExists(h46,'CVE-2015-4554',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 524,
+      "label": "vulExists(h46,'CVE-2017-7486',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 526,
+      "label": "vulExists(h46,'CVE-2020-1927',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 528,
+      "label": "vulExists(h34,'CVE-2024-45384',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 563,
+      "label": "vulExists(h31,'CVE-2023-3417',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 567,
+      "label": "vulExists(h45,'CVE-2014-3623',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 571,
+      "label": "vulExists(h45,'CVE-2020-1927',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 575,
+      "label": "vulExists(h45,'CVE-2023-34434',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 577,
+      "label": "vulExists(h58,'CVE-2016-4438',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 579,
+      "label": "vulExists(h58,'CVE-2021-36960',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 581,
+      "label": "vulExists(h58,'CVE-2023-4368',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 620,
+      "label": "vulExists(h36,'CVE-2021-31186',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 644,
+      "label": "vulExists(h48,'CVE-2020-3885',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 652,
+      "label": "vulExists(h44,'CVE-2022-3201',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 695,
+      "label": "vulExists(h17,'CVE-2016-6801',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 703,
+      "label": "vulExists(h61,'CVE-2021-35556',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 718,
+      "label": "vulExists(h62,'CVE-2024-29006',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 734,
+      "label": "vulExists(h19,'CVE-2006-5143',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 738,
+      "label": "vulExists(h19,'CVE-2021-20578',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 740,
+      "label": "vulExists(h19,'CVE-2023-6205',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 759,
+      "label": "vulExists(h37,'CVE-2007-3035',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 761,
+      "label": "vulExists(h37,'CVE-2016-6801',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 763,
+      "label": "vulExists(h37,'CVE-2023-46227',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 765,
+      "label": "vulExists(h37,'CVE-2023-5849',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 784,
+      "label": "vulExists(h63,'CVE-2015-2620',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 788,
+      "label": "vulExists(h63,'CVE-2019-8628',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 808,
+      "label": "vulExists(h20,'CVE-2021-21342',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 812,
+      "label": "vulExists(h20,'CVE-2023-28233',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 841,
+      "label": "vulExists(h65,'CVE-2019-0192',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 843,
+      "label": "vulExists(h65,'CVE-2021-1675',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 847,
+      "label": "vulExists(h65,'CVE-2023-43622',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 849,
+      "label": "vulExists(h65,'CVE-2024-49127',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 868,
+      "label": "vulExists(h66,'CVE-2021-27737',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 870,
+      "label": "vulExists(h66,'CVE-2022-24793',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 874,
+      "label": "vulExists(h66,'CVE-2023-21819',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 876,
+      "label": "vulExists(h66,'CVE-2023-35339',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 890,
+      "label": "vulExists(h24,'CVE-2021-20578',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 903,
+      "label": "vulExists(h49,'CVE-2021-4189',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 911,
+      "label": "vulExists(h67,'CVE-2015-4554',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 935,
+      "label": "vulExists(h30,'CVE-2009-3302',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 937,
+      "label": "vulExists(h30,'CVE-2023-25767',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 949,
+      "label": "vulExists(h68,'CVE-2021-42717',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 964,
+      "label": "vulExists(h69,'CVE-2009-1891',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 968,
+      "label": "vulExists(h69,'CVE-2014-6491',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 985,
+      "label": "vulExists(h70,'CVE-2015-3268',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 996,
+      "label": "vulExists(h71,'CVE-2020-11989',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 998,
+      "label": "vulExists(h71,'CVE-2021-20578',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1000,
+      "label": "vulExists(h71,'CVE-2023-5855',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 1026,
+      "label": "vulExists(h73,'CVE-2015-5064',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 1043,
+      "label": "vulExists(h74,'CVE-2019-19317',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 1045,
+      "label": "vulExists(h74,'CVE-2022-3201',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 489.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 20,
+  "defendable_leaf_count": 204,
+  "budget": 1114.0,
+  "budget_used": 489.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1045,
+    "original_arcs": 1437,
+    "reduced_vertices": 1045,
+    "reduced_arcs": 1437,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 20
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 3.410571047104895
+  },
+  "objective_mean": 489.0,
+  "objective_std": 0.0,
+  "ga_runs": 1,
+  "ga_population_size": 64,
+  "ga_generations": 50,
+  "function_evaluations": 3136,
+  "algorithm_library": "pymoo",
+  "algorithm_library_version": "0.6.1.5",
+  "algorithm_class": "pymoo.algorithms.soo.nonconvex.ga.GA",
+  "search_fitness": "loss_then_attacker_utility_then_defense_cost",
+  "reported_solution_selection": "minimum_exact_objective_over_all_evaluated_feasible_candidates",
+  "ga_run_objectives": [
+    489.0
+  ],
+  "reported_budget": null,
+  "independent_strategy_check": true,
+  "budget_mode": "unbudgeted",
+  "worker_wall_seconds": 3.4954397990368307
+}

@@ -1,0 +1,26 @@
+{
+  "dataset": "D244",
+  "nodes": 244,
+  "edges": 307,
+  "goals": [
+    1,
+    109,
+    150,
+    204,
+    217,
+    230
+  ],
+  "vertices": "data/D244/VERTICES.CSV",
+  "arcs": "data/D244/ARCS.CSV",
+  "cost_file": "data/D244/costs.json",
+  "cost_sha256": "4614e95a956416f89e272c72d9c6ccd546c240fa5676d526179f03116557bffc",
+  "vertices_sha256": "a0b99e96d8b354006c6ee9457e824411dfaee4116fc0c26d87155c92d6d0ed3f",
+  "arcs_sha256": "f1b2e8cddbb894e3252d22f373f357a8a68dec98ba40699463ff3217a091223a",
+  "minimum_attack_cost": 18.0,
+  "maximum_attack_cost": 31.0,
+  "method": "stackelberg",
+  "seed": 8,
+  "budget": 300.0,
+  "seconds": 100.0,
+  "key": "D244/seed_8/stackelberg"
+}

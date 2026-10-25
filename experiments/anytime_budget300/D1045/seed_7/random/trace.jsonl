@@ -1,0 +1,2 @@
+{"time": 0.05554233002476394, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 185, 410, 434, 584, 657, 674, 704, 719, 793, 827, 850, 877, 916, 950, 971, 986, 1001, 1010, 1033], "defendable_count": 204}
+{"time": 100.00131054001395, "kind": "finish", "status": "time_limit", "objective": 1000.0, "benefit": 0.0, "evaluations": 84833}

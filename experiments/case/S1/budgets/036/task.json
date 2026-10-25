@@ -1,0 +1,275 @@
+{
+  "config": {
+    "defaults": {
+      "solver": "scip",
+      "mip_gap": 0.0,
+      "target_closure": true,
+      "attack_cost_source": "constant",
+      "action_attack_cost": 0.0,
+      "leaf_attack_cost": 0.0,
+      "defendable_mode": "vul",
+      "budget": null
+    },
+    "nodes": {
+      "1": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "execCode(h4,redis)"
+      },
+      "2": {
+        "attack_cost": 4.0,
+        "defendable": false,
+        "label": "RULE 2 (remote exploit of a server program)"
+      },
+      "3": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "netAccess(h4,tcp,6379)"
+      },
+      "4": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 5 (multi-hop access)"
+      },
+      "5": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(h3,h4,tcp,6379)"
+      },
+      "6": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "execCode(h3,tomcat)"
+      },
+      "7": {
+        "attack_cost": 8.0,
+        "defendable": false,
+        "label": "RULE 2 (remote exploit of a server program)"
+      },
+      "8": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "netAccess(h3,tcp,8443)"
+      },
+      "9": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 5 (multi-hop access)"
+      },
+      "10": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(h1,h3,tcp,8443)"
+      },
+      "11": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "execCode(h1,www_data)"
+      },
+      "12": {
+        "attack_cost": 4.0,
+        "defendable": false,
+        "label": "RULE 2 (remote exploit of a server program)"
+      },
+      "13": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "netAccess(h1,tcp,443)"
+      },
+      "14": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 6 (direct network access)"
+      },
+      "15": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(internet,h1,tcp,443)"
+      },
+      "16": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "attackerLocated(internet)"
+      },
+      "17": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "networkServiceInfo(h1,apache_http,tcp,443,www_data)"
+      },
+      "18": {
+        "attack_cost": 0.0,
+        "defendable": true,
+        "label": "vulExists(h1,'CVE-2021-42013',apache_http,remoteExploit,privEscalation)",
+        "defense_cost": 5.0
+      },
+      "19": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 5 (multi-hop access)"
+      },
+      "20": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(h2,h3,tcp,8443)"
+      },
+      "21": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "execCode(h2,system)"
+      },
+      "22": {
+        "attack_cost": 16.0,
+        "defendable": false,
+        "label": "RULE 2 (remote exploit of a server program)"
+      },
+      "23": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "netAccess(h2,tcp,443)"
+      },
+      "24": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 6 (direct network access)"
+      },
+      "25": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(internet,h2,tcp,443)"
+      },
+      "26": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "networkServiceInfo(h2,fortios_ssl_vpn,tcp,443,system)"
+      },
+      "27": {
+        "attack_cost": 0.0,
+        "defendable": true,
+        "label": "vulExists(h2,'CVE-2022-42475',fortios_ssl_vpn,remoteExploit,privEscalation)",
+        "defense_cost": 13.0
+      },
+      "28": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "networkServiceInfo(h3,tomcat,tcp,8443,tomcat)"
+      },
+      "29": {
+        "attack_cost": 0.0,
+        "defendable": true,
+        "label": "vulExists(h3,'CVE-2017-12617',tomcat,remoteExploit,privEscalation)",
+        "defense_cost": 11.0
+      },
+      "30": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "networkServiceInfo(h4,redis_debian,tcp,6379,redis)"
+      },
+      "31": {
+        "attack_cost": 0.0,
+        "defendable": true,
+        "label": "vulExists(h4,'CVE-2022-0543',redis_debian,remoteExploit,privEscalation)",
+        "defense_cost": 11.0
+      },
+      "32": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "modifyNetworkConfig(h6)"
+      },
+      "33": {
+        "attack_cost": 8.0,
+        "defendable": false,
+        "label": "RULE 25 (remote unauthorized IPv4 configuration change)"
+      },
+      "34": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "netAccess(h6,tcp,502)"
+      },
+      "35": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 5 (multi-hop access)"
+      },
+      "36": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(h5,h6,tcp,502)"
+      },
+      "37": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "execCode(h5,system)"
+      },
+      "38": {
+        "attack_cost": 16.0,
+        "defendable": false,
+        "label": "RULE 2 (remote exploit of a server program)"
+      },
+      "39": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "netAccess(h5,tcp,3389)"
+      },
+      "40": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "RULE 5 (multi-hop access)"
+      },
+      "41": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "hacl(h3,h5,tcp,3389)"
+      },
+      "42": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "networkServiceInfo(h5,remote_desktop_services,tcp,3389,system)"
+      },
+      "43": {
+        "attack_cost": 0.0,
+        "defendable": true,
+        "label": "vulExists(h5,'CVE-2019-0708',remote_desktop_services,remoteExploit,privEscalation)",
+        "defense_cost": 13.0
+      },
+      "44": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "networkServiceInfo(h6,m221_management,tcp,502,management)"
+      },
+      "45": {
+        "attack_cost": 0.0,
+        "defendable": false,
+        "label": "vulExists(h6,'CVE-2018-7798',m221_management,remoteExploit,modifyNetworkConfig)"
+      }
+    },
+    "goals": {
+      "1": {
+        "name": "Redis",
+        "reward": 60.0,
+        "loss": 200.0,
+        "loss_components_cny": {
+          "业务中断：4小时×2000元": 8000,
+          "恢复验证与应急处置：60工时×200元": 12000
+        },
+        "reward_note": "攻击者对该次资产控制的主观收益估值 6000 元；非黑市价格调查。",
+        "label": "execCode(h4,redis)",
+        "enabled": true
+      },
+      "32": {
+        "name": "Modicon M221",
+        "reward": 120.0,
+        "loss": 1000.0,
+        "loss_components_cny": {
+          "业务中断：8小时×10000元": 80000,
+          "恢复验证与应急处置：100工时×200元": 20000
+        },
+        "reward_note": "攻击者对该次工业配置破坏的主观收益估值 12000 元；不等于防御者损失。",
+        "label": "modifyNetworkConfig(h6)",
+        "enabled": true
+      }
+    }
+  },
+  "budget": 36,
+  "seed": 7,
+  "key": "S1/budgets/036"
+}

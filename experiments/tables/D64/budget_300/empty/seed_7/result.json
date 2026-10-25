@@ -1,0 +1,67 @@
+{
+  "method": "empty",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 1000.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": null,
+  "selected_defenses": [],
+  "attacker_response": {
+    "type": "attack_goal",
+    "goal": {
+      "id": 1,
+      "label": "execCode(h6,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    }
+  },
+  "reachable_goals": [
+    {
+      "id": 1,
+      "label": "execCode(h6,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 52,
+      "label": "execCode(h7,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    }
+  ],
+  "defense_cost": 0,
+  "attack_loss": 1000.0,
+  "attacker_utility": 974.0,
+  "goal_count": 2,
+  "defendable_leaf_count": 9,
+  "budget": 300.0,
+  "budget_used": 0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 64,
+    "original_arcs": 72,
+    "reduced_vertices": 64,
+    "reduced_arcs": 72,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 2
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 8.524197619408369e-05
+  },
+  "independent_strategy_check": true,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 0.012895687017589808
+}

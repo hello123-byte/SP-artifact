@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "counts": {
+    "fixed_tasks": 452,
+    "independently_checked_strategies": 427,
+    "random_sample_means_checked": 28,
+    "timeouts_without_result": 21,
+    "table_2_cells": 60,
+    "table_3_rows": 12,
+    "independently_checked_anytime_events": 1812,
+    "anytime_tasks": 135,
+    "anytime_summary_rows": 19305,
+    "case_study_solves": 416
+  },
+  "checks": [
+    "Tables 2 and 3 agree with frozen raw runs, including rounding, TL and EL.",
+    "Figures 3 and 4 source summaries agree with raw runs; zero denominator remains undefined.",
+    "Both budget settings of AG1-5 and replacement AG6 anytime summaries independently rebuilt from traces.",
+    "All 416 case-study saved solves agree with independent 32-subset enumeration in each scenario."
+  ],
+  "scope": "Saved experiment data verification, not a full rerun of timed experiments."
+}

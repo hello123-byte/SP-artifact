@@ -1,0 +1,7 @@
+{
+  "SP/08_case_study/report.py": {
+    "original_sha256": "4a1dd491d289e6991e91eec8cfaea022566398acdb83b0c1792eb154671934a1",
+    "release_sha256": "23e0382cd02fcf4b030fc1da54ca285aaa903b5d513e096a646abc3b02a5ee8e",
+    "change": "Interpreter command examples normalized; algorithm code unchanged."
+  }
+}

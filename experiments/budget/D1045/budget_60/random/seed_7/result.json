@@ -1,0 +1,660 @@
+{
+  "method": "random_defense",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 1060.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": -0.06,
+  "selected_defenses": [
+    {
+      "id": 34,
+      "label": "vulExists(h4,'CVE-2024-43574',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 360,
+      "label": "vulExists(h32,'CVE-2022-43982',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 575,
+      "label": "vulExists(h45,'CVE-2023-34434',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 718,
+      "label": "vulExists(h62,'CVE-2024-29006',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 792,
+      "label": "vulExists(h63,'CVE-2023-22849',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 810,
+      "label": "vulExists(h20,'CVE-2022-23223',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 872,
+      "label": "vulExists(h66,'CVE-2022-3201',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 1026,
+      "label": "vulExists(h73,'CVE-2015-5064',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    }
+  ],
+  "attacker_response": {
+    "type": "attack_goal",
+    "goal": {
+      "id": 1010,
+      "label": "execCode(h73,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    }
+  },
+  "reachable_goals": [
+    {
+      "id": 1,
+      "label": "execCode(h55,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 185,
+      "label": "execCode(h56,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 410,
+      "label": "execCode(h57,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 434,
+      "label": "execCode(h58,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 29.0,
+      "attacker_net_utility": 971.0
+    },
+    {
+      "id": 584,
+      "label": "execCode(h59,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 657,
+      "label": "execCode(h60,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 674,
+      "label": "execCode(h61,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 704,
+      "label": "execCode(h62,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 719,
+      "label": "execCode(h63,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 793,
+      "label": "execCode(h64,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 827,
+      "label": "execCode(h65,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 850,
+      "label": "execCode(h66,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 877,
+      "label": "execCode(h67,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 916,
+      "label": "execCode(h68,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 29.0,
+      "attacker_net_utility": 971.0
+    },
+    {
+      "id": 950,
+      "label": "execCode(h69,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 971,
+      "label": "execCode(h70,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 986,
+      "label": "execCode(h71,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 1001,
+      "label": "execCode(h72,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 1010,
+      "label": "execCode(h73,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 1033,
+      "label": "execCode(h74,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    }
+  ],
+  "defense_cost": 60.0,
+  "attack_loss": 1000.0,
+  "attacker_utility": 982.0,
+  "goal_count": 20,
+  "defendable_leaf_count": 204,
+  "budget": 60.0,
+  "budget_used": 60.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1045,
+    "original_arcs": 1437,
+    "reduced_vertices": 1045,
+    "reduced_arcs": 1437,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 20
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 0.05510078102815896
+  },
+  "random_budget": 60.0,
+  "random_trials": 50,
+  "seed": 7,
+  "trial_summaries": [
+    {
+      "trial": 0,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 1,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 14,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 2,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 3,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 4,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 5,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 6,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 7,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 8,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 9,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 10,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 11,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 12,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 12,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 13,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 14,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 15,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 16,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 8,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 17,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 14,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 18,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 19,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 20,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 21,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 22,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 12,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 23,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 24,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 25,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 26,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 27,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 28,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 29,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 30,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 12,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 31,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 14,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 32,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 15,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 33,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 34,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 12,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 35,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 36,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 14,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 37,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 38,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 39,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 12,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 40,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 41,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 9,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 42,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 12,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 43,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 44,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 45,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 46,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 15,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 47,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 11,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 48,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 13,
+      "attacker_response_type": "attack_goal"
+    },
+    {
+      "trial": 49,
+      "objective_cost_form": 1060.0,
+      "defense_cost": 60.0,
+      "attack_loss": 1000.0,
+      "selected_defense_count": 10,
+      "attacker_response_type": "attack_goal"
+    }
+  ],
+  "objective_mean": 1060.0,
+  "objective_std": 0.0,
+  "objective_min": 1060.0,
+  "objective_max": 1060.0,
+  "independent_strategy_check": true,
+  "worker_wall_seconds": 0.07539808808360249
+}

@@ -1,0 +1,2266 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 1,
+      "label": "execCode(h376,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 111,
+      "label": "execCode(h377,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 220,
+      "label": "execCode(h378,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 305,
+      "label": "execCode(h379,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 414,
+      "label": "execCode(h380,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 492,
+      "label": "execCode(h381,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 594,
+      "label": "execCode(h382,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 696,
+      "label": "execCode(h383,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 752,
+      "label": "execCode(h384,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 837,
+      "label": "execCode(h385,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 915,
+      "label": "execCode(h386,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1024,
+      "label": "execCode(h387,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1095,
+      "label": "execCode(h388,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1158,
+      "label": "execCode(h389,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1253,
+      "label": "execCode(h390,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1333,
+      "label": "execCode(h391,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1421,
+      "label": "execCode(h392,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1487,
+      "label": "execCode(h393,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1558,
+      "label": "execCode(h394,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1629,
+      "label": "execCode(h395,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1714,
+      "label": "execCode(h396,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1787,
+      "label": "execCode(h397,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1882,
+      "label": "execCode(h398,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1938,
+      "label": "execCode(h399,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2033,
+      "label": "execCode(h400,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2074,
+      "label": "execCode(h401,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2130,
+      "label": "execCode(h402,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2196,
+      "label": "execCode(h403,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2276,
+      "label": "execCode(h404,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2356,
+      "label": "execCode(h405,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2436,
+      "label": "execCode(h406,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2531,
+      "label": "execCode(h407,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2611,
+      "label": "execCode(h408,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2684,
+      "label": "execCode(h409,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2740,
+      "label": "execCode(h410,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2774,
+      "label": "execCode(h411,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2795,
+      "label": "execCode(h412,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2859,
+      "label": "execCode(h413,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2908,
+      "label": "execCode(h414,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2942,
+      "label": "execCode(h415,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 2978,
+      "label": "execCode(h416,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3058,
+      "label": "execCode(h417,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3107,
+      "label": "execCode(h418,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3171,
+      "label": "execCode(h419,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3235,
+      "label": "execCode(h420,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3291,
+      "label": "execCode(h421,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3325,
+      "label": "execCode(h422,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3381,
+      "label": "execCode(h423,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3439,
+      "label": "execCode(h424,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3495,
+      "label": "execCode(h425,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3544,
+      "label": "execCode(h426,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3595,
+      "label": "execCode(h427,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3653,
+      "label": "execCode(h428,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3674,
+      "label": "execCode(h429,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3725,
+      "label": "execCode(h430,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3791,
+      "label": "execCode(h431,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3855,
+      "label": "execCode(h432,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3889,
+      "label": "execCode(h433,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3938,
+      "label": "execCode(h434,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 3974,
+      "label": "execCode(h435,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4023,
+      "label": "execCode(h436,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4072,
+      "label": "execCode(h437,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4108,
+      "label": "execCode(h438,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4166,
+      "label": "execCode(h439,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4217,
+      "label": "execCode(h440,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4258,
+      "label": "execCode(h441,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4324,
+      "label": "execCode(h442,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4343,
+      "label": "execCode(h443,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4362,
+      "label": "execCode(h444,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4428,
+      "label": "execCode(h445,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4462,
+      "label": "execCode(h446,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4498,
+      "label": "execCode(h447,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4517,
+      "label": "execCode(h448,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4566,
+      "label": "execCode(h449,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4600,
+      "label": "execCode(h450,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4634,
+      "label": "execCode(h451,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4685,
+      "label": "execCode(h452,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4721,
+      "label": "execCode(h453,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4772,
+      "label": "execCode(h454,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4838,
+      "label": "execCode(h455,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4904,
+      "label": "execCode(h456,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4940,
+      "label": "execCode(h457,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 4991,
+      "label": "execCode(h458,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5042,
+      "label": "execCode(h459,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5076,
+      "label": "execCode(h460,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5112,
+      "label": "execCode(h461,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5148,
+      "label": "execCode(h462,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5182,
+      "label": "execCode(h463,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5248,
+      "label": "execCode(h464,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5284,
+      "label": "execCode(h465,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5335,
+      "label": "execCode(h466,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5354,
+      "label": "execCode(h467,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5388,
+      "label": "execCode(h468,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5407,
+      "label": "execCode(h469,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5456,
+      "label": "execCode(h470,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5492,
+      "label": "execCode(h471,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5526,
+      "label": "execCode(h472,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5560,
+      "label": "execCode(h473,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5594,
+      "label": "execCode(h474,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5645,
+      "label": "execCode(h475,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5694,
+      "label": "execCode(h476,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5730,
+      "label": "execCode(h477,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5764,
+      "label": "execCode(h478,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5783,
+      "label": "execCode(h479,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5804,
+      "label": "execCode(h480,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5855,
+      "label": "execCode(h481,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5889,
+      "label": "execCode(h482,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5908,
+      "label": "execCode(h483,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5944,
+      "label": "execCode(h484,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 5993,
+      "label": "execCode(h485,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6012,
+      "label": "execCode(h486,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6033,
+      "label": "execCode(h487,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6069,
+      "label": "execCode(h488,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6090,
+      "label": "execCode(h489,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6139,
+      "label": "execCode(h490,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6175,
+      "label": "execCode(h491,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6211,
+      "label": "execCode(h492,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6230,
+      "label": "execCode(h493,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6279,
+      "label": "execCode(h494,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6315,
+      "label": "execCode(h495,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6381,
+      "label": "execCode(h496,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6430,
+      "label": "execCode(h497,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6466,
+      "label": "execCode(h498,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6487,
+      "label": "execCode(h499,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6553,
+      "label": "execCode(h500,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6587,
+      "label": "execCode(h501,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6638,
+      "label": "execCode(h502,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6657,
+      "label": "execCode(h503,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6676,
+      "label": "execCode(h504,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6695,
+      "label": "execCode(h505,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6761,
+      "label": "execCode(h506,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6797,
+      "label": "execCode(h507,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6831,
+      "label": "execCode(h508,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6850,
+      "label": "execCode(h509,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6869,
+      "label": "execCode(h510,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6890,
+      "label": "execCode(h511,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6926,
+      "label": "execCode(h512,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6947,
+      "label": "execCode(h513,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 6983,
+      "label": "execCode(h514,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7002,
+      "label": "execCode(h515,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7036,
+      "label": "execCode(h516,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7102,
+      "label": "execCode(h517,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7153,
+      "label": "execCode(h518,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7187,
+      "label": "execCode(h519,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7221,
+      "label": "execCode(h520,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7255,
+      "label": "execCode(h521,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7276,
+      "label": "execCode(h522,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7295,
+      "label": "execCode(h523,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7331,
+      "label": "execCode(h524,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7350,
+      "label": "execCode(h525,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7386,
+      "label": "execCode(h526,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7405,
+      "label": "execCode(h527,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7426,
+      "label": "execCode(h528,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7462,
+      "label": "execCode(h529,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7483,
+      "label": "execCode(h530,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7534,
+      "label": "execCode(h531,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7570,
+      "label": "execCode(h532,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7604,
+      "label": "execCode(h533,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7625,
+      "label": "execCode(h534,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7646,
+      "label": "execCode(h535,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7665,
+      "label": "execCode(h536,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7701,
+      "label": "execCode(h537,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7722,
+      "label": "execCode(h538,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7741,
+      "label": "execCode(h539,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7760,
+      "label": "execCode(h540,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7794,
+      "label": "execCode(h541,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7815,
+      "label": "execCode(h542,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7849,
+      "label": "execCode(h543,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7885,
+      "label": "execCode(h544,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7904,
+      "label": "execCode(h545,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7953,
+      "label": "execCode(h546,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 7987,
+      "label": "execCode(h547,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8006,
+      "label": "execCode(h548,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8025,
+      "label": "execCode(h549,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8044,
+      "label": "execCode(h550,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8065,
+      "label": "execCode(h551,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8101,
+      "label": "execCode(h552,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8122,
+      "label": "execCode(h553,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8158,
+      "label": "execCode(h554,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8179,
+      "label": "execCode(h555,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8198,
+      "label": "execCode(h556,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8217,
+      "label": "execCode(h557,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8238,
+      "label": "execCode(h558,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8259,
+      "label": "execCode(h559,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8295,
+      "label": "execCode(h560,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8346,
+      "label": "execCode(h561,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8380,
+      "label": "execCode(h562,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8399,
+      "label": "execCode(h563,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8433,
+      "label": "execCode(h564,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8454,
+      "label": "execCode(h565,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8488,
+      "label": "execCode(h566,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8507,
+      "label": "execCode(h567,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8541,
+      "label": "execCode(h568,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8560,
+      "label": "execCode(h569,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8581,
+      "label": "execCode(h570,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8600,
+      "label": "execCode(h571,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8636,
+      "label": "execCode(h572,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8670,
+      "label": "execCode(h573,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8689,
+      "label": "execCode(h574,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8723,
+      "label": "execCode(h575,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8744,
+      "label": "execCode(h576,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8765,
+      "label": "execCode(h577,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8786,
+      "label": "execCode(h578,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8805,
+      "label": "execCode(h579,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8826,
+      "label": "execCode(h580,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8845,
+      "label": "execCode(h581,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8864,
+      "label": "execCode(h582,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8900,
+      "label": "execCode(h583,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8919,
+      "label": "execCode(h584,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8938,
+      "label": "execCode(h585,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8974,
+      "label": "execCode(h586,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 8995,
+      "label": "execCode(h587,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9016,
+      "label": "execCode(h588,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9050,
+      "label": "execCode(h589,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9069,
+      "label": "execCode(h590,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9088,
+      "label": "execCode(h591,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9109,
+      "label": "execCode(h592,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9160,
+      "label": "execCode(h593,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9181,
+      "label": "execCode(h594,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9215,
+      "label": "execCode(h595,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9236,
+      "label": "execCode(h596,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9257,
+      "label": "execCode(h597,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9293,
+      "label": "execCode(h598,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9314,
+      "label": "execCode(h599,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9333,
+      "label": "execCode(h600,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9369,
+      "label": "execCode(h601,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9388,
+      "label": "execCode(h602,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9409,
+      "label": "execCode(h603,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9430,
+      "label": "execCode(h604,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9451,
+      "label": "execCode(h605,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9472,
+      "label": "execCode(h606,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9491,
+      "label": "execCode(h607,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9540,
+      "label": "execCode(h608,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9561,
+      "label": "execCode(h609,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9582,
+      "label": "execCode(h610,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9601,
+      "label": "execCode(h611,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9622,
+      "label": "execCode(h612,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9658,
+      "label": "execCode(h613,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9679,
+      "label": "execCode(h614,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9700,
+      "label": "execCode(h615,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9734,
+      "label": "execCode(h616,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9753,
+      "label": "execCode(h617,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9774,
+      "label": "execCode(h618,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9795,
+      "label": "execCode(h619,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9816,
+      "label": "execCode(h620,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9835,
+      "label": "execCode(h621,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9856,
+      "label": "execCode(h622,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9875,
+      "label": "execCode(h623,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9894,
+      "label": "execCode(h624,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9913,
+      "label": "execCode(h625,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9947,
+      "label": "execCode(h626,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 9981,
+      "label": "execCode(h627,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10000,
+      "label": "execCode(h628,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10019,
+      "label": "execCode(h629,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10038,
+      "label": "execCode(h630,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10057,
+      "label": "execCode(h631,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10091,
+      "label": "execCode(h632,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10112,
+      "label": "execCode(h633,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10133,
+      "label": "execCode(h634,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10152,
+      "label": "execCode(h635,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10171,
+      "label": "execCode(h636,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10192,
+      "label": "execCode(h637,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10226,
+      "label": "execCode(h638,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10247,
+      "label": "execCode(h639,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10268,
+      "label": "execCode(h640,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10287,
+      "label": "execCode(h641,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10308,
+      "label": "execCode(h642,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10329,
+      "label": "execCode(h643,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10348,
+      "label": "execCode(h644,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10367,
+      "label": "execCode(h645,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10388,
+      "label": "execCode(h646,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10422,
+      "label": "execCode(h647,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10443,
+      "label": "execCode(h648,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10462,
+      "label": "execCode(h649,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10483,
+      "label": "execCode(h650,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10502,
+      "label": "execCode(h651,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10523,
+      "label": "execCode(h652,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10544,
+      "label": "execCode(h653,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10563,
+      "label": "execCode(h654,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10597,
+      "label": "execCode(h655,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10618,
+      "label": "execCode(h656,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10639,
+      "label": "execCode(h657,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10658,
+      "label": "execCode(h658,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10677,
+      "label": "execCode(h659,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10696,
+      "label": "execCode(h660,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10717,
+      "label": "execCode(h661,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10736,
+      "label": "execCode(h662,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10755,
+      "label": "execCode(h663,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10776,
+      "label": "execCode(h664,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10810,
+      "label": "execCode(h665,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10831,
+      "label": "execCode(h666,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10850,
+      "label": "execCode(h667,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10871,
+      "label": "execCode(h668,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10892,
+      "label": "execCode(h669,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10911,
+      "label": "execCode(h670,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10930,
+      "label": "execCode(h671,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10949,
+      "label": "execCode(h672,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10970,
+      "label": "execCode(h673,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 10989,
+      "label": "execCode(h674,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 11008,
+      "label": "execCode(h675,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    }
+  ],
+  "defendable_leaf_count": 3075,
+  "defendable_mode": "vul",
+  "default_defense_cost": 1.0,
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "constant",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 58.0,
+  "legacy_global_cost_big_m": 110271.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 110271.0,
+    "min": 0.0,
+    "max": 58.0,
+    "avg": 16.106384908398333
+  },
+  "utility_big_m": 1000.0,
+  "utility_upper_bound": 1000.0,
+  "budget": null,
+  "mip_gap_limit": 0.0,
+  "relative_gap": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 11026,
+    "original_arcs": 16575,
+    "reduced_vertices": 11026,
+    "reduced_arcs": 16575,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 300
+  },
+  "warm_start": {
+    "enabled": false,
+    "strategy": null,
+    "submitted": false,
+    "accepted": null,
+    "defense_count": 0,
+    "defense_total": 0.0,
+    "heuristic_objective": null,
+    "attacker_goal": null,
+    "iterations": 0,
+    "explored_iterations": 0,
+    "max_nonimproving_steps": 64,
+    "stopped_after_nonimproving_steps": 0
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 0.0038035709876567125,
+    "resolve_game_defaults": 3.985001239925623e-05,
+    "target_closure": 0.0073944900068454444,
+    "build_parameters": 0.047999546979554,
+    "build_mip": 0.32600948703475296,
+    "optimize": 5.433328726969194,
+    "extract_solution": 0.0007931789732538164,
+    "total_solve_game": 5.819368850963656
+  },
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h21,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 42,
+      "label": "vulExists(h55,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 66,
+      "label": "vulExists(h68,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 90,
+      "label": "vulExists(h1,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 127,
+      "label": "vulExists(h36,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 151,
+      "label": "vulExists(h6,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 175,
+      "label": "vulExists(h2,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 199,
+      "label": "vulExists(h15,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 236,
+      "label": "vulExists(h72,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 260,
+      "label": "vulExists(h27,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 284,
+      "label": "vulExists(h3,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 321,
+      "label": "vulExists(h35,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 345,
+      "label": "vulExists(h44,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 369,
+      "label": "vulExists(h66,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 393,
+      "label": "vulExists(h4,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 447,
+      "label": "vulExists(h73,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 471,
+      "label": "vulExists(h5,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 508,
+      "label": "vulExists(h28,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 532,
+      "label": "vulExists(h61,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 556,
+      "label": "vulExists(h62,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 627,
+      "label": "vulExists(h57,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 651,
+      "label": "vulExists(h12,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 675,
+      "label": "vulExists(h7,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 731,
+      "label": "vulExists(h8,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 768,
+      "label": "vulExists(h17,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 792,
+      "label": "vulExists(h18,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 816,
+      "label": "vulExists(h9,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 870,
+      "label": "vulExists(h64,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 894,
+      "label": "vulExists(h10,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 931,
+      "label": "vulExists(h41,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 955,
+      "label": "vulExists(h50,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 979,
+      "label": "vulExists(h70,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 1003,
+      "label": "vulExists(h11,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 1057,
+      "label": "vulExists(h75,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 1111,
+      "label": "vulExists(h23,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1137,
+      "label": "vulExists(h13,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1174,
+      "label": "vulExists(h54,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 1232,
+      "label": "vulExists(h14,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1269,
+      "label": "vulExists(h58,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1293,
+      "label": "vulExists(h59,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 1400,
+      "label": "vulExists(h16,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 1503,
+      "label": "vulExists(h31,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 1608,
+      "label": "vulExists(h19,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 1645,
+      "label": "vulExists(h53,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 1669,
+      "label": "vulExists(h43,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 1693,
+      "label": "vulExists(h20,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 1749,
+      "label": "vulExists(h39,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 1837,
+      "label": "vulExists(h38,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 1861,
+      "label": "vulExists(h22,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 1898,
+      "label": "vulExists(h51,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 1988,
+      "label": "vulExists(h56,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 2012,
+      "label": "vulExists(h24,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 2049,
+      "label": "vulExists(h25,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 2090,
+      "label": "vulExists(h26,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 2214,
+      "label": "vulExists(h67,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 2255,
+      "label": "vulExists(h42,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 2292,
+      "label": "vulExists(h29,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 2333,
+      "label": "vulExists(h46,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 2372,
+      "label": "vulExists(h30,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 2415,
+      "label": "vulExists(h37,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 2486,
+      "label": "vulExists(h40,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 2510,
+      "label": "vulExists(h60,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 2547,
+      "label": "vulExists(h32,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 2571,
+      "label": "vulExists(h71,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 2627,
+      "label": "vulExists(h33,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 2700,
+      "label": "vulExists(h34,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 3013,
+      "label": "vulExists(h69,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 3037,
+      "label": "vulExists(h74,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 3253,
+      "label": "vulExists(h45,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 3341,
+      "label": "vulExists(h47,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 3397,
+      "label": "vulExists(h48,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 3455,
+      "label": "vulExists(h49,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 3611,
+      "label": "vulExists(h52,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 4126,
+      "label": "vulExists(h63,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 9.0
+    },
+    {
+      "id": 4233,
+      "label": "vulExists(h65,'CVE-2008-5745',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    }
+  ],
+  "reachable_goals": [],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "attacker_utility": 0.0,
+  "defender_utility": -386.0,
+  "objective_cost_form": 386.0,
+  "model_stats": {
+    "variables": 29929,
+    "constraints": 73055,
+    "dual_bound": 386.0,
+    "primal_bound": 386.0,
+    "search_nodes": 1,
+    "threads": 1
+  },
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.614,
+  "independent_strategy_check": true,
+  "budget_mode": "unbudgeted",
+  "worker_wall_seconds": 5.8805966199724935
+}

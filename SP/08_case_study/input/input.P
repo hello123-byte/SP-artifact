@@ -1,0 +1,39 @@
+% Synthetic legacy IT/OT scenario; see case_data.py for versions and assumptions.
+% Only these reachability relations exist; this is not a physical wiring map.
+attackerLocated(internet).
+attackGoal(execCode(h4,redis)).
+attackGoal(modifyNetworkConfig(h6)).
+hacl(internet,h1,tcp,443).
+hacl(internet,h2,tcp,443).
+hacl(h1,h3,tcp,8443).
+hacl(h2,h3,tcp,8443).
+hacl(h3,h4,tcp,6379).
+hacl(h3,h5,tcp,3389).
+hacl(h5,h6,tcp,502).
+
+% Preconditions are fixed scenario assumptions, not inferred from CVSS.
+% Apache 2.4.50: CGI enabled and relevant directories not denied.
+% FortiOS 7.2.2: vulnerable SSL-VPN service enabled.
+% Tomcat 8.5.22: HTTP PUT enabled (DefaultServlet readonly=false).
+% Redis Debian bullseye vulnerable package: remote scripting accessible,
+% without an additional authentication barrier from the application host.
+% Windows Server 2008 R2 SP1: relevant patch absent and NLA disabled.
+% M221: programming/management service accessible from the RDP host only.
+networkServiceInfo(h1,apache_http,tcp,443,www_data).
+networkServiceInfo(h2,fortios_ssl_vpn,tcp,443,system).
+networkServiceInfo(h3,tomcat,tcp,8443,tomcat).
+networkServiceInfo(h4,redis_debian,tcp,6379,redis).
+networkServiceInfo(h5,remote_desktop_services,tcp,3389,system).
+networkServiceInfo(h6,m221_management,tcp,502,management).
+vulExists(h1,'CVE-2021-42013',apache_http).
+vulExists(h2,'CVE-2022-42475',fortios_ssl_vpn).
+vulExists(h3,'CVE-2017-12617',tomcat).
+vulExists(h4,'CVE-2022-0543',redis_debian).
+vulExists(h5,'CVE-2019-0708',remote_desktop_services).
+vulExists(h6,'CVE-2018-7798',m221_management).
+vulProperty('CVE-2021-42013',remoteExploit,privEscalation).
+vulProperty('CVE-2022-42475',remoteExploit,privEscalation).
+vulProperty('CVE-2017-12617',remoteExploit,privEscalation).
+vulProperty('CVE-2022-0543',remoteExploit,privEscalation).
+vulProperty('CVE-2019-0708',remoteExploit,privEscalation).
+vulProperty('CVE-2018-7798',remoteExploit,modifyNetworkConfig).

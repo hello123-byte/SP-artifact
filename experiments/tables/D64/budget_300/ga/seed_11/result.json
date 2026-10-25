@@ -1,0 +1,68 @@
+{
+  "method": "ga",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 11.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.989,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2022-43592',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h2,'CVE-2012-0256',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 11.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 2,
+  "defendable_leaf_count": 9,
+  "budget": 300.0,
+  "budget_used": 11.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 64,
+    "original_arcs": 72,
+    "reduced_vertices": 64,
+    "reduced_arcs": 72,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 2
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 0.42519577289931476
+  },
+  "objective_mean": 11.0,
+  "objective_std": 0.0,
+  "ga_runs": 1,
+  "ga_population_size": 64,
+  "ga_generations": 50,
+  "function_evaluations": 484,
+  "algorithm_library": "pymoo",
+  "algorithm_library_version": "0.6.1.5",
+  "algorithm_class": "pymoo.algorithms.soo.nonconvex.ga.GA",
+  "search_fitness": "loss_then_attacker_utility_then_defense_cost",
+  "reported_solution_selection": "minimum_exact_objective_over_all_evaluated_feasible_candidates",
+  "ga_run_objectives": [
+    11.0
+  ],
+  "reported_budget": 300.0,
+  "independent_strategy_check": true,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 0.5003026529448107
+}

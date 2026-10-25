@@ -1,0 +1,64 @@
+1,"execCode(h6,guest)","OR",0
+2,"RULE 2 (remote exploit of a server program)","AND",0
+3,"netAccess(h6,_,_)","OR",0
+4,"RULE 5 (multi-hop access)","AND",0
+5,"hacl(h3,h6,_,_)","LEAF",1
+6,"execCode(h3,guest)","OR",0
+7,"RULE 2 (remote exploit of a server program)","AND",0
+8,"netAccess(h3,_,_)","OR",0
+9,"RULE 5 (multi-hop access)","AND",0
+10,"hacl(h1,h3,_,_)","LEAF",1
+11,"execCode(h1,guest)","OR",0
+12,"RULE 2 (remote exploit of a server program)","AND",0
+13,"netAccess(h1,_,_)","OR",0
+14,"RULE 6 (direct network access)","AND",0
+15,"hacl(h0,h1,_,_)","LEAF",1
+16,"attackerLocated(h0)","LEAF",1
+17,"networkServiceInfo(h1,_,_,_,guest)","LEAF",1
+18,"vulExists(h1,'CVE-2022-43592',_,remoteExploit,privEscalation)","LEAF",1
+19,"networkServiceInfo(h3,_,_,_,guest)","LEAF",1
+20,"vulExists(h3,'CVE-2014-6496',_,remoteExploit,privEscalation)","LEAF",1
+21,"RULE 5 (multi-hop access)","AND",0
+22,"hacl(h4,h6,_,_)","LEAF",1
+23,"execCode(h4,guest)","OR",0
+24,"RULE 2 (remote exploit of a server program)","AND",0
+25,"netAccess(h4,_,_)","OR",0
+26,"RULE 5 (multi-hop access)","AND",0
+27,"hacl(h2,h4,_,_)","LEAF",1
+28,"execCode(h2,guest)","OR",0
+29,"RULE 2 (remote exploit of a server program)","AND",0
+30,"netAccess(h2,_,_)","OR",0
+31,"RULE 6 (direct network access)","AND",0
+32,"hacl(h0,h2,_,_)","LEAF",1
+33,"networkServiceInfo(h2,_,_,_,guest)","LEAF",1
+34,"vulExists(h2,'CVE-2012-0256',_,remoteExploit,privEscalation)","LEAF",1
+35,"networkServiceInfo(h4,_,_,_,guest)","LEAF",1
+36,"vulExists(h4,'CVE-2004-0837',_,remoteExploit,privEscalation)","LEAF",1
+37,"RULE 2 (remote exploit of a server program)","AND",0
+38,"vulExists(h4,'CVE-2022-45462',_,remoteExploit,privEscalation)","LEAF",1
+39,"RULE 5 (multi-hop access)","AND",0
+40,"hacl(h5,h6,_,_)","LEAF",1
+41,"execCode(h5,guest)","OR",0
+42,"RULE 2 (remote exploit of a server program)","AND",0
+43,"netAccess(h5,_,_)","OR",0
+44,"RULE 5 (multi-hop access)","AND",0
+45,"hacl(h1,h5,_,_)","LEAF",1
+46,"RULE 5 (multi-hop access)","AND",0
+47,"hacl(h2,h5,_,_)","LEAF",1
+48,"networkServiceInfo(h5,_,_,_,guest)","LEAF",1
+49,"vulExists(h5,'CVE-2023-6207',_,remoteExploit,privEscalation)","LEAF",1
+50,"networkServiceInfo(h6,_,_,_,guest)","LEAF",1
+51,"vulExists(h6,'CVE-2022-22010',_,remoteExploit,privEscalation)","LEAF",1
+52,"execCode(h7,guest)","OR",0
+53,"RULE 2 (remote exploit of a server program)","AND",0
+54,"netAccess(h7,_,_)","OR",0
+55,"RULE 5 (multi-hop access)","AND",0
+56,"hacl(h3,h7,_,_)","LEAF",1
+57,"RULE 5 (multi-hop access)","AND",0
+58,"hacl(h4,h7,_,_)","LEAF",1
+59,"RULE 5 (multi-hop access)","AND",0
+60,"hacl(h5,h7,_,_)","LEAF",1
+61,"networkServiceInfo(h7,_,_,_,guest)","LEAF",1
+62,"vulExists(h7,'CVE-2020-9493',_,remoteExploit,privEscalation)","LEAF",1
+63,"RULE 2 (remote exploit of a server program)","AND",0
+64,"vulExists(h7,'CVE-2021-29425',_,remoteExploit,privEscalation)","LEAF",1

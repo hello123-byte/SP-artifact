@@ -1,0 +1,260 @@
+{
+  "status": "optimal",
+  "solver": "scip",
+  "solution_concept": "cost-sensitive pure Stackelberg equilibrium",
+  "does_not_enumerate_attack_paths": true,
+  "attacker_utility_form": "reward(goal) - minimum_attack_derivation_cost(goal)",
+  "defender_objective_form": "defense_cost + loss(attacker_chosen_goal)",
+  "best_response_formulation": "max_attacker_utility_variable",
+  "cost_model_note": "The attack cost is a minimum AND/OR derivation cost. AND nodes add their action cost and all prerequisite costs; OR nodes select the least-cost reachable child derivation.",
+  "goals": [
+    {
+      "id": 1,
+      "label": "execCode(h55,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 185,
+      "label": "execCode(h56,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 410,
+      "label": "execCode(h57,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 434,
+      "label": "execCode(h58,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 584,
+      "label": "execCode(h59,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 657,
+      "label": "execCode(h60,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 674,
+      "label": "execCode(h61,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 704,
+      "label": "execCode(h62,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 719,
+      "label": "execCode(h63,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 793,
+      "label": "execCode(h64,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 827,
+      "label": "execCode(h65,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 850,
+      "label": "execCode(h66,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 877,
+      "label": "execCode(h67,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 916,
+      "label": "execCode(h68,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 950,
+      "label": "execCode(h69,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 971,
+      "label": "execCode(h70,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 986,
+      "label": "execCode(h71,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1001,
+      "label": "execCode(h72,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1010,
+      "label": "execCode(h73,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    },
+    {
+      "id": 1033,
+      "label": "execCode(h74,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0
+    }
+  ],
+  "defendable_leaf_count": 204,
+  "defendable_mode": "vul",
+  "default_defense_cost": 1.0,
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "attack_cost_source": "constant",
+  "cost_bound_formulation": "local_dag_upper_bounds",
+  "cost_big_m": 82.0,
+  "legacy_global_cost_big_m": 10461.0,
+  "cost_upper_bound_stats": {
+    "formulation": "local_dag_upper_bounds",
+    "fallback_due_to_cycle": false,
+    "fallback_node_count": 0,
+    "fallback_big_m": 10461.0,
+    "min": 0.0,
+    "max": 82.0,
+    "avg": 19.248803827751196
+  },
+  "utility_big_m": 1000.0,
+  "utility_upper_bound": 1000.0,
+  "budget": 100.0,
+  "mip_gap_limit": 0.0,
+  "relative_gap": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1045,
+    "original_arcs": 1437,
+    "reduced_vertices": 1045,
+    "reduced_arcs": 1437,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 20
+  },
+  "warm_start": {
+    "enabled": false,
+    "strategy": null,
+    "submitted": false,
+    "accepted": null,
+    "defense_count": 0,
+    "defense_total": 0.0,
+    "heuristic_objective": null,
+    "attacker_goal": null,
+    "iterations": 0,
+    "explored_iterations": 0,
+    "max_nonimproving_steps": 64,
+    "stopped_after_nonimproving_steps": 0
+  },
+  "timings_seconds": {
+    "prepare_goals_and_config": 0.00038484600372612476,
+    "resolve_game_defaults": 1.3350043445825577e-05,
+    "target_closure": 0.0011096469825133681,
+    "build_parameters": 0.002205273020081222,
+    "build_mip": 0.10325606202241033,
+    "optimize": 0.22088124102447182,
+    "extract_solution": 0.00017303205095231533,
+    "total_solve_game": 0.328023451147601
+  },
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2024-38131',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h4,'CVE-2024-43574',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 55,
+      "label": "vulExists(h7,'CVE-2015-1830',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 77,
+      "label": "vulExists(h2,'CVE-2022-23124',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 86,
+      "label": "vulExists(h6,'CVE-2019-8666',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 95,
+      "label": "vulExists(h8,'CVE-2020-17527',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 128,
+      "label": "vulExists(h5,'CVE-2021-28706',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 139,
+      "label": "vulExists(h9,'CVE-2024-38204',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 160,
+      "label": "vulExists(h10,'CVE-2020-1955',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 251,
+      "label": "vulExists(h3,'CVE-2020-28052',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    }
+  ],
+  "reachable_goals": [],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "attacker_utility": 0.0,
+  "defender_utility": -51.0,
+  "objective_cost_form": 51.0,
+  "model_stats": {
+    "variables": 2727,
+    "constraints": 6690,
+    "dual_bound": 51.0,
+    "primal_bound": 51.0,
+    "search_nodes": 1,
+    "threads": 1
+  },
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.949,
+  "independent_strategy_check": true,
+  "worker_wall_seconds": 0.3505715799983591
+}

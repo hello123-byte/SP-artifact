@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "fresh_runs": [
+    {
+      "id": "tables/D64/budget_300/stackelberg/seed_7",
+      "objective": 11.0
+    },
+    {
+      "id": "sensitivity/D1045/attack_scale_0.5/stackelberg/seed_7",
+      "objective": 51.0
+    },
+    {
+      "id": "anytime_budget300/D64/seed_7/stackelberg",
+      "objective": 11.0
+    },
+    {
+      "id": "case/S4/budgets/004",
+      "objective": 4.0
+    }
+  ],
+  "all_match_archived_objectives": true,
+  "case_study_semantic_tests_passed": 8,
+  "note": "Smoke tests verify the four portable worker modes, not historical timing reproducibility."
+}

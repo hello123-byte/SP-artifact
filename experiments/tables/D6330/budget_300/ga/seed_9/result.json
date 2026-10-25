@@ -1,0 +1,1266 @@
+{
+  "method": "ga",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 1000.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.0,
+  "selected_defenses": [],
+  "attacker_response": {
+    "type": "attack_goal",
+    "goal": {
+      "id": 4917,
+      "label": "execCode(h359,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 10.0,
+      "attacker_net_utility": 990.0
+    }
+  },
+  "reachable_goals": [
+    {
+      "id": 1,
+      "label": "execCode(h270,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 271,
+      "label": "execCode(h271,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 481,
+      "label": "execCode(h272,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 637,
+      "label": "execCode(h273,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 748,
+      "label": "execCode(h274,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 875,
+      "label": "execCode(h275,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 1044,
+      "label": "execCode(h276,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 31.0,
+      "attacker_net_utility": 969.0
+    },
+    {
+      "id": 1141,
+      "label": "execCode(h277,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 1291,
+      "label": "execCode(h278,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 1407,
+      "label": "execCode(h279,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 1500,
+      "label": "execCode(h280,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 1617,
+      "label": "execCode(h281,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 11.0,
+      "attacker_net_utility": 989.0
+    },
+    {
+      "id": 1671,
+      "label": "execCode(h282,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 29.0,
+      "attacker_net_utility": 971.0
+    },
+    {
+      "id": 1740,
+      "label": "execCode(h283,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 1864,
+      "label": "execCode(h284,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 1926,
+      "label": "execCode(h285,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 2055,
+      "label": "execCode(h286,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 2100,
+      "label": "execCode(h287,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 12.0,
+      "attacker_net_utility": 988.0
+    },
+    {
+      "id": 2138,
+      "label": "execCode(h288,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 2170,
+      "label": "execCode(h289,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 2320,
+      "label": "execCode(h290,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 2415,
+      "label": "execCode(h291,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 2500,
+      "label": "execCode(h292,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 2632,
+      "label": "execCode(h293,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 29.0,
+      "attacker_net_utility": 971.0
+    },
+    {
+      "id": 2647,
+      "label": "execCode(h294,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 30.0,
+      "attacker_net_utility": 970.0
+    },
+    {
+      "id": 2660,
+      "label": "execCode(h295,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 2774,
+      "label": "execCode(h296,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 2833,
+      "label": "execCode(h297,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 2957,
+      "label": "execCode(h298,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 3071,
+      "label": "execCode(h299,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 3099,
+      "label": "execCode(h300,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 3165,
+      "label": "execCode(h301,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 3188,
+      "label": "execCode(h302,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 15.0,
+      "attacker_net_utility": 985.0
+    },
+    {
+      "id": 3209,
+      "label": "execCode(h303,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 3241,
+      "label": "execCode(h304,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 3282,
+      "label": "execCode(h305,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 3353,
+      "label": "execCode(h306,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 15.0,
+      "attacker_net_utility": 985.0
+    },
+    {
+      "id": 3366,
+      "label": "execCode(h307,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 3396,
+      "label": "execCode(h308,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 3411,
+      "label": "execCode(h309,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 3434,
+      "label": "execCode(h310,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 31.0,
+      "attacker_net_utility": 969.0
+    },
+    {
+      "id": 3467,
+      "label": "execCode(h311,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 3503,
+      "label": "execCode(h312,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 3518,
+      "label": "execCode(h313,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 36.0,
+      "attacker_net_utility": 964.0
+    },
+    {
+      "id": 3546,
+      "label": "execCode(h314,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 3563,
+      "label": "execCode(h315,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 3643,
+      "label": "execCode(h316,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 3681,
+      "label": "execCode(h317,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 3696,
+      "label": "execCode(h318,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 30.0,
+      "attacker_net_utility": 970.0
+    },
+    {
+      "id": 3716,
+      "label": "execCode(h319,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 3733,
+      "label": "execCode(h320,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 34.0,
+      "attacker_net_utility": 966.0
+    },
+    {
+      "id": 3782,
+      "label": "execCode(h321,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 32.0,
+      "attacker_net_utility": 968.0
+    },
+    {
+      "id": 3791,
+      "label": "execCode(h322,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 3804,
+      "label": "execCode(h323,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 3851,
+      "label": "execCode(h324,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 3900,
+      "label": "execCode(h325,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 3977,
+      "label": "execCode(h326,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 12.0,
+      "attacker_net_utility": 988.0
+    },
+    {
+      "id": 4013,
+      "label": "execCode(h327,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 4068,
+      "label": "execCode(h328,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 4132,
+      "label": "execCode(h329,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 14.0,
+      "attacker_net_utility": 986.0
+    },
+    {
+      "id": 4157,
+      "label": "execCode(h330,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 4195,
+      "label": "execCode(h331,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 11.0,
+      "attacker_net_utility": 989.0
+    },
+    {
+      "id": 4237,
+      "label": "execCode(h332,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 4267,
+      "label": "execCode(h333,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 13.0,
+      "attacker_net_utility": 987.0
+    },
+    {
+      "id": 4305,
+      "label": "execCode(h334,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 30.0,
+      "attacker_net_utility": 970.0
+    },
+    {
+      "id": 4316,
+      "label": "execCode(h335,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 4352,
+      "label": "execCode(h336,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 15.0,
+      "attacker_net_utility": 985.0
+    },
+    {
+      "id": 4423,
+      "label": "execCode(h337,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 4444,
+      "label": "execCode(h338,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 4457,
+      "label": "execCode(h339,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 4476,
+      "label": "execCode(h340,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 14.0,
+      "attacker_net_utility": 986.0
+    },
+    {
+      "id": 4489,
+      "label": "execCode(h341,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 39.0,
+      "attacker_net_utility": 961.0
+    },
+    {
+      "id": 4496,
+      "label": "execCode(h342,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 4513,
+      "label": "execCode(h343,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 4562,
+      "label": "execCode(h344,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 4573,
+      "label": "execCode(h345,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 4588,
+      "label": "execCode(h346,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 4603,
+      "label": "execCode(h347,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 4643,
+      "label": "execCode(h348,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 4658,
+      "label": "execCode(h349,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 4669,
+      "label": "execCode(h350,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 4728,
+      "label": "execCode(h351,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 4747,
+      "label": "execCode(h352,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 4808,
+      "label": "execCode(h353,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 4821,
+      "label": "execCode(h354,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 4840,
+      "label": "execCode(h355,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 4855,
+      "label": "execCode(h356,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 49.0,
+      "attacker_net_utility": 951.0
+    },
+    {
+      "id": 4864,
+      "label": "execCode(h357,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 4896,
+      "label": "execCode(h358,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 18.0,
+      "attacker_net_utility": 982.0
+    },
+    {
+      "id": 4917,
+      "label": "execCode(h359,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 10.0,
+      "attacker_net_utility": 990.0
+    },
+    {
+      "id": 4949,
+      "label": "execCode(h360,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 31.0,
+      "attacker_net_utility": 969.0
+    },
+    {
+      "id": 4966,
+      "label": "execCode(h361,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 5002,
+      "label": "execCode(h362,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 30.0,
+      "attacker_net_utility": 970.0
+    },
+    {
+      "id": 5015,
+      "label": "execCode(h363,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 5060,
+      "label": "execCode(h364,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 5077,
+      "label": "execCode(h365,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 12.0,
+      "attacker_net_utility": 988.0
+    },
+    {
+      "id": 5094,
+      "label": "execCode(h366,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 5113,
+      "label": "execCode(h367,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 29.0,
+      "attacker_net_utility": 971.0
+    },
+    {
+      "id": 5149,
+      "label": "execCode(h368,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 12.0,
+      "attacker_net_utility": 988.0
+    },
+    {
+      "id": 5164,
+      "label": "execCode(h369,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 5175,
+      "label": "execCode(h370,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 25.0,
+      "attacker_net_utility": 975.0
+    },
+    {
+      "id": 5188,
+      "label": "execCode(h371,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 5199,
+      "label": "execCode(h372,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 5270,
+      "label": "execCode(h373,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 5287,
+      "label": "execCode(h374,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 5306,
+      "label": "execCode(h375,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 5346,
+      "label": "execCode(h376,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 5365,
+      "label": "execCode(h377,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 37.0,
+      "attacker_net_utility": 963.0
+    },
+    {
+      "id": 5406,
+      "label": "execCode(h378,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 29.0,
+      "attacker_net_utility": 971.0
+    },
+    {
+      "id": 5423,
+      "label": "execCode(h379,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 5442,
+      "label": "execCode(h380,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 5463,
+      "label": "execCode(h381,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 21.0,
+      "attacker_net_utility": 979.0
+    },
+    {
+      "id": 5484,
+      "label": "execCode(h382,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 14.0,
+      "attacker_net_utility": 986.0
+    },
+    {
+      "id": 5547,
+      "label": "execCode(h383,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 13.0,
+      "attacker_net_utility": 987.0
+    },
+    {
+      "id": 5604,
+      "label": "execCode(h384,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 5625,
+      "label": "execCode(h385,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 5644,
+      "label": "execCode(h386,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 5653,
+      "label": "execCode(h387,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 32.0,
+      "attacker_net_utility": 968.0
+    },
+    {
+      "id": 5685,
+      "label": "execCode(h388,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 5704,
+      "label": "execCode(h389,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 5725,
+      "label": "execCode(h390,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 5748,
+      "label": "execCode(h391,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 17.0,
+      "attacker_net_utility": 983.0
+    },
+    {
+      "id": 5778,
+      "label": "execCode(h392,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 30.0,
+      "attacker_net_utility": 970.0
+    },
+    {
+      "id": 5791,
+      "label": "execCode(h393,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 28.0,
+      "attacker_net_utility": 972.0
+    },
+    {
+      "id": 5804,
+      "label": "execCode(h394,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 14.0,
+      "attacker_net_utility": 986.0
+    },
+    {
+      "id": 5823,
+      "label": "execCode(h395,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 5842,
+      "label": "execCode(h396,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 30.0,
+      "attacker_net_utility": 970.0
+    },
+    {
+      "id": 5855,
+      "label": "execCode(h397,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 39.0,
+      "attacker_net_utility": 961.0
+    },
+    {
+      "id": 5872,
+      "label": "execCode(h398,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 5895,
+      "label": "execCode(h399,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 5908,
+      "label": "execCode(h400,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 5942,
+      "label": "execCode(h401,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 15.0,
+      "attacker_net_utility": 985.0
+    },
+    {
+      "id": 5999,
+      "label": "execCode(h402,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 6020,
+      "label": "execCode(h403,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 14.0,
+      "attacker_net_utility": 986.0
+    },
+    {
+      "id": 6043,
+      "label": "execCode(h404,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 6064,
+      "label": "execCode(h405,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 16.0,
+      "attacker_net_utility": 984.0
+    },
+    {
+      "id": 6092,
+      "label": "execCode(h406,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 27.0,
+      "attacker_net_utility": 973.0
+    },
+    {
+      "id": 6113,
+      "label": "execCode(h407,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 19.0,
+      "attacker_net_utility": 981.0
+    },
+    {
+      "id": 6126,
+      "label": "execCode(h408,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 14.0,
+      "attacker_net_utility": 986.0
+    },
+    {
+      "id": 6147,
+      "label": "execCode(h409,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 37.0,
+      "attacker_net_utility": 963.0
+    },
+    {
+      "id": 6154,
+      "label": "execCode(h410,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    },
+    {
+      "id": 6165,
+      "label": "execCode(h411,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 6178,
+      "label": "execCode(h412,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 6195,
+      "label": "execCode(h413,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 23.0,
+      "attacker_net_utility": 977.0
+    },
+    {
+      "id": 6212,
+      "label": "execCode(h414,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 26.0,
+      "attacker_net_utility": 974.0
+    },
+    {
+      "id": 6252,
+      "label": "execCode(h415,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 6271,
+      "label": "execCode(h416,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 24.0,
+      "attacker_net_utility": 976.0
+    },
+    {
+      "id": 6282,
+      "label": "execCode(h417,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 6305,
+      "label": "execCode(h418,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 20.0,
+      "attacker_net_utility": 980.0
+    },
+    {
+      "id": 6322,
+      "label": "execCode(h419,guest)",
+      "reward": 1000.0,
+      "loss": 1000.0,
+      "min_attack_cost": 22.0,
+      "attacker_net_utility": 978.0
+    }
+  ],
+  "defense_cost": 0,
+  "attack_loss": 1000.0,
+  "attacker_utility": 990.0,
+  "goal_count": 150,
+  "defendable_leaf_count": 1366,
+  "budget": 300.0,
+  "budget_used": 0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 6330,
+    "original_arcs": 8974,
+    "reduced_vertices": 6330,
+    "reduced_arcs": 8974,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 150
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 24.14770808001049
+  },
+  "objective_mean": 1000.0,
+  "objective_std": 0.0,
+  "ga_runs": 1,
+  "ga_population_size": 64,
+  "ga_generations": 50,
+  "function_evaluations": 3195,
+  "algorithm_library": "pymoo",
+  "algorithm_library_version": "0.6.1.5",
+  "algorithm_class": "pymoo.algorithms.soo.nonconvex.ga.GA",
+  "search_fitness": "loss_then_attacker_utility_then_defense_cost",
+  "reported_solution_selection": "minimum_exact_objective_over_all_evaluated_feasible_candidates",
+  "ga_run_objectives": [
+    1000.0
+  ],
+  "reported_budget": 300.0,
+  "independent_strategy_check": true,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 24.267861261963844
+}

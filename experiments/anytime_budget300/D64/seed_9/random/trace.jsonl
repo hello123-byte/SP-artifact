@@ -1,0 +1,3 @@
+{"time": 0.04142925306223333, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 52], "defendable_count": 9}
+{"time": 0.041769989067688584, "kind": "improvement", "objective": 61.0, "benefit": 0.939, "selected_ids": [18, 20, 34, 36, 38, 49, 51, 62, 64]}
+{"time": 100.0000973159913, "kind": "finish", "status": "time_limit", "objective": 61.0, "benefit": 0.939, "evaluations": 1876432}

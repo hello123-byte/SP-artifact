@@ -1,0 +1,6 @@
+{"time": 0.04532180505339056, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 52], "defendable_count": 9}
+{"time": 0.1266493849689141, "kind": "improvement", "objective": 57.0, "benefit": 0.943, "selected_ids": [18, 20, 36, 38, 49, 51, 62, 64]}
+{"time": 0.12713209399953485, "kind": "improvement", "objective": 40.0, "benefit": 0.96, "selected_ids": [36, 38, 49, 51, 62, 64]}
+{"time": 0.12780041503719985, "kind": "improvement", "objective": 35.0, "benefit": 0.965, "selected_ids": [34, 38, 51, 62, 64]}
+{"time": 0.1282291520619765, "kind": "improvement", "objective": 11.0, "benefit": 0.989, "selected_ids": [18, 34]}
+{"time": 0.12898052495438606, "kind": "finish", "status": "optimal", "objective": 11.0, "benefit": 0.989, "evaluations": 5}

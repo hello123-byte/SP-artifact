@@ -1,0 +1,367 @@
+{
+  "method": "random_defense",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 21.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": null,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2022-43592',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h2,'CVE-2012-0256',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 62,
+      "label": "vulExists(h7,'CVE-2020-9493',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 21.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 2,
+  "defendable_leaf_count": 9,
+  "budget": null,
+  "budget_used": 21.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 64,
+    "original_arcs": 72,
+    "reduced_vertices": 64,
+    "reduced_arcs": 72,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 2
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 4.691095091402531e-05
+  },
+  "random_trials": 50,
+  "trial_summaries": [
+    {
+      "trial": 0,
+      "objective_cost_form": 24.0,
+      "defense_cost": 24.0,
+      "selected_defense_count": 5
+    },
+    {
+      "trial": 1,
+      "objective_cost_form": 54.0,
+      "defense_cost": 54.0,
+      "selected_defense_count": 8
+    },
+    {
+      "trial": 2,
+      "objective_cost_form": 1045.0,
+      "defense_cost": 45.0,
+      "selected_defense_count": 6
+    },
+    {
+      "trial": 3,
+      "objective_cost_form": 1000.0,
+      "defense_cost": 0,
+      "selected_defense_count": 0
+    },
+    {
+      "trial": 4,
+      "objective_cost_form": 61.0,
+      "defense_cost": 61.0,
+      "selected_defense_count": 9
+    },
+    {
+      "trial": 5,
+      "objective_cost_form": 21.0,
+      "defense_cost": 21.0,
+      "selected_defense_count": 3
+    },
+    {
+      "trial": 6,
+      "objective_cost_form": 45.0,
+      "defense_cost": 45.0,
+      "selected_defense_count": 6
+    },
+    {
+      "trial": 7,
+      "objective_cost_form": 1007.0,
+      "defense_cost": 7.0,
+      "selected_defense_count": 1
+    },
+    {
+      "trial": 8,
+      "objective_cost_form": 1038.0,
+      "defense_cost": 38.0,
+      "selected_defense_count": 5
+    },
+    {
+      "trial": 9,
+      "objective_cost_form": 21.0,
+      "defense_cost": 21.0,
+      "selected_defense_count": 3
+    },
+    {
+      "trial": 10,
+      "objective_cost_form": 35.0,
+      "defense_cost": 35.0,
+      "selected_defense_count": 5
+    },
+    {
+      "trial": 11,
+      "objective_cost_form": 1017.0,
+      "defense_cost": 17.0,
+      "selected_defense_count": 2
+    },
+    {
+      "trial": 12,
+      "objective_cost_form": 61.0,
+      "defense_cost": 61.0,
+      "selected_defense_count": 9
+    },
+    {
+      "trial": 13,
+      "objective_cost_form": 59.0,
+      "defense_cost": 59.0,
+      "selected_defense_count": 8
+    },
+    {
+      "trial": 14,
+      "objective_cost_form": 1010.0,
+      "defense_cost": 10.0,
+      "selected_defense_count": 1
+    },
+    {
+      "trial": 15,
+      "objective_cost_form": 61.0,
+      "defense_cost": 61.0,
+      "selected_defense_count": 9
+    },
+    {
+      "trial": 16,
+      "objective_cost_form": 1010.0,
+      "defense_cost": 10.0,
+      "selected_defense_count": 1
+    },
+    {
+      "trial": 17,
+      "objective_cost_form": 41.0,
+      "defense_cost": 41.0,
+      "selected_defense_count": 7
+    },
+    {
+      "trial": 18,
+      "objective_cost_form": 40.0,
+      "defense_cost": 40.0,
+      "selected_defense_count": 6
+    },
+    {
+      "trial": 19,
+      "objective_cost_form": 49.0,
+      "defense_cost": 49.0,
+      "selected_defense_count": 7
+    },
+    {
+      "trial": 20,
+      "objective_cost_form": 43.0,
+      "defense_cost": 43.0,
+      "selected_defense_count": 6
+    },
+    {
+      "trial": 21,
+      "objective_cost_form": 1011.0,
+      "defense_cost": 11.0,
+      "selected_defense_count": 2
+    },
+    {
+      "trial": 22,
+      "objective_cost_form": 40.0,
+      "defense_cost": 40.0,
+      "selected_defense_count": 6
+    },
+    {
+      "trial": 23,
+      "objective_cost_form": 1017.0,
+      "defense_cost": 17.0,
+      "selected_defense_count": 2
+    },
+    {
+      "trial": 24,
+      "objective_cost_form": 1000.0,
+      "defense_cost": 0,
+      "selected_defense_count": 0
+    },
+    {
+      "trial": 25,
+      "objective_cost_form": 49.0,
+      "defense_cost": 49.0,
+      "selected_defense_count": 7
+    },
+    {
+      "trial": 26,
+      "objective_cost_form": 1027.0,
+      "defense_cost": 27.0,
+      "selected_defense_count": 5
+    },
+    {
+      "trial": 27,
+      "objective_cost_form": 1000.0,
+      "defense_cost": 0,
+      "selected_defense_count": 0
+    },
+    {
+      "trial": 28,
+      "objective_cost_form": 47.0,
+      "defense_cost": 47.0,
+      "selected_defense_count": 7
+    },
+    {
+      "trial": 29,
+      "objective_cost_form": 1046.0,
+      "defense_cost": 46.0,
+      "selected_defense_count": 6
+    },
+    {
+      "trial": 30,
+      "objective_cost_form": 1002.0,
+      "defense_cost": 2.0,
+      "selected_defense_count": 1
+    },
+    {
+      "trial": 31,
+      "objective_cost_form": 61.0,
+      "defense_cost": 61.0,
+      "selected_defense_count": 9
+    },
+    {
+      "trial": 32,
+      "objective_cost_form": 1007.0,
+      "defense_cost": 7.0,
+      "selected_defense_count": 3
+    },
+    {
+      "trial": 33,
+      "objective_cost_form": 1026.0,
+      "defense_cost": 26.0,
+      "selected_defense_count": 4
+    },
+    {
+      "trial": 34,
+      "objective_cost_form": 1010.0,
+      "defense_cost": 10.0,
+      "selected_defense_count": 1
+    },
+    {
+      "trial": 35,
+      "objective_cost_form": 44.0,
+      "defense_cost": 44.0,
+      "selected_defense_count": 7
+    },
+    {
+      "trial": 36,
+      "objective_cost_form": 1033.0,
+      "defense_cost": 33.0,
+      "selected_defense_count": 5
+    },
+    {
+      "trial": 37,
+      "objective_cost_form": 51.0,
+      "defense_cost": 51.0,
+      "selected_defense_count": 8
+    },
+    {
+      "trial": 38,
+      "objective_cost_form": 1010.0,
+      "defense_cost": 10.0,
+      "selected_defense_count": 1
+    },
+    {
+      "trial": 39,
+      "objective_cost_form": 51.0,
+      "defense_cost": 51.0,
+      "selected_defense_count": 8
+    },
+    {
+      "trial": 40,
+      "objective_cost_form": 61.0,
+      "defense_cost": 61.0,
+      "selected_defense_count": 9
+    },
+    {
+      "trial": 41,
+      "objective_cost_form": 1000.0,
+      "defense_cost": 0,
+      "selected_defense_count": 0
+    },
+    {
+      "trial": 42,
+      "objective_cost_form": 1000.0,
+      "defense_cost": 0,
+      "selected_defense_count": 0
+    },
+    {
+      "trial": 43,
+      "objective_cost_form": 1032.0,
+      "defense_cost": 32.0,
+      "selected_defense_count": 4
+    },
+    {
+      "trial": 44,
+      "objective_cost_form": 61.0,
+      "defense_cost": 61.0,
+      "selected_defense_count": 9
+    },
+    {
+      "trial": 45,
+      "objective_cost_form": 1021.0,
+      "defense_cost": 21.0,
+      "selected_defense_count": 3
+    },
+    {
+      "trial": 46,
+      "objective_cost_form": 1024.0,
+      "defense_cost": 24.0,
+      "selected_defense_count": 3
+    },
+    {
+      "trial": 47,
+      "objective_cost_form": 1039.0,
+      "defense_cost": 39.0,
+      "selected_defense_count": 5
+    },
+    {
+      "trial": 48,
+      "objective_cost_form": 44.0,
+      "defense_cost": 44.0,
+      "selected_defense_count": 7
+    },
+    {
+      "trial": 49,
+      "objective_cost_form": 1040.0,
+      "defense_cost": 40.0,
+      "selected_defense_count": 6
+    }
+  ],
+  "objective_mean": 551.92,
+  "objective_min": 21.0,
+  "objective_max": 1046.0,
+  "sampling_rule": "uniform k in 0..n, then uniform k-subset without replacement",
+  "comparison_objective": 551.92,
+  "comparison_benefit": 0.44808000000000003,
+  "independent_strategy_check": true,
+  "budget_mode": "unbudgeted",
+  "worker_wall_seconds": 0.015096037066541612
+}

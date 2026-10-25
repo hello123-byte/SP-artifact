@@ -1,0 +1,231 @@
+{
+  "method": "ga",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 131.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.869,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2024-38131',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 20,
+      "label": "vulExists(h11,'CVE-2024-43573',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 34,
+      "label": "vulExists(h4,'CVE-2024-43574',_,remoteExploit,privEscalation)",
+      "cost": 8.0
+    },
+    {
+      "id": 55,
+      "label": "vulExists(h7,'CVE-2015-1830',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 63,
+      "label": "vulExists(h25,'CVE-2023-35339',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 77,
+      "label": "vulExists(h2,'CVE-2022-23124',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 86,
+      "label": "vulExists(h6,'CVE-2019-8666',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 95,
+      "label": "vulExists(h8,'CVE-2020-17527',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 105,
+      "label": "vulExists(h21,'CVE-2014-9635',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 128,
+      "label": "vulExists(h5,'CVE-2021-28706',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 130,
+      "label": "vulExists(h42,'CVE-2021-23215',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 139,
+      "label": "vulExists(h9,'CVE-2024-38204',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 160,
+      "label": "vulExists(h10,'CVE-2020-1955',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 168,
+      "label": "vulExists(h50,'CVE-2022-33682',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 172,
+      "label": "vulExists(h50,'CVE-2023-38149',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 178,
+      "label": "vulExists(h55,'CVE-2007-5342',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 180,
+      "label": "vulExists(h55,'CVE-2015-5206',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 215,
+      "label": "vulExists(h26,'CVE-2024-38145',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 251,
+      "label": "vulExists(h3,'CVE-2020-28052',_,remoteExploit,privEscalation)",
+      "cost": 5.0
+    },
+    {
+      "id": 276,
+      "label": "vulExists(h27,'CVE-2025-21269',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 314,
+      "label": "vulExists(h41,'CVE-2021-23215',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 336,
+      "label": "vulExists(h16,'CVE-2024-49102',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 501,
+      "label": "vulExists(h38,'CVE-2022-23223',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 503,
+      "label": "vulExists(h38,'CVE-2023-25141',_,remoteExploit,privEscalation)",
+      "cost": 6.0
+    },
+    {
+      "id": 520,
+      "label": "vulExists(h46,'CVE-2009-3302',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 524,
+      "label": "vulExists(h46,'CVE-2017-7486',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    },
+    {
+      "id": 567,
+      "label": "vulExists(h45,'CVE-2014-3623',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 571,
+      "label": "vulExists(h45,'CVE-2020-1927',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 579,
+      "label": "vulExists(h58,'CVE-2021-36960',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 673,
+      "label": "vulExists(h60,'CVE-2018-8042',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 689,
+      "label": "vulExists(h17,'CVE-2007-3035',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 759,
+      "label": "vulExists(h37,'CVE-2007-3035',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 790,
+      "label": "vulExists(h63,'CVE-2022-33682',_,remoteExploit,privEscalation)",
+      "cost": 1.0
+    },
+    {
+      "id": 808,
+      "label": "vulExists(h20,'CVE-2021-21342',_,remoteExploit,privEscalation)",
+      "cost": 3.0
+    },
+    {
+      "id": 868,
+      "label": "vulExists(h66,'CVE-2021-27737',_,remoteExploit,privEscalation)",
+      "cost": 2.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 131.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 20,
+  "defendable_leaf_count": 204,
+  "budget": 300.0,
+  "budget_used": 131.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 1045,
+    "original_arcs": 1437,
+    "reduced_vertices": 1045,
+    "reduced_arcs": 1437,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 20
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 3.4970067270332947
+  },
+  "objective_mean": 131.0,
+  "objective_std": 0.0,
+  "ga_runs": 1,
+  "ga_population_size": 64,
+  "ga_generations": 50,
+  "function_evaluations": 3199,
+  "algorithm_library": "pymoo",
+  "algorithm_library_version": "0.6.1.5",
+  "algorithm_class": "pymoo.algorithms.soo.nonconvex.ga.GA",
+  "search_fitness": "loss_then_attacker_utility_then_defense_cost",
+  "reported_solution_selection": "minimum_exact_objective_over_all_evaluated_feasible_candidates",
+  "ga_run_objectives": [
+    131.0
+  ],
+  "independent_strategy_check": true,
+  "worker_wall_seconds": 3.570289912982844
+}

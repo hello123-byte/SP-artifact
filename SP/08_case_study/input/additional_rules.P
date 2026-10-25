@@ -1,0 +1,10 @@
+% Explicit case-specific extension: unauthorized IPv4 configuration change.
+% This consequence is NOT code execution and is not a built-in MulVAL rule.
+derived(modifyNetworkConfig(_host)).
+:- table modifyNetworkConfig/1.
+interaction_rule(
+ (modifyNetworkConfig(H) :-
+    vulExists(H, _, Software, remoteExploit, modifyNetworkConfig),
+    networkServiceInfo(H, Software, Protocol, Port, _),
+    netAccess(H, Protocol, Port)),
+ rule_desc('remote unauthorized IPv4 configuration change',1.0)).

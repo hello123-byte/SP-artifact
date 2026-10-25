@@ -1,0 +1,56 @@
+{
+  "CVE-2021-42013": {
+    "host": "h1",
+    "leaf": 18,
+    "actions": [
+      12
+    ],
+    "service": "Apache HTTP",
+    "defendable": true
+  },
+  "CVE-2022-42475": {
+    "host": "h2",
+    "leaf": 27,
+    "actions": [
+      22
+    ],
+    "service": "FortiOS VPN",
+    "defendable": true
+  },
+  "CVE-2017-12617": {
+    "host": "h3",
+    "leaf": 29,
+    "actions": [
+      7
+    ],
+    "service": "Tomcat",
+    "defendable": true
+  },
+  "CVE-2022-0543": {
+    "host": "h4",
+    "leaf": 31,
+    "actions": [
+      2
+    ],
+    "service": "Debian Redis",
+    "defendable": true
+  },
+  "CVE-2019-0708": {
+    "host": "h5",
+    "leaf": 43,
+    "actions": [
+      38
+    ],
+    "service": "Windows RDP",
+    "defendable": true
+  },
+  "CVE-2018-7798": {
+    "host": "h6",
+    "leaf": 45,
+    "actions": [
+      33
+    ],
+    "service": "Modicon M221",
+    "defendable": false
+  }
+}

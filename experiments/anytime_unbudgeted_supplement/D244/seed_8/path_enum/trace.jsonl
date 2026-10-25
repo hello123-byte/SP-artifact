@@ -1,0 +1,2 @@
+{"time": 0.04425125697162002, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 109, 150, 204, 217, 230], "defendable_count": 37}
+{"time": 0.1385498089948669, "kind": "improvement", "objective": 38.0, "benefit": 0.962, "selected_ids": [18, 27, 54, 69, 100]}

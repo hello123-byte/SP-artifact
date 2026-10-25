@@ -1,0 +1,26 @@
+{
+  "method": "full_path_enumeration",
+  "status": "skipped_limit",
+  "defense_scope": "vul",
+  "objective_cost_form": null,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": null,
+  "selected_defenses": [],
+  "attacker_response": null,
+  "reachable_goals": [],
+  "defense_cost": null,
+  "attack_loss": null,
+  "attacker_utility": null,
+  "budget_used": null,
+  "skip_reason": "total enumerated goal paths exceeds max paths",
+  "enumerated_path_count": null,
+  "max_paths": 100000,
+  "max_depth": 200,
+  "limit_hit": true,
+  "timings_seconds": {
+    "total_wall": 0.7766657379688695
+  },
+  "reported_budget": 300.0,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 0.8930901560233906
+}

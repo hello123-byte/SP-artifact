@@ -1,0 +1,23 @@
+{"time": 0.07148298108950257, "kind": "ready", "empty_objective": 1000.0, "goals": [1, 185, 410, 434, 584, 657, 674, 704, 719, 793, 827, 850, 877, 916, 950, 971, 986, 1001, 1010, 1033], "defendable_count": 204}
+{"time": 17.871029410045594, "kind": "improvement", "objective": 103.0, "benefit": 0.897, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 180, 251, 276, 695, 757, 765, 786, 790, 810, 812, 1000]}
+{"time": 17.954389472026378, "kind": "improvement", "objective": 101.0, "benefit": 0.899, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 180, 251, 276, 465, 757, 765, 786, 790, 810, 812, 1000]}
+{"time": 17.998602956999093, "kind": "improvement", "objective": 80.0, "benefit": 0.92, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 180, 251, 276, 765, 786, 847, 1000]}
+{"time": 18.05467798304744, "kind": "improvement", "objective": 76.0, "benefit": 0.924, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 765, 786, 790, 1000]}
+{"time": 18.147431868012063, "kind": "improvement", "objective": 74.0, "benefit": 0.926, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 377, 501, 786, 790, 1000]}
+{"time": 18.381202385993674, "kind": "improvement", "objective": 72.0, "benefit": 0.928, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 465, 520, 673, 786, 1000]}
+{"time": 18.44255013205111, "kind": "improvement", "objective": 69.0, "benefit": 0.931, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 501, 786, 790, 1000]}
+{"time": 18.5160777940182, "kind": "improvement", "objective": 68.0, "benefit": 0.932, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 180, 251, 276, 520, 786, 790, 868, 1000]}
+{"time": 18.552758084028028, "kind": "improvement", "objective": 67.0, "benefit": 0.933, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 180, 251, 465, 790, 1000]}
+{"time": 18.55574899900239, "kind": "improvement", "objective": 66.0, "benefit": 0.934, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 786, 790, 1000]}
+{"time": 18.640938699012622, "kind": "improvement", "objective": 65.0, "benefit": 0.935, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 501, 790, 1000]}
+{"time": 18.708329368033446, "kind": "improvement", "objective": 64.0, "benefit": 0.936, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 465, 790, 1000]}
+{"time": 18.80938839004375, "kind": "improvement", "objective": 63.0, "benefit": 0.937, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 168, 251, 501, 786, 1000]}
+{"time": 18.916364993085153, "kind": "improvement", "objective": 62.0, "benefit": 0.938, "selected_ids": [18, 34, 36, 55, 77, 86, 95, 128, 139, 160, 251, 790, 1000]}
+{"time": 19.005408762022853, "kind": "improvement", "objective": 60.0, "benefit": 0.94, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 168, 251, 786, 1000]}
+{"time": 19.084043301991187, "kind": "improvement", "objective": 56.0, "benefit": 0.944, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 251, 276, 1000]}
+{"time": 19.296292860992253, "kind": "improvement", "objective": 55.0, "benefit": 0.945, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 251, 1000]}
+{"time": 19.616587569005787, "kind": "improvement", "objective": 54.0, "benefit": 0.946, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 164, 251, 790]}
+{"time": 19.721564811072312, "kind": "improvement", "objective": 53.0, "benefit": 0.947, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 164, 251]}
+{"time": 19.879323989036493, "kind": "improvement", "objective": 52.0, "benefit": 0.948, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 251, 656]}
+{"time": 20.051831930992194, "kind": "improvement", "objective": 51.0, "benefit": 0.949, "selected_ids": [18, 34, 55, 77, 86, 95, 128, 139, 160, 251]}
+{"time": 100.00599900097586, "kind": "finish", "status": "time_limit", "objective": 51.0, "benefit": 0.949, "evaluations": 88564}

@@ -1,0 +1,7 @@
+{
+  "status": "hard_timeout",
+  "algorithm_status": null,
+  "wall_seconds": 102.00403910700697,
+  "returncode": -15,
+  "cost_sha256": "4614e95a956416f89e272c72d9c6ccd546c240fa5676d526179f03116557bffc"
+}

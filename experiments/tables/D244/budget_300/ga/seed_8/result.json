@@ -1,0 +1,83 @@
+{
+  "method": "ga",
+  "status": "ok",
+  "defense_scope": "vul",
+  "objective_cost_form": 38.0,
+  "empty_objective_cost_form": 1000.0,
+  "benefit_score": 0.962,
+  "selected_defenses": [
+    {
+      "id": 18,
+      "label": "vulExists(h1,'CVE-2025-21339',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 27,
+      "label": "vulExists(h4,'CVE-2011-4367',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    },
+    {
+      "id": 54,
+      "label": "vulExists(h2,'CVE-2024-21090',_,remoteExploit,privEscalation)",
+      "cost": 4.0
+    },
+    {
+      "id": 69,
+      "label": "vulExists(h5,'CVE-2007-2863',_,remoteExploit,privEscalation)",
+      "cost": 7.0
+    },
+    {
+      "id": 100,
+      "label": "vulExists(h3,'CVE-2016-4463',_,remoteExploit,privEscalation)",
+      "cost": 10.0
+    }
+  ],
+  "attacker_response": {
+    "type": "empty"
+  },
+  "reachable_goals": [],
+  "defense_cost": 38.0,
+  "attack_loss": 0.0,
+  "attacker_utility": 0.0,
+  "goal_count": 6,
+  "defendable_leaf_count": 37,
+  "budget": 300.0,
+  "budget_used": 38.0,
+  "budget_feasible": true,
+  "attack_cost_source": "constant",
+  "default_action_cost": 1.0,
+  "default_leaf_cost": 0.0,
+  "target_closure": {
+    "enabled": true,
+    "original_vertices": 244,
+    "original_arcs": 307,
+    "reduced_vertices": 244,
+    "reduced_arcs": 307,
+    "removed_vertices": 0,
+    "removed_arcs": 0,
+    "goal_count": 6
+  },
+  "cycle_node_count": 0,
+  "sample_cycle_nodes": [],
+  "timings_seconds": {
+    "total_wall": 0.9152580020017922
+  },
+  "objective_mean": 38.0,
+  "objective_std": 0.0,
+  "ga_runs": 1,
+  "ga_population_size": 64,
+  "ga_generations": 50,
+  "function_evaluations": 2903,
+  "algorithm_library": "pymoo",
+  "algorithm_library_version": "0.6.1.5",
+  "algorithm_class": "pymoo.algorithms.soo.nonconvex.ga.GA",
+  "search_fitness": "loss_then_attacker_utility_then_defense_cost",
+  "reported_solution_selection": "minimum_exact_objective_over_all_evaluated_feasible_candidates",
+  "ga_run_objectives": [
+    38.0
+  ],
+  "reported_budget": 300.0,
+  "independent_strategy_check": true,
+  "budget_mode": "budget_300",
+  "worker_wall_seconds": 0.9928326429799199
+}

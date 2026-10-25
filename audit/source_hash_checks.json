@@ -1,0 +1,267 @@
+[
+  {
+    "protocol": "SP/07_budget_300_vs_unbudgeted_60s/protocol.json",
+    "source": "SP/scripts/budget_comparison_worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/07_budget_300_vs_unbudgeted_60s/protocol.json",
+    "source": "SP/scripts/rerun_budget_300_vs_unbudgeted.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/07_budget_300_vs_unbudgeted_60s/runtime_protocol.json",
+    "source": "SP/scripts/budget_comparison_worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/07_budget_300_vs_unbudgeted_60s/runtime_protocol.json",
+    "source": "SP/scripts/complete_budget_runtime_repeats.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/03_sensitivity_cost_seed_1_budget_300/protocol.json",
+    "source": "SP/scripts/run_suite.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/03_sensitivity_cost_seed_1_budget_300/protocol.json",
+    "source": "SP/scripts/worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "SP/scripts/rerun_budget_benefit_300.py",
+    "match": false
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "SP/scripts/worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "solve_mulval__stackelberg_main.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/__init__.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/baseline_common.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/empty_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/full_path_enumeration_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/ga_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/random_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/04_budget_benefit_budget_300_60s/protocol.json",
+    "source": "baselines/run_baseline_experiments.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "SP/scripts/rerun_anytime_current_costs.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "SP/scripts/anytime_worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "solve_mulval__stackelberg_main.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/__init__.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/baseline_common.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/empty_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/full_path_enumeration_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/ga_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/random_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_budget_300_100s_current_costs/protocol.json",
+    "source": "baselines/run_baseline_experiments.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "SP/scripts/rerun_anytime_current_costs.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "SP/scripts/anytime_worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "solve_mulval__stackelberg_main.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/__init__.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/baseline_common.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/empty_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/full_path_enumeration_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/ga_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/random_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP/05_anytime_unbudgeted_100s_current_costs/protocol.json",
+    "source": "baselines/run_baseline_experiments.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "SP2/scripts/run_ag6_layered_tables.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "SP/scripts/budget_comparison_worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "SP/scripts/rerun_budget_300_vs_unbudgeted.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "solve_mulval__stackelberg_main.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "baselines/baseline_common.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "baselines/ga_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "baselines/random_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_experiments/protocol.json",
+    "source": "baselines/full_path_enumeration_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "SP2/scripts/run_ag6_layered_anytime.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "SP/scripts/anytime_worker.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "SP/scripts/rerun_anytime_current_costs.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "solve_mulval__stackelberg_main.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "baselines/baseline_common.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "baselines/random_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "baselines/ga_defense_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "baselines/full_path_enumeration_baseline.py",
+    "match": true
+  },
+  {
+    "protocol": "SP2/ag6_layered_anytime/protocol.json",
+    "source": "SP/scripts/plot_ag6_anytime_comparison.py",
+    "match": true
+  }
+]
