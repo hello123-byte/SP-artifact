@@ -3,7 +3,7 @@
   "files": {
     ".gitignore": "bcaec5b28d6a92d0c3fda77ff63c9b609871a65199303110ec8e597b4c08f023",
     "AUDIT.txt": "6fabacab7db410a1808cd997572857f60a67173094f2592acc6c42cf87823051",
-    "README.txt": "84335fbc3e9cb1ad80678616e4add69e4f53d6b33a70703c80079ea7a697ecf9",
+    "README.txt": "6f97458296f6e5096db2d0b612298df257e51e536edee6347611bb35cdc4360e",
     "SP/08_case_study/assumptions.json": "806d72a20fd5dc346706e6b3661748c9bec32d2ca66e461b94fdcbd125e40694",
     "SP/08_case_study/case_data.py": "fee655757d7c623b3f1e013fda3a955164786b11f6c1949c3d0fb73373d93974",
     "SP/08_case_study/configs/S1.json": "5c683d3404fbff5fe6dd136b67143d078f2bf7f55bc0dbd9b0f892c3abc86cf6",
