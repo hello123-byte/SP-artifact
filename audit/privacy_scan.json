@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "scanned_files": 2825,
+  "scanned_files": 2824,
   "issues": [],
   "scope": "Known original Git author/committer identities, local paths, account marker, hostname, credential signatures; public CVE/NVD attributions retained. Original history, logs and paper excluded."
 }

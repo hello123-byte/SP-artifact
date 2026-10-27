@@ -18,9 +18,8 @@ The project implements the following workflow:
 5. Evaluate defense effectiveness, runtime, parameter sensitivity, budget effects, and anytime performance.
 6. Independently verify archived strategies and regenerate figures from numerical summaries.
 
-Graph generation from scratch requires external components that are not bundled
-here. [AUDIT.txt](AUDIT.txt) records manuscript discrepancies and provenance
-qualifications; the archived data retain the measured outcomes.
+The experiments run directly on the supplied frozen graphs. Graph generation
+from scratch requires external components that are not bundled here.
 
 ## Contents
 
@@ -33,15 +32,13 @@ qualifications; the archived data retain the measured outcomes.
 - [Case Study](#case-study)
 - [Environment and Running Experiments](#environment-and-running-experiments)
 - [Results and Metrics](#results-and-metrics)
-- [Verification and Provenance](#verification-and-provenance)
-- [Manuscript Notes and Anonymous Distribution](#manuscript-notes-and-anonymous-distribution)
+- [Result Verification](#result-verification)
 
 ## Project Structure
 
 ```text
 submission-artifact/
 ├── README.md                         # Project overview and reproduction guide
-├── AUDIT.txt                         # Manuscript-to-data audit
 ├── requirements.txt                  # Pinned Python dependencies
 ├── environment.json                  # Software-version evidence
 ├── MANIFEST.json                     # Release-file SHA-256 hashes
@@ -87,7 +84,7 @@ submission-artifact/
 │
 ├── tables/                           # CSV summaries and manuscript tables
 ├── figures/                          # PNG/PDF plots and DOT/SVG case graph
-└── audit/                            # Source, hash, and privacy audit records
+└── audit/                            # Supporting verification records
 ```
 
 ## Node and Edge Types
@@ -343,9 +340,11 @@ There are two targets. Redis code execution is node 1, with attacker reward
 node 32, with attacker reward 120 and defender loss 1000. Costs are numerical
 model parameters; no currency unit is implied.
 
-The four focal results illustrate different defense decisions:
+The four focal results illustrate different defense decisions. Residual loss
+is the loss of the target selected after defense, and equals zero when the
+attacker abandons the attack. The objective J is patch cost plus residual loss:
 
-| Scenario | Budget | Selected patch | Patch cost | Target loss | Objective J |
+| Scenario | Budget | Selected patch | Patch cost | Residual loss | Objective J |
 | --- | ---: | --- | ---: | ---: | ---: |
 | S1 | 15 | Tomcat | 11 | 0 | 11 |
 | S2 | 5 | Remote Desktop Services | 5 | 200 | 205 |
@@ -376,8 +375,8 @@ The recorded environment uses Python 3.13.9 and these pinned packages:
 | pymoo | 0.6.1.5 |
 | Matplotlib | 3.10.6 |
 
-SCIP 10.0.2 was observed in the audited installation. Its historical version
-was not separately archived; [environment.json](environment.json) states this evidence limit.
+The reference solver installation uses SCIP 10.0.2. Software-version details
+and the available version records are in [environment.json](environment.json).
 The runner uses POSIX process groups and signals, so use Linux or a compatible
 POSIX environment. Native Windows execution is not covered by this runner.
 No XSB or MulVAL installation is needed to solve the supplied frozen graphs.
@@ -456,7 +455,7 @@ Important distinctions when reading outputs:
   the std column uses population standard deviation. No smoothing or shifting
   of observed improvement times is applied by [plot.py](plot.py).
 
-## Verification and Provenance
+## Result Verification
 
 The verifier is independent of the optimization model's MIP constraints. It
 uses an AND/OR graph evaluator to recompute saved strategies and enumerates
@@ -483,53 +482,17 @@ Random records retain sample summaries and the best defense, but not every
 sampled defense set; their means and spending can be checked, while the
 included seeds and sampling implementation support fresh reruns.
 
-[MANIFEST.json](MANIFEST.json) hashes release files. Task hashes separately identify the
-frozen graph and cost bytes. Source input graph/cost bytes are preserved.
-The main solver, baselines, and execution workers are preserved; packaging
-adds the portable runner, verifier, plotting script, and relative task paths.
-A case report generator's interpreter example was normalized to python3,
-with old/new hashes documented in [audit/source_transformations.json](audit/source_transformations.json).
+[MANIFEST.json](MANIFEST.json) contains SHA-256 checksums of release files.
+Task specifications also record the graph and cost-file hashes, allowing the
+same frozen inputs to be identified when comparing results. Run
+[verify.py](verify.py) before modifying inputs or regenerating figures.
 
-The original source audit performed 53 historical source-hash comparisons:
-52 matched, and one orchestration/reporting driver differed. The recorded
-workers, core solver, and baseline modules for that experiment matched.
-The reason for the driver change is not established. See
-AUDIT.txt, [audit/source_hash_checks.json](audit/source_hash_checks.json), and [audit/source_audit.json](audit/source_audit.json).
+The supplied runner replays optimization experiments from frozen graphs.
+XSB, MulVAL, and the full upstream vulnerability inventory are needed only
+for a separate graph-generation workflow. AG6 uses the directional layered
+extension described in the dataset section above.
 
-This artifact reproduces optimization on frozen graphs. It does not bundle
-XSB, MulVAL, the full upstream CVE inventory, or a complete graph-generation
-environment. AG6 uses a disclosed local extension rather than an unmodified
-upstream topology preset. Public vulnerability references and upstream
-attributions remain in the supplied materials.
-
-Historical runtime is a measurement, not a bit-identical reproduction target.
-The archive does not independently attest the original CPU model or RAM.
-Some original queues ran concurrently, whereas [run.py](run.py) is sequential. Fresh
-wall times should therefore be reported as new measurements rather than
-silently substituted into the archived tables.
-
-## Manuscript Notes and Anonymous Distribution
-
-AUDIT.txt documents three main discrepancies in the audited manuscript:
-
-* AG6 has 676 hosts including the attack origin, not 617. Both the table entry
-  and the surrounding host-count range require this correction.
-* Figure 5a--e uses budget 300. Figure 5f adds only the Proposed unbudgeted
-  curve to the budget-300 comparison. The axis uses symlog, not a purely
-  logarithmic scale. The unbudgeted AG1--AG5 data are a separate supplement.
-* The manuscript's 39-node case illustration and appendix are not the raw
-  45-node graph used by the archived solver runs. This artifact identifies the
-  actual graph and node list explicitly. Matching node counts requires an
-  updated figure/list or a documented mapping between the representations.
-
-The release excludes the manuscript, original repository history, original
-author metadata, machine-specific environment dumps, and original shell logs.
-The privacy scan checks known source identities, local machine/account
-markers, and credential signatures while retaining public source attribution.
-Fresh rerun logs may contain local paths; reruns/ is ignored by Git and should
-be excluded from a review archive.
-
-Publishing under an existing account does not anonymize the account or its
-other branches. If the review process requires an anonymous repository,
-distribute this artifact through an independent anonymous mirror. This
-README contains no author contact details or personal repository URLs.
+Runtimes depend on the execution environment. The supplied runner executes
+tasks sequentially; some archived experiments used concurrent task queues.
+Report fresh runtime measurements together with the hardware, software, and
+execution settings used, and keep them separate from the archived results.

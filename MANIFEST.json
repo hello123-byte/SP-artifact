@@ -2,8 +2,7 @@
   "format": 1,
   "files": {
     ".gitignore": "bcaec5b28d6a92d0c3fda77ff63c9b609871a65199303110ec8e597b4c08f023",
-    "AUDIT.txt": "6fabacab7db410a1808cd997572857f60a67173094f2592acc6c42cf87823051",
-    "README.md": "8d4e792e70a8f9d2b379b346e8a164259acfdcc8d1dca47803dbbcd91a427340",
+    "README.md": "bb743ed0f5e1d224741be53524618177fb7a0fb23227701c2526586ca7779fbd",
     "SP/08_case_study/assumptions.json": "806d72a20fd5dc346706e6b3661748c9bec32d2ca66e461b94fdcbd125e40694",
     "SP/08_case_study/case_data.py": "fee655757d7c623b3f1e013fda3a955164786b11f6c1949c3d0fb73373d93974",
     "SP/08_case_study/configs/S1.json": "5c683d3404fbff5fe6dd136b67143d078f2bf7f55bc0dbd9b0f892c3abc86cf6",
@@ -35,7 +34,7 @@
     "SP/scripts/budget_comparison_worker.py": "f3cc183fdae1ccb158625aebb0ab8843a03cb1396ae055a0c8cc1faa6c39d246",
     "SP/scripts/worker.py": "5dbf58bdcdf9e00af60544c1fff03a6ae916e9570d6d90cb48828903971d858b",
     "audit/execution_source_hashes.json": "05b5ee4135e3ead9ff2b1368c7f15774a812fec29e9d65c2f84465dc0f3f1ff0",
-    "audit/privacy_scan.json": "378cdffa90182aff517c6d6473043da998a9fec5eefa201205bd943bb42f9694",
+    "audit/privacy_scan.json": "e3643f823aaddb7e0e2be471003be6ebc43aceeec7d0d16ee466583ca2ca4e51",
     "audit/smoke_tests.json": "2dc00861e01fced140d9d145185cfec7b036d9eba756e51bba95eacd2b659111",
     "audit/source_audit.json": "4a20ff29cbe2bafcfc306e6a68cccb0799dead146b708b400fb235418e935040",
     "audit/source_hash_checks.json": "545716287aa87561f93c19d9a6b825248d106086996d6f954b04dc3deb685dfd",
